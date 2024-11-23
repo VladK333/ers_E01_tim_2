@@ -1,9 +1,5 @@
 ﻿using Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Domain.Services;
 
 namespace Domain.Models
 {
@@ -15,19 +11,26 @@ namespace Domain.Models
 
         public string Lokacija {  get; set; }
 
-        public double PreostalaKolicina {  get; set; }
+        public double PreostalaKolicina { get; set; }
 
-        public PodsistemProizvodnje(string sifra, TipProizvodnje tip, string lokacija, double preostalaKolicina)
+        private readonly IDostupnaKolicinaEnergije _randomGenerator;
+
+        public PodsistemProizvodnje(string sifra, TipProizvodnje tip, string lokacija, IDostupnaKolicinaEnergije randomGenerator)
         {
             Sifra = sifra;
             Tip = tip;
             Lokacija = lokacija;
-            PreostalaKolicina = preostalaKolicina;
+            _randomGenerator = randomGenerator;
+            PreostalaKolicina = _randomGenerator.Generate(1000, 5000);
         }
 
         public override string ToString()
         {
-            return $"Šifra: {Sifra}, Tip: {Tip}, Lokacija: {Lokacija}, Preostala količina: {PreostalaKolicina}";
+            return $"Podsistem proizvodnje:\n" +
+                   $"- Šifra: {Sifra}\n" +
+                   $"- Tip proizvodnje: {Tip}\n" +
+                   $"- Lokacija: {Lokacija}\n" +
+                   $"- Preostala količina energije: {PreostalaKolicina:F2} kW";
         }
     }
 }

@@ -2,9 +2,10 @@
 {
     public class Program
     {
-        public void Main()
+        public static void Main()
         {
-            
+            Console.WriteLine("Aplikacija je pokrenuta.");
+
         }
     }
 }

@@ -1,9 +1,4 @@
 ﻿using Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Models
 {
@@ -14,7 +9,7 @@ namespace Domain.Models
 
         public string Br_ugovora { get; set; } = string.Empty;
 
-        public TipSnabdevanja Tip_Snabdevanja { get; set; }
+        public TipSnabdijevanja Tip_Snabdevanja { get; set; }
 
         public double Ukupna_potrosnja_ee { get; set; } = 0;
 
@@ -22,7 +17,7 @@ namespace Domain.Models
 
         public Potrosac() { Id = Guid.NewGuid().ToString(); }
 
-        public Potrosac(string imePrezime, string br_ugovora, TipSnabdevanja tip_Snabdevanja, double ukupna_potrosnja_ee, double trenutno_zaduzenje)
+        public Potrosac(string imePrezime, string br_ugovora, TipSnabdijevanja tip_Snabdevanja, double ukupna_potrosnja_ee, double trenutno_zaduzenje)
         {
             Id = Guid.NewGuid().ToString();
             ImePrezime = imePrezime;
