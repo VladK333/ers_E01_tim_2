@@ -1,10 +1,11 @@
-﻿using Domain.Models;
+﻿using Domain.Enums;
+using Domain.Models;
 
 namespace Domain.Services
 {
     public interface IUpravljanjePodsistemimaProizvodnje
     {
-        void DodajPodsistem(PodsistemProizvodnje podsistem);
+        void DodajPodsistem(string sifra, TipProizvodnje tip, string lokacija);
         List<PodsistemProizvodnje> DohvatiSvePodsisteme();
     }
 }

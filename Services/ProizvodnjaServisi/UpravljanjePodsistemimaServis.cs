@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Domain.Enums;
+using Domain.Models;
 using Domain.Services;
 
 namespace Services.ProizvodnjaServisi
@@ -6,16 +7,20 @@ namespace Services.ProizvodnjaServisi
     public class UpravljanjePodsistemimaServis : IUpravljanjePodsistemimaProizvodnje
     {
         
-         private readonly List<PodsistemProizvodnje> _podsistemi;
+        private readonly List<PodsistemProizvodnje> _podsistemi;
+        private readonly IDostupnaKolicinaEnergije _randomGenerator;
 
-         public UpravljanjePodsistemimaServis()
-         {
-            _podsistemi = new List<PodsistemProizvodnje>();
-         }
-
-        public void DodajPodsistem(PodsistemProizvodnje podsistem)
+        public UpravljanjePodsistemimaServis(IDostupnaKolicinaEnergije randomGenerator)
         {
-             _podsistemi.Add(podsistem);
+            _podsistemi = new List<PodsistemProizvodnje>();
+            _randomGenerator = randomGenerator;
+        }
+
+        public void DodajPodsistem(string sifra, TipProizvodnje tip, string lokacija)
+        {
+            double preostalaKolicina = _randomGenerator.Generate(1000, 5000);
+            var podsistem = new PodsistemProizvodnje(sifra, tip, lokacija, preostalaKolicina);
+            _podsistemi.Add(podsistem);
         }
 
         public List<PodsistemProizvodnje> DohvatiSvePodsisteme()

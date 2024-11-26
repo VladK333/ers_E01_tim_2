@@ -1,11 +1,15 @@
-﻿namespace Application
+﻿using Domain.Enums;
+
+
+namespace Application
 {
     public class Program
     {
         public static void Main()
         {
-            Console.WriteLine("Aplikacija je pokrenuta.");
+            Console.WriteLine("Pokretanje aplikacije ");
 
+           
         }
     }
 }

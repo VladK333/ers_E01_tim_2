@@ -4,7 +4,7 @@ namespace Domain.Models
 {
     public class Potrosac
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public string ImePrezime { get; set; } = string.Empty;
 
         public string Br_ugovora { get; set; } = string.Empty;
@@ -15,7 +15,7 @@ namespace Domain.Models
 
         public double Trenutno_zaduzenje { get; set; } = 0;
 
-        public Potrosac() { Id = Guid.NewGuid().ToString(); }
+        public Potrosac() {}
 
         public Potrosac(string imePrezime, string br_ugovora, TipSnabdijevanja tip_Snabdevanja, double ukupna_potrosnja_ee, double trenutno_zaduzenje)
         {

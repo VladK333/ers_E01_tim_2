@@ -13,15 +13,12 @@ namespace Domain.Models
 
         public double PreostalaKolicina { get; set; }
 
-        private readonly IDostupnaKolicinaEnergije _randomGenerator;
-
-        public PodsistemProizvodnje(string sifra, TipProizvodnje tip, string lokacija, IDostupnaKolicinaEnergije randomGenerator)
+        public PodsistemProizvodnje(string sifra, TipProizvodnje tip, string lokacija, double preostalaKolicina)
         {
             Sifra = sifra;
             Tip = tip;
             Lokacija = lokacija;
-            _randomGenerator = randomGenerator;
-            PreostalaKolicina = _randomGenerator.Generate(1000, 5000);
+            PreostalaKolicina = preostalaKolicina;
         }
 
         public override string ToString()
