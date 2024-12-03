@@ -7,5 +7,7 @@ namespace Domain.Services
     {
         void DodajPodsistem(string sifra, TipProizvodnje tip, string lokacija);
         List<PodsistemProizvodnje> DohvatiSvePodsisteme();
+
+        double DostupnaEnergija();
     }
 }

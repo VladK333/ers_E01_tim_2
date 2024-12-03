@@ -27,6 +27,11 @@ namespace Services.ProizvodnjaServisi
          {
              return _podsistemi;
          }
-        
+
+        public double DostupnaEnergija()
+        {
+            // Saberi preostale količine energije iz svih podsistema proizvodnje
+            return _podsistemi.Sum(p => p.PreostalaKolicina);
+        }
     }
 }
