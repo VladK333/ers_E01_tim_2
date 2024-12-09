@@ -21,7 +21,7 @@ namespace Domain.Models
             PreostalaKolicina = preostalaKolicina;
         }
 
-        public override string ToString()
+        public override string? ToString()
         {
             return $"Podsistem proizvodnje:\n" +
                    $"- Šifra: {Sifra}\n" +

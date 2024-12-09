@@ -17,7 +17,7 @@ namespace Services.AutentifikacioniServisi
         {
             _korisnici =
             [
-                new("maja", "123", TipSnabdijevanja.KOMERCIJALNO, 20,20),
+                new("maja", "123", TipSnabdijevanja.KOMERCIJALNO, 20, 20),
                 new("ana", "321", TipSnabdijevanja.GARANTOVANO, 10, 10)
             ];
         }

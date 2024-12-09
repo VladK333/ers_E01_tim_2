@@ -2,7 +2,7 @@
 {
     public class PodsistemPotrosnje
     {
-        private static readonly List<Potrosac> _potrosaci= [];
+        private static readonly List<Potrosac> _potrosaci = new List<Potrosac>();
         public string NazivPodsistema {  get; set; } = string.Empty;
 
         public string Sifra_Potrosnje {  get; set; } = string.Empty;

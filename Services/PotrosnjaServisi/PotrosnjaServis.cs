@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Domain.Enums;
 using Domain.Models;
 using Domain.Services;
@@ -10,16 +6,13 @@ using Services.SnabdijevanjeServisi;
 
 namespace Services.PotrosnjaServisi
 {
-    public class PotrosnjaServis : IPotrosnja
+    public class PotrosnjaServis : IPotrosnjaServis
     {
-        private readonly IUpravljanjePodsistemimaProizvodnje _podsistemProizvodnje;
         private readonly GarantovanoServis _garantovanoServis;
         private readonly KomercijalnoServis _komercijalnoServis;
 
-        public PotrosnjaServis(IUpravljanjePodsistemimaProizvodnje podsistemProizvodnje, GarantovanoServis garantovanoServis,
-            KomercijalnoServis komercijalnoServis)
+        public PotrosnjaServis(GarantovanoServis garantovanoServis, KomercijalnoServis komercijalnoServis)
         {
-            _podsistemProizvodnje = podsistemProizvodnje;
             _garantovanoServis = garantovanoServis;
             _komercijalnoServis = komercijalnoServis;
         }
@@ -29,31 +22,36 @@ namespace Services.PotrosnjaServisi
             double potrebnaEnergija = potrosac.Ukupna_potrosnja_ee;
             double cenaPoKW = 0.0;
 
-            // Primer logike: Na osnovu načina snabdevanja, poziva se odgovarajući servis.
+            // Na osnovu načina snabdevanja, pozivaju se odgovarajući servisi
             if (potrosac.Tip_Snabdevanja == TipSnabdijevanja.GARANTOVANO)
             {
-                _garantovanoServis.SmanjenjeKolicine(potrebnaEnergija);
+                // Obrađuje zahtev za energiju u garantovanom snabdevanju
+                double dostupnaEnergija = _garantovanoServis.SmanjenjeKolicine(potrebnaEnergija);
                 cenaPoKW = _garantovanoServis.CijenaPoKW;
-                double zaduzenje = potrebnaEnergija * cenaPoKW;
+                double zaduzenje = dostupnaEnergija * cenaPoKW;
                 potrosac.Trenutno_zaduzenje = zaduzenje;
+                Console.WriteLine($"Zahtjev za energiju sa potrošača {potrosac.ImePrezime} obradjen sa količinom: {dostupnaEnergija} kWh.");
             }
             else if (potrosac.Tip_Snabdevanja == TipSnabdijevanja.KOMERCIJALNO)
             {
-                _komercijalnoServis.SmanjenjeKolicine(potrebnaEnergija);
+                // Obrađuje zahtev za energiju u komercijalnom snabdevanju
+                double dostupnaEnergija = _komercijalnoServis.SmanjenjeKolicine(potrebnaEnergija);
                 cenaPoKW = _komercijalnoServis.CijenaPoKW;
-                double zaduzenje = potrebnaEnergija * cenaPoKW;
+                double zaduzenje = dostupnaEnergija * cenaPoKW;
                 potrosac.Trenutno_zaduzenje = zaduzenje;
+                Console.WriteLine($"Zahtjev za energiju sa potrošača {potrosac.ImePrezime} obradjen sa količinom: {dostupnaEnergija} kWh.");
+            }
+            else
+            {
+                Console.WriteLine($"Potrošač {potrosac.ImePrezime} nije registrovan za odgovarajući tip snabdevanja.");
             }
         }
 
         public double UkupnaPotrošnja(Potrosac potrosac)
         {
-            // Izračunajte ukupnu potrošnju za potrošača
+            // Vraća ukupnu potrošnju za potrošača
             return potrosac.Ukupna_potrosnja_ee;
         }
     }
 
-    public interface IPotrosnja
-    {
-    }
 }

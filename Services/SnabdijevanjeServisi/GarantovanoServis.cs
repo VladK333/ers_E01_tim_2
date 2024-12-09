@@ -11,7 +11,19 @@ namespace Services.SnabdijevanjeServisi
 
         public double SmanjenjeKolicine(double kolicina)
         {
-            return kolicina - (kolicina * 0.02);
+            // Validacija unosa količine energije
+            if (kolicina <= 0)
+            {
+                throw new ArgumentException($"Količina energije mora biti pozitivna. Količina: {kolicina}.");
+            }
+
+            // Implementacija smanjenja količine energije
+            double smanjenaKolicina = kolicina - (kolicina * 0.02);
+
+            // Povratna informacija korisnicima (ako je potrebno)
+            Console.WriteLine($"Količina energije smanjena za 2%: {smanjenaKolicina} kWh");
+
+            return smanjenaKolicina;
         }
     }
 }
