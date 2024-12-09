@@ -6,7 +6,7 @@ using Services.SnabdijevanjeServisi;
 
 namespace Services.PotrosnjaServisi
 {
-    public class PotrosnjaServis : IPotrosnjaServis
+    public class PotrosnjaServis : IPotrosnja
     {
         private readonly GarantovanoServis _garantovanoServis;
         private readonly KomercijalnoServis _komercijalnoServis;

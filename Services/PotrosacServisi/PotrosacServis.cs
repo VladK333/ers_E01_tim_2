@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using Domain.Models;
 using Domain.Services;
+using Services.PotrosnjaServisi;
 
 namespace Services.PotrosacServisi
 {
     public class PotrosacServis : IPotrosac
     {
         private readonly List<Potrosac> _potrosaci;
+        private readonly PotrosnjaServis _potrosnjaServis;
 
-        public PotrosacServis()
+        public PotrosacServis(PotrosnjaServis potrosnjaServis)
         {
             _potrosaci = new List<Potrosac>();
+            _potrosnjaServis = potrosnjaServis;
         }
 
         // Dodavanje novog potrošača
@@ -56,7 +59,24 @@ namespace Services.PotrosacServisi
                 _potrosaci.Remove(potrosac);
                 Console.WriteLine($"Potrošač {potrosac.ImePrezime} je obrisan.");
             }
+            else
+            {
+                Console.WriteLine($"Potrošač sa ID {id} nije pronađen.");
+            }
+        }
+
+        // Prosleđivanje zahteva servisu potrošnje
+        public void ObradiZahtevZaPotrosnju(string id)
+        {
+            var potrosac = PronadjiPotrosaca(id);
+            if (potrosac != null)
+            {
+                _potrosnjaServis.ProvjeriPotrosnju(potrosac);
+            }
+            else
+            {
+                Console.WriteLine("Zahtev ne može biti obrađen jer potrošač nije pronađen.");
+            }
         }
     }
-
 }

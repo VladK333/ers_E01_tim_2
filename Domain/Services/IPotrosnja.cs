@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Models;
+﻿using Domain.Models;
 
 namespace Domain.Services
 {
-    public interface IPotrosnjaServis
+    public interface IPotrosnja
     {
         void ProvjeriPotrosnju(Potrosac potrosac);
         double UkupnaPotrošnja(Potrosac potrosac);
