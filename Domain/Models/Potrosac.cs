@@ -7,7 +7,7 @@ namespace Domain.Models
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string ImePrezime { get; set; } = string.Empty;
 
-        public string Br_ugovora { get; set; } = string.Empty;
+        public string BrUgovora { get; set; } = string.Empty;
 
         public TipSnabdijevanja Tip_Snabdevanja { get; set; }
 
@@ -21,7 +21,7 @@ namespace Domain.Models
         {
             Id = Guid.NewGuid().ToString();
             ImePrezime = imePrezime;
-            Br_ugovora = br_ugovora;
+            BrUgovora = br_ugovora;
             Tip_Snabdevanja = tip_Snabdevanja;
             Ukupna_potrosnja_ee = ukupna_potrosnja_ee;
             Trenutno_zaduzenje = trenutno_zaduzenje;
@@ -30,7 +30,7 @@ namespace Domain.Models
         public override string? ToString()
         {
             return $"\nIme i prezime: {ImePrezime}" +
-                   $"\nBroj ugovora: {Br_ugovora}\n Tip snabdevanja: {Tip_Snabdevanja}" +
+                   $"\nBroj ugovora: {BrUgovora}\n Tip snabdevanja: {Tip_Snabdevanja}" +
                    $"\nUkupna potrosnja ee: {Ukupna_potrosnja_ee}" +
                    $"\nTrenutno zaduzenje: {Trenutno_zaduzenje}\n" + base.ToString();
         }

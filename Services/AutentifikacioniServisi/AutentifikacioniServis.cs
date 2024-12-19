@@ -22,11 +22,11 @@ namespace Services.AutentifikacioniServisi
             ];
         }
 
-        public (bool, Potrosac) Prijava(string ImePrezime, string Id)
+        public (bool, Potrosac) Prijava(string ImePrezime, string BrUgovora)
         {
             foreach (Potrosac korisnik in _korisnici)
             {
-                if (korisnik.ImePrezime.Equals(ImePrezime) && korisnik.Id.Equals(Id))
+                if (korisnik.ImePrezime.Equals(ImePrezime) && korisnik.BrUgovora.Equals(BrUgovora))
                 {
                     return (true, korisnik);
                 }

@@ -18,7 +18,7 @@ namespace Services.SnabdijevanjeServisi
 
         public void ObradiZahtjev(string potrosacId, double kolicinaEnergije)
         {
-            if (kolicinaEnergije <= 0)
+            if (kolicinaEnergije <= 0 )
             {
                 throw new ArgumentException($"Neispravan unos količine energije: {kolicinaEnergije}. Količina mora biti pozitivna.");
             }

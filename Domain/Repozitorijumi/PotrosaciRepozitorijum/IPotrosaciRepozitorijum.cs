@@ -5,10 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Models;
 
-namespace Domain.Services
+namespace Domain.Repozitorijumi.PotrosaciRepozitorijum
 {
-    public interface IAutentifikacija
+    public interface IPotrosaciRepozitorijum
     {
-        public (bool, Potrosac) Prijava(string ImePrezime, string BrUgovora);
+        public bool DodajPotrosaca(Potrosac potrosac);
+
+
     }
 }
