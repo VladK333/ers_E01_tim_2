@@ -52,6 +52,14 @@ namespace Services.PotrosnjaServisi
             // Vraća ukupnu potrošnju za potrošača
             return potrosac.Ukupna_potrosnja_ee;
         }
+
+        /*double IzracunajZaduzenje(TipSnabdijevanja tipSnab, double ee)
+        {
+            double zaduzenje = 0.0;
+
+            return zaduzenje;
+
+        }*/
     }
 
 }

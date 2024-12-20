@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Domain.Enums;
+using Domain.Models;
 
 namespace Domain.Services
 {
@@ -6,5 +7,7 @@ namespace Domain.Services
     {
         void ProvjeriPotrosnju(Potrosac potrosac);
         double UkupnaPotrošnja(Potrosac potrosac);
+
+       // double IzracunajZaduzenje(TipSnabdijevanja tipSnab, double ee);
     }
 }

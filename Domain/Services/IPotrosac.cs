@@ -13,5 +13,8 @@ namespace Domain.Services
         Potrosac PronadjiPotrosaca(string id);
         void AzurirajPotrosaca(Potrosac potrosac);
         void ObrisiPotrosaca(string id);
+
+        public List<Potrosac> GetPotrosaci();
+
     }
 }

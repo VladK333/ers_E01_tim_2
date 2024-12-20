@@ -78,5 +78,10 @@ namespace Services.PotrosacServisi
                 Console.WriteLine("Zahtev ne može biti obrađen jer potrošač nije pronađen.");
             }
         }
+
+        public List<Potrosac> GetPotrosaci()
+        {
+            return _potrosaci;
+        }
     }
 }
