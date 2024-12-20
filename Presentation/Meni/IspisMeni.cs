@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Domain.Enums;
 using Domain.Models;
 using Domain.Services;
+using Services.AutentifikacioniServisi;
 using Services.SnabdijevanjeServisi;
 
 namespace Presentation.Meni
@@ -61,7 +62,7 @@ namespace Presentation.Meni
         {
             Console.WriteLine("\n======== PREGLED SVIH POTROSACA ========\n");
 
-            var potrosaci = _potrosacServis.GetPotrosaci();
+            var potrosaci = AutentifikacioniServis.GetPotrosaci();
             if (potrosaci.Count == 0)
             {
                 Console.WriteLine("Nema registrovanih potrošača.");
@@ -70,7 +71,8 @@ namespace Presentation.Meni
 
             foreach (var potrosac in potrosaci)
             {
-                Console.WriteLine(potrosac.ToString()+"===============================================\n");
+                // Proverite kako izgleda metod ToString() klase Potrosac, treba da formatira podatke kako želite
+                Console.WriteLine(potrosac.ToString() + "\n===============================================\n");
             }
         }
 

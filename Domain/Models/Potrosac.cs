@@ -30,9 +30,10 @@ namespace Domain.Models
         public override string? ToString()
         {
             return $"\nIme i prezime: {ImePrezime}" +
-                   $"\nBroj ugovora: {BrUgovora}\n Tip snabdevanja: {Tip_Snabdevanja}" +
+                   $"\nBroj ugovora: {BrUgovora}" +
+                   $"\nTip snabdevanja: {Tip_Snabdevanja}" +
                    $"\nUkupna potrosnja ee: {Ukupna_potrosnja_ee}" +
-                   $"\nTrenutno zaduzenje: {Trenutno_zaduzenje}\n" + base.ToString();
+                   $"\nTrenutno zaduzenje: {Trenutno_zaduzenje}\n";
         }
     }
 }

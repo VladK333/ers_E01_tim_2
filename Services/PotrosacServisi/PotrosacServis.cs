@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Domain.Enums;
+using Domain.Models;
 using Domain.Services;
 
 namespace Services.PotrosacServisi
@@ -14,11 +15,22 @@ namespace Services.PotrosacServisi
             _potrosnjaServis = potrosnjaServis;
         }
 
-        // Dodavanje novog potrošača
+        /* Dodavanje novog potrošača
         public void DodajPotrosaca(Potrosac potrosac)
         {
             _potrosaci.Add(potrosac);
             Console.WriteLine($"Potrošač {potrosac.ImePrezime} je uspešno dodat.");
+        }
+        */
+        public void DodajPotrosaca(Potrosac potrosac)
+        {
+            if (potrosac == null)
+            {
+                throw new ArgumentNullException(nameof(potrosac), "Potrosac ne može biti null.");
+            }
+
+            _potrosaci.Add(potrosac);
+            Console.WriteLine($"Potrošač {potrosac.ImePrezime} je uspešno dodat.\n");
         }
 
         // Pretraga potrošača prema ID-u
@@ -31,7 +43,7 @@ namespace Services.PotrosacServisi
             }
             return potrosac;
         }
-
+        
         // Ažuriranje informacija o potrošaču
         public void AzurirajPotrosaca(Potrosac potrosac)
         {
