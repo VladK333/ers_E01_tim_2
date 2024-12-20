@@ -8,7 +8,7 @@ namespace Domain.Services
 
         double SmanjenjeKolicine(double kolicina);
 
-        //public void SmanjiKolicinuEnergije(PodsistemProizvodnje podsistem, double kolicina);
+        public void SmanjiKolicinuEnergije(PodsistemProizvodnje podsistem, double kolicina);
 
     }
 }

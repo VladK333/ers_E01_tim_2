@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.Services;
-using Services.PotrosnjaServisi;
 
 namespace Services.PotrosacServisi
 {
     public class PotrosacServis : IPotrosac
     {
         private readonly List<Potrosac> _potrosaci;
-        private readonly PotrosnjaServis _potrosnjaServis;
+        private readonly IPotrosnja _potrosnjaServis;
 
-        public PotrosacServis(PotrosnjaServis potrosnjaServis)
+        public PotrosacServis(IPotrosnja potrosnjaServis)//interfejs a ne konkretan servis 
         {
             _potrosaci = new List<Potrosac>();
             _potrosnjaServis = potrosnjaServis;

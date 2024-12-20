@@ -1,16 +1,14 @@
-﻿using System;
-using Domain.Enums;
+﻿using Domain.Enums;
 using Domain.Services;
-using Services.PotrosacServisi;
 
 namespace Services.SnabdijevanjeServisi
 {
     public class GarantovanoZahtjevServis : IZahtjevZaEnergiju
     {
-        private readonly GarantovanoServis _garantovanoServis;
-        private readonly PotrosacServis _potrosacServis;
+        private readonly ISnabdijevanje _garantovanoServis;
+        private readonly IPotrosac _potrosacServis;
 
-        public GarantovanoZahtjevServis(GarantovanoServis garantovanoServis, PotrosacServis potrosacServis)
+        public GarantovanoZahtjevServis(ISnabdijevanje garantovanoServis, IPotrosac potrosacServis)
         {
             _garantovanoServis = garantovanoServis;
             _potrosacServis = potrosacServis;

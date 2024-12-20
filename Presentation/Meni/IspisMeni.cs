@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Domain.Enums;
 using Domain.Models;
 using Domain.Services;
-using Services.PotrosacServisi;
-using Services.ProizvodnjaServisi;
 using Services.SnabdijevanjeServisi;
 
 namespace Presentation.Meni
@@ -15,13 +10,15 @@ namespace Presentation.Meni
     public class IspisMeni
     {
         private readonly Potrosac potrosac;
-        private readonly PotrosacServis _potrosacServis;
-        private readonly UpravljanjePodsistemimaServis _upravljanjePodsistemimaServis;
+        private readonly IPotrosac _potrosacServis;//interfejs izmijenjeno
+        private readonly IUpravljanjePodsistemimaProizvodnje _upravljanjePodsistemimaServis;
 
-        public IspisMeni(PotrosacServis potrosacServis)
+        public IspisMeni(IPotrosac potrosacServis, IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaServis)
         {
             _potrosacServis = potrosacServis;
+            _upravljanjePodsistemimaServis = upravljanjePodsistemimaServis;
         }
+
 
         public void PrikaziMeni()
         {

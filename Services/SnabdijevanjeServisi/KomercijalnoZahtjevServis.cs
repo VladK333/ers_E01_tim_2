@@ -1,20 +1,14 @@
 ﻿using Domain.Enums;
 using Domain.Services;
-using Services.PotrosacServisi;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services.SnabdijevanjeServisi
 {
     public class KomercijalnoZahtjevServis : IZahtjevZaEnergiju
     {
-        private readonly KomercijalnoServis _komercijalnoServis;
-        private readonly PotrosacServis _potrosacServis;
+        private readonly ISnabdijevanje _komercijalnoServis;
+        private readonly IPotrosac _potrosacServis;
 
-        public KomercijalnoZahtjevServis(KomercijalnoServis komercijalnoServis, PotrosacServis potrosacServis)
+        public KomercijalnoZahtjevServis(ISnabdijevanje komercijalnoServis, IPotrosac potrosacServis)
         {
             _komercijalnoServis = komercijalnoServis;
             _potrosacServis = potrosacServis;

@@ -27,7 +27,7 @@ namespace Services.SnabdijevanjeServisi
             return smanjenaKolicina;
         }
 
-       /* public void SmanjiKolicinuEnergije(PodsistemProizvodnje podsistem, double kolicina)
+        public void SmanjiKolicinuEnergije(PodsistemProizvodnje podsistem, double kolicina)
         {
             if (podsistem == null || kolicina <= 0)
                 throw new ArgumentException("Podsistem mora biti validan, a količina pozitivna.");
@@ -35,6 +35,6 @@ namespace Services.SnabdijevanjeServisi
             podsistem.PreostalaKolicina -= kolicina-(kolicina * 0.02);
 
             Console.WriteLine($"Količina energije u podsistemu '{podsistem.Sifra}' smanjena za {kolicina:F2} kWh.");
-        }*/
+        }
     }
 }
