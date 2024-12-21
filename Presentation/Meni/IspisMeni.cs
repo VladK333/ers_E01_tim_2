@@ -8,7 +8,7 @@ namespace Presentation.Meni
 {
     public class IspisMeni
     {
-        private readonly Potrosac potrosac;
+        private Potrosac potrosac;
         private readonly IPotrosac _potrosacServis;//interfejs izmijenjeno
         private readonly IUpravljanjePodsistemimaProizvodnje _upravljanjePodsistemimaServis;
 
@@ -69,7 +69,6 @@ namespace Presentation.Meni
 
             foreach (var potrosac in potrosaci)
             {
-                // Proverite kako izgleda metod ToString() klase Potrosac, treba da formatira podatke kako želite
                 Console.WriteLine(potrosac.ToString() + "\n===============================================\n");
             }
         }
@@ -154,7 +153,6 @@ namespace Presentation.Meni
 
             if (potrosac != null)
             {
-                // Prikazivanje trenutnog zaduženja
                 Console.WriteLine($"Trenutno zaduženje potrošača sa brojem ugovora {id} je: {potrosac.Trenutno_zaduzenje} RSD");
             }
         }

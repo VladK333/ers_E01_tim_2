@@ -1,16 +1,18 @@
-﻿using Domain.Models;
+﻿using Domain.Enums;
+using Domain.Models;
 using Domain.Services;
-using Domain.Enums;
 
 namespace Services.AutentifikacioniServisi
 {
     public class AutentifikacioniServis : IAutentifikacija
     {
-        private static readonly List<Potrosac> _korisnici;
+        // Statička lista potrošača sa inicijalnim podacima
+        private static List<Potrosac> _potrosaci;
 
+        // Staticki konstruktor koji inicijalizuje listu potrošača
         static AutentifikacioniServis()
         {
-            _korisnici = new List<Potrosac>
+            _potrosaci = new List<Potrosac>
             {
                 new Potrosac("Maja Adanić", "EPS3345K", TipSnabdijevanja.KOMERCIJALNO, 20, 20),
                 new Potrosac("Ana Rabić", "EPS3346K", TipSnabdijevanja.GARANTOVANO, 10, 10),
@@ -23,34 +25,32 @@ namespace Services.AutentifikacioniServisi
                 new Potrosac("Katarina Stojanović", "EPS3353K", TipSnabdijevanja.KOMERCIJALNO, 30, 20),
                 new Potrosac("Luka Savić", "EPS3354K", TipSnabdijevanja.GARANTOVANO, 12, 15)
             };
+        }
 
-        }
-        public static List<Potrosac> GetPotrosaci()
-        {
-            return _korisnici;
-        }
+        // Prijava korisnika na osnovu imena i broja ugovora
         public (bool, Potrosac) Prijava(string ImePrezime, string BrUgovora)
         {
-            foreach (Potrosac korisnik in _korisnici)
+            var potrosac = _potrosaci.FirstOrDefault(p => p.ImePrezime == ImePrezime && p.BrUgovora == BrUgovora);
+            if (potrosac != null)
             {
-                if (korisnik.ImePrezime.Equals(ImePrezime) && korisnik.BrUgovora.Equals(BrUgovora))
-                {
-                    return (true, korisnik);
-                }
+                return (true, potrosac);
             }
-
-            return (false, new Potrosac());
+            return (false, null);
         }
-        //Dodato////////////////
-        public void DodajPotrosaca(Potrosac potrosac)
+
+        public static void DodajPotrosaca(Potrosac potrosac)
         {
-            _korisnici.Add(potrosac);  // Dodaje novog potrošača u statičku listu
+            _potrosaci.Add(potrosac);
         }
 
         public Potrosac PronadjiPotrosaca(string brUgovora)
         {
-            return _korisnici.FirstOrDefault(p => p.BrUgovora.Equals(brUgovora));  // Traži potrošača prema broju ugovora
+            return _potrosaci.FirstOrDefault(p => p.BrUgovora == brUgovora);
         }
 
+        public static List<Potrosac> GetPotrosaci()
+        {
+            return _potrosaci;
+        }
     }
 }

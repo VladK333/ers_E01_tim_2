@@ -1,96 +1,83 @@
-﻿using Domain.Enums;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.Services;
+using Services.AutentifikacioniServisi;
 
 namespace Services.PotrosacServisi
 {
     public class PotrosacServis : IPotrosac
     {
-        private readonly List<Potrosac> _potrosaci;
+        private readonly AutentifikacioniServis _autentifikacioniServis;
         private readonly IPotrosnja _potrosnjaServis;
 
-        public PotrosacServis(IPotrosnja potrosnjaServis)//interfejs a ne konkretan servis 
+        public PotrosacServis(AutentifikacioniServis autentifikacioniServis, IPotrosnja potrosnjaServis)
         {
-            _potrosaci = new List<Potrosac>();
+            _autentifikacioniServis = autentifikacioniServis;
             _potrosnjaServis = potrosnjaServis;
         }
 
-        /* Dodavanje novog potrošača
         public void DodajPotrosaca(Potrosac potrosac)
         {
-            _potrosaci.Add(potrosac);
-            Console.WriteLine($"Potrošač {potrosac.ImePrezime} je uspešno dodat.");
-        }
-        */
-        public void DodajPotrosaca(Potrosac potrosac)
-        {
-            if (potrosac == null)
-            {
-                throw new ArgumentNullException(nameof(potrosac), "Potrosac ne može biti null.");
-            }
-
-            _potrosaci.Add(potrosac);
-            Console.WriteLine($"Potrošač {potrosac.ImePrezime} je uspešno dodat.\n");
+            AutentifikacioniServis.DodajPotrosaca(potrosac); // Dodaje potrošača u statičku listu
+            Console.WriteLine($"Potrosac {potrosac.ImePrezime} je uspesno dodat.\n");
         }
 
-        // Pretraga potrošača prema ID-u
-        public Potrosac PronadjiPotrosaca(string id)
+        public Potrosac PronadjiPotrosaca(string brUgovora)
         {
-            var potrosac = _potrosaci.Find(p => p.Id == id);
-            if (potrosac == null)
-            {
-                Console.WriteLine($"Potrošač sa ID {id} nije pronađen.");
-            }
-            return potrosac;
+            return _autentifikacioniServis.PronadjiPotrosaca(brUgovora);  // Koristi metodu iz Autentifikacionog servisa za pronalaženje
         }
-        
+
         // Ažuriranje informacija o potrošaču
         public void AzurirajPotrosaca(Potrosac potrosac)
         {
-            var index = _potrosaci.FindIndex(p => p.Id == potrosac.Id);
-            if (index != -1)
+            var postojeciPotrosac = _autentifikacioniServis.PronadjiPotrosaca(potrosac.BrUgovora);
+            if (postojeciPotrosac != null)
             {
-                _potrosaci[index] = potrosac;
-                Console.WriteLine($"Podaci o potrošaču {potrosac.ImePrezime} su ažurirani.");
+                var index = AutentifikacioniServis.GetPotrosaci().FindIndex(p => p.BrUgovora == potrosac.BrUgovora);
+                if (index != -1)
+                {
+                    AutentifikacioniServis.GetPotrosaci()[index] = potrosac;
+                    Console.WriteLine($"Podaci o potrošaču {potrosac.ImePrezime} su azurirani.");
+                }
             }
             else
             {
-                Console.WriteLine($"Potrošač sa ID {potrosac.Id} nije pronađen.");
+                Console.WriteLine($"Potrošač sa brojem ugovora {potrosac.BrUgovora} nije pronadjen.");
             }
         }
 
         // Brisanje potrošača
-        public void ObrisiPotrosaca(string id)
+        public void ObrisiPotrosaca(string brUgovora)
         {
-            var potrosac = PronadjiPotrosaca(id);
+            var potrosac = PronadjiPotrosaca(brUgovora);
             if (potrosac != null)
             {
-                _potrosaci.Remove(potrosac);
-                Console.WriteLine($"Potrošač {potrosac.ImePrezime} je obrisan.");
+                AutentifikacioniServis.GetPotrosaci().Remove(potrosac);
+                Console.WriteLine($"Potrosac {potrosac.ImePrezime} je obrisan.");
             }
             else
             {
-                Console.WriteLine($"Potrošač sa ID {id} nije pronađen.");
+                Console.WriteLine($"Potrosac sa brojem ugovora {brUgovora} nije pronadjen.");
             }
         }
 
-        // Prosleđivanje zahteva servisu potrošnje
-        public void ObradiZahtevZaPotrosnju(string id)
+        // Prosljedjivanje zahtjeva servisu potrošnje
+        public void ObradiZahtevZaPotrosnju(string brUgovora)
         {
-            var potrosac = PronadjiPotrosaca(id);
+            var potrosac = PronadjiPotrosaca(brUgovora);
             if (potrosac != null)
             {
                 _potrosnjaServis.ProvjeriPotrosnju(potrosac);
             }
             else
             {
-                Console.WriteLine("Zahtev ne može biti obrađen jer potrošač nije pronađen.");
+                Console.WriteLine("Zahtev ne moze biti obradjen jer potrosac nije pronadjen.");
             }
         }
 
+        // Vraćanje svih potrošača
         public List<Potrosac> GetPotrosaci()
         {
-            return _potrosaci;
+            return AutentifikacioniServis.GetPotrosaci();  // Vraća listu potrošača iz Autentifikacionog servisa
         }
     }
 }

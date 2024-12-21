@@ -22,7 +22,6 @@ namespace Services.EvidencioniServisi
             {
                 if (_tipSnabdevanja == TipSnabdijevanja.GARANTOVANO)
                 {
-                    // Upisivanje u datoteku pomoću ToString metode
                     File.AppendAllText(_putanjaDatoteke, zapis.ToString() + Environment.NewLine);
                 }
                 else if (_tipSnabdevanja == TipSnabdijevanja.KOMERCIJALNO)
@@ -74,5 +73,6 @@ namespace Services.EvidencioniServisi
                 return _evidencija;
             }
         }
+       
     }
 }
