@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Domain.Enums;
+﻿using Domain.Enums;
 using Domain.Models;
 using Domain.Services;
 using Services.AutentifikacioniServisi;
@@ -133,13 +131,12 @@ namespace Presentation.Meni
 
             var noviPotrosac = new Potrosac(imePrezime, brUgovora, tipSnab, ukupnaPotrosnja, trenutnoZaduzenje);
             _potrosacServis.DodajPotrosaca(noviPotrosac);
-
             Console.WriteLine("\nPotrošač uspešno dodat!");
         }
 
         private void Zahtev()
         {
-            Console.WriteLine("Unesite id potrosaca koji zahteva energiju: ");
+            Console.WriteLine("Unesite broj ugovora potrosaca koji zahteva energiju: ");
             string id = Console.ReadLine();
 
             Console.WriteLine("Unesite zeljenu kolicinu energije: ");
@@ -150,7 +147,7 @@ namespace Presentation.Meni
 
         private void TrenutnoZaduzenje()
         {
-            Console.WriteLine("Unesite id potrosaca: ");
+            Console.WriteLine("Unesite broj ugovora potrosaca: ");
             string id = Console.ReadLine();
 
             var potrosac = _potrosacServis.PronadjiPotrosaca(id);
@@ -158,7 +155,7 @@ namespace Presentation.Meni
             if (potrosac != null)
             {
                 // Prikazivanje trenutnog zaduženja
-                Console.WriteLine($"Trenutno zaduženje potrošača sa ID {id} je: {potrosac.Trenutno_zaduzenje} RSD");
+                Console.WriteLine($"Trenutno zaduženje potrošača sa brojem ugovora {id} je: {potrosac.Trenutno_zaduzenje} RSD");
             }
         }
     }

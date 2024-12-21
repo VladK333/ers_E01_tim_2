@@ -6,19 +6,29 @@ namespace Services.ProizvodnjaServisi
 {
     public class UpravljanjePodsistemimaServis : IUpravljanjePodsistemimaProizvodnje
     {
-        
-        private readonly List<PodsistemProizvodnje> _podsistemi;
+
+        private static readonly List<PodsistemProizvodnje> _podsistemi = new List<PodsistemProizvodnje>();//static
         private readonly IDostupnaKolicinaEnergije _randomGenerator;
         private readonly ISnabdijevanje _snabdijevanjeServis; // Dodato za smanjenje energije
 
 
         public UpravljanjePodsistemimaServis(IDostupnaKolicinaEnergije randomGenerator, ISnabdijevanje snabdijevanjeServis)
         {
-            _podsistemi = new List<PodsistemProizvodnje>();
             _randomGenerator = randomGenerator;
             _snabdijevanjeServis = snabdijevanjeServis;
-
+            if (!_podsistemi.Any())
+            {
+                InicijalizujPodsisteme();
+            }
         }
+        public void InicijalizujPodsisteme()
+        {
+            _podsistemi.Add(new PodsistemProizvodnje("P001", TipProizvodnje.Hidroelektrana, "Lokacija 1", _randomGenerator.Generate(1000, 5000)));
+            _podsistemi.Add(new PodsistemProizvodnje("P002", TipProizvodnje.EcoGreen, "Lokacija 2", _randomGenerator.Generate(1000, 5000)));
+            _podsistemi.Add(new PodsistemProizvodnje("P003", TipProizvodnje.CvrstoGorivo, "Lokacija 3", _randomGenerator.Generate(1000, 5000)));
+            Console.WriteLine("Podsistemi su uspešno inicijalizovani.");
+        }
+
 
         public void DodajPodsistem(string sifra, TipProizvodnje tip, string lokacija)
         {
@@ -42,6 +52,11 @@ namespace Services.ProizvodnjaServisi
 
         public double DohvatiNajvecuDostupnuEnergiju()
         {
+            if (!_podsistemi.Any()) // Proverava da li ima elemenata u listi
+            {
+                Console.WriteLine("Nema dostupnih podsistema.");
+                return 0; 
+            }
             return _podsistemi.Max(p => p.PreostalaKolicina);
         }
 
@@ -54,8 +69,8 @@ namespace Services.ProizvodnjaServisi
 
             Console.WriteLine($"Količina energije u podsistemu '{podsistem.Sifra}' smanjena za {kolicina:F2} kWh.");
         }
-
-        /*public PodsistemProizvodnje OdrediPodsistemZaPotrosaca(double potrebnaEnergija)
+        /*
+        public PodsistemProizvodnje OdrediPodsistemZaPotrosaca(double potrebnaEnergija)
         {
             // Pronađi podsistem sa najviše dostupne energije
             var odgovarajuciPodsistem = _podsistemi

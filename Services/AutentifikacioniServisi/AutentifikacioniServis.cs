@@ -41,5 +41,16 @@ namespace Services.AutentifikacioniServisi
 
             return (false, new Potrosac());
         }
+        //Dodato////////////////
+        public void DodajPotrosaca(Potrosac potrosac)
+        {
+            _korisnici.Add(potrosac);  // Dodaje novog potrošača u statičku listu
+        }
+
+        public Potrosac PronadjiPotrosaca(string brUgovora)
+        {
+            return _korisnici.FirstOrDefault(p => p.BrUgovora.Equals(brUgovora));  // Traži potrošača prema broju ugovora
+        }
+
     }
 }
