@@ -1,31 +1,45 @@
 ﻿using Domain.Enums;
 using Domain.Models;
 using Domain.Services;
+using Presentation.GenerisanjePotrosaca;
 using Services.AutentifikacioniServisi;
 using Services.SnabdijevanjeServisi;
+using Presentation.GenerisanjePotrosaca;
 
 namespace Presentation.Meni
 {
     public class IspisMeni
     {
-        private Potrosac potrosac;
-        private readonly IPotrosac _potrosacServis;//interfejs izmijenjeno
+        private readonly IPotrosac _potrosacServis;
         private readonly IUpravljanjePodsistemimaProizvodnje _upravljanjePodsistemimaServis;
 
         public IspisMeni(IPotrosac potrosacServis, IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaServis)
         {
             _potrosacServis = potrosacServis;
             _upravljanjePodsistemimaServis = upravljanjePodsistemimaServis;
+
+            // Inicijalizacija sa 10 nasumičnih potrošača prilikom pokretanja
+            InicijalizujNasumicnePotrosace(10);
         }
 
+        private void InicijalizujNasumicnePotrosace(int brojPotrosaca)
+        {
+            for (int i = 0; i < brojPotrosaca; i++)
+            {
+                Potrosac nasumicanPotrosac = NasumicanPotrosacGenerator.GenerisiNasumicanPotrosac();
+                _potrosacServis.DodajPotrosaca(nasumicanPotrosac); // Dodavanje nasumično generisanog potrošača
+            }
+
+            Console.WriteLine($"{brojPotrosaca} nasumičnih potrošača je dodano.");
+        }
 
         public void PrikaziMeni()
         {
             bool kraj = false;
-            while(!kraj)
+            while (!kraj)
             {
-                Console.WriteLine("\n1. Pregled svih potrosaca\n2. Unos novog potrosaca\n" +
-                    "3. Zahtev za dobijanje elektricne energije\n4. Trenutno zaduzenje potrosaca\n" +
+                Console.WriteLine("\n1. Pregled svih potrošača\n2. Unos novog potrošača\n" +
+                    "3. Zahtev za dobijanje električne energije\n4. Trenutno zaduženje potrošača\n" +
                     "5. Odjava");
                 Console.Write("Opcija: ");
                 string? opcija = Console.ReadLine();
@@ -33,7 +47,7 @@ namespace Presentation.Meni
                 if (string.IsNullOrWhiteSpace(opcija))
                     continue;
 
-                switch(opcija[0])
+                switch (opcija[0])
                 {
                     case '1':
                         PregledSvihPotrosaca();
@@ -58,18 +72,18 @@ namespace Presentation.Meni
 
         private void PregledSvihPotrosaca()
         {
-            Console.WriteLine("\n======== PREGLED SVIH POTROSACA ========\n");
+            Console.WriteLine("\n======== PREGLED SVIH POTROŠAČA ========\n");
 
-            var potrosaci = AutentifikacioniServis.GetPotrosaci();
-            if (potrosaci.Count == 0)
+            var potrošači = _potrosacServis.GetPotrosaci();  
+            if (potrošači.Count == 0)
             {
                 Console.WriteLine("Nema registrovanih potrošača.");
                 return;
             }
 
-            foreach (var potrosac in potrosaci)
+            foreach (var potrošač in potrošači)
             {
-                Console.WriteLine(potrosac.ToString() + "\n===============================================\n");
+                Console.WriteLine(potrošač.ToString() + "\n===============================================\n");
             }
         }
 
@@ -81,7 +95,6 @@ namespace Presentation.Meni
             Console.Write("Unesite broj ugovora: ");
             string brUgovora = Console.ReadLine();
 
-            //tip snabdevanja na osnovu dostupne energije
 
             Console.Write("Unesite ukupnu potrošnju električne energije: ");
             if (!double.TryParse(Console.ReadLine(), out double ukupnaPotrosnja) || ukupnaPotrosnja <= 0)
@@ -122,7 +135,7 @@ namespace Presentation.Meni
                 Console.WriteLine("Nevažeći izbor. Potrošač nije dodat.");
                 return;
             }
-            //trenutno zaduzenje na osnovu tipa snabdevanja i potrosnje
+            //trenutno zaduzenje na osnovu tipa snabdijevanja i potrosnje
 
            double trenutnoZaduzenje = ukupnaPotrosnja * snabdijevanjeServis.CijenaPoKW;
 
@@ -135,14 +148,56 @@ namespace Presentation.Meni
 
         private void Zahtev()
         {
-            Console.WriteLine("Unesite broj ugovora potrosaca koji zahteva energiju: ");
+            Console.WriteLine("Unesite broj ugovora potrošača koji zahteva energiju: ");
             string id = Console.ReadLine();
 
-            Console.WriteLine("Unesite zeljenu kolicinu energije: ");
-            double zeljenaEnergija = double.Parse(Console.ReadLine());
+            var potrosac = _potrosacServis.PronadjiPotrosaca(id);
 
-            
+            if (potrosac == null)
+            {
+                Console.WriteLine("Potrošač sa unetim brojem ugovora ne postoji.");
+                return;
+            }
+
+            Console.WriteLine("Unesite željenu količinu energije (kWh): ");
+            if (!double.TryParse(Console.ReadLine(), out double zeljenaEnergija) || zeljenaEnergija <= 0)
+            {
+                Console.WriteLine("Unesena količina mora biti validан broj veći od nule.");
+                return;
+            }
+
+            ISnabdijevanje snabdijevanjeServis = potrosac.Tip_Snabdevanja == TipSnabdijevanja.GARANTOVANO
+                ? new GarantovanoServis()
+                : new KomercijalnoServis();
+
+            try
+            {
+                var odgovarajuciPodsistem = _upravljanjePodsistemimaServis.NadjiPodsistemSaNajviseEnergije(zeljenaEnergija);
+
+                if (odgovarajuciPodsistem == null)
+                {
+                    Console.WriteLine("Nema dovoljno energije u podsistemima da bi se ispunio zahtev.");
+                    return;
+                }
+
+                snabdijevanjeServis.SmanjiKolicinuEnergije(odgovarajuciPodsistem, zeljenaEnergija);
+
+                // Ažuriranje podataka potrošača
+                potrosac.Ukupna_potrosnja_ee += zeljenaEnergija;
+                potrosac.Trenutno_zaduzenje += zeljenaEnergija * snabdijevanjeServis.CijenaPoKW;
+
+                // Informacije o uspjesnoj obradi zahtjeva 
+                Console.WriteLine($"Zahtev za energiju uspešno obrađen za potrošača {id}.");
+                Console.WriteLine($"Nova ukupna potrošnja: {potrosac.Ukupna_potrosnja_ee:F2} kWh.");
+                Console.WriteLine($"Novo trenutno zaduženje: {potrosac.Trenutno_zaduzenje:F2} RSD.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Došlo je do greške prilikom obrade zahteva: {ex.Message}");
+            }
         }
+
+
 
         private void TrenutnoZaduzenje()
         {
@@ -153,7 +208,7 @@ namespace Presentation.Meni
 
             if (potrosac != null)
             {
-                Console.WriteLine($"Trenutno zaduženje potrošača sa brojem ugovora {id} je: {potrosac.Trenutno_zaduzenje} RSD");
+                Console.WriteLine($"Trenutno zaduženje potrošača sa brojem ugovora {id} je: {potrosac.Trenutno_zaduzenje.ToString("N2")} RSD");//N2 za razdvajanje na hiljade  i dvije decimale 
             }
         }
     }

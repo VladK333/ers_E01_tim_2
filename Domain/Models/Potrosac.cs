@@ -32,8 +32,8 @@ namespace Domain.Models
             return $"\nIme i prezime: {ImePrezime}" +
                    $"\nBroj ugovora: {BrUgovora}" +
                    $"\nTip snabdevanja: {Tip_Snabdevanja}" +
-                   $"\nUkupna potrosnja ee: {Ukupna_potrosnja_ee}" +
-                   $"\nTrenutno zaduzenje: {Trenutno_zaduzenje}\n";
+                   $"\nUkupna potrosnja ee: {Ukupna_potrosnja_ee.ToString("F2")}" +
+                   $"\nTrenutno zaduzenje: {Trenutno_zaduzenje.ToString("F2")}\n";
         }
     }
 }

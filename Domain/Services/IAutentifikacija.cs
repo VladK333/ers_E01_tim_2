@@ -4,6 +4,8 @@ namespace Domain.Services
 {
     public interface IAutentifikacija
     {
-        public (bool, Potrosac) Prijava(string ImePrezime, string BrUgovora);
+        (bool, Potrosac) Prijava(string imePrezime, string brUgovora);
+
+        bool TryLogin(out Potrosac potrosac); 
     }
 }

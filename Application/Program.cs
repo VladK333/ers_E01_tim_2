@@ -1,14 +1,12 @@
 ﻿using Domain.Enums;
+using Domain.Models;
 using Domain.Services;
 using Services.AutentifikacioniServisi;
 using Services.EvidencioniServisi;
-using Services.PotrosacServisi;
 using Services.PotrosnjaServisi;
 using Services.ProizvodnjaServisi;
 using Services.SnabdijevanjeServisi;
 using Presentation.Meni;
-using Domain.Models;
-
 namespace Application
 {
     public class Program
@@ -22,18 +20,23 @@ namespace Application
             ISnabdijevanje snabdijevanjeGarantovano = new GarantovanoServis();
             ISnabdijevanje snabdijevanjeKomercijalno = new KomercijalnoServis();
 
-            IPotrosnja potrosnja = new PotrosnjaServis(snabdijevanjeGarantovano, snabdijevanjeKomercijalno);  
-
+            IPotrosnja potrosnja = new PotrosnjaServis(snabdijevanjeGarantovano, snabdijevanjeKomercijalno);
+            IPotrosac potrosacServis = new PotrosacServis(autentifikacija); 
             IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaProizvodnjeGarantovano = new UpravljanjePodsistemimaServis(dostupnaKolicinaEnergije, snabdijevanjeGarantovano);
             IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaProizvodnjeKomercijalno = new UpravljanjePodsistemimaServis(dostupnaKolicinaEnergije, snabdijevanjeKomercijalno);
 
             IProizvodnjaEnergije proizvodnjaEnergijeGarantovano = new ProizvodnjaServis(snabdijevanjeGarantovano, upravljanjePodsistemimaProizvodnjeGarantovano);
             IProizvodnjaEnergije proizvodnjaEnergijeKomercijalno = new ProizvodnjaServis(snabdijevanjeKomercijalno, upravljanjePodsistemimaProizvodnjeKomercijalno);
 
-            IPotrosac potrosac = new PotrosacServis((AutentifikacioniServis)autentifikacija, potrosnja);  
 
-            IZahtjevZaEnergiju zahtjevZaEnergijuGarantovano = new GarantovanoZahtjevServis(snabdijevanjeGarantovano, potrosac);
-            IZahtjevZaEnergiju zahtjevZaEnergijuKomercijalno = new KomercijalnoZahtjevServis(snabdijevanjeKomercijalno, potrosac);
+            // Provera autentifikacije
+            if (!autentifikacija.TryLogin(out Potrosac? potrosac))  
+            {
+                Console.WriteLine("Autentifikacija nije uspela.");
+                return;
+            }
+            IZahtjevZaEnergiju zahtjevZaEnergijuGarantovano = new GarantovanoZahtjevServis(snabdijevanjeGarantovano, potrosacServis);
+            IZahtjevZaEnergiju zahtjevZaEnergijuKomercijalno = new KomercijalnoZahtjevServis(snabdijevanjeKomercijalno, potrosacServis);
 
             IEvidencija evidencijaGarantovano = new EvidencijaServis(TipSnabdijevanja.GARANTOVANO);
             IEvidencija evidencijaKomercijalno = new EvidencijaServis(TipSnabdijevanja.KOMERCIJALNO);
@@ -54,7 +57,7 @@ namespace Application
 
             // Testiranje komercijalnog snabdijevanja
             Console.WriteLine("\nTestiranje komercijalnog snabdijevanja:");
-            var zapis2 = new Zapis(DateTime.Now, 75);  // Postavljeno na 75, treba izmijeniti
+            var zapis2 = new Zapis(DateTime.Now, 75);
             evidencijaKomercijalno.DodajZapis(zapis2);
 
             var zapisi = evidencijaKomercijalno.PregledZapisa();
@@ -63,10 +66,12 @@ namespace Application
             {
                 Console.WriteLine(z);
             }
-
-            var meni = new IspisMeni(potrosac, upravljanjePodsistemimaProizvodnjeGarantovano);
+            // Prikaz menija
+            var meni = new IspisMeni(potrosacServis, upravljanjePodsistemimaProizvodnjeGarantovano);
             meni.PrikaziMeni();
         }
-
     }
 }
+
+
+
