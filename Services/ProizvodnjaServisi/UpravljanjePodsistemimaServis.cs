@@ -7,34 +7,28 @@ namespace Services.ProizvodnjaServisi
     public class UpravljanjePodsistemimaServis : IUpravljanjePodsistemimaProizvodnje
     {
 
-        private static readonly List<PodsistemProizvodnje> _podsistemi = new List<PodsistemProizvodnje>();//static
+        private readonly List<PodsistemProizvodnje> _podsistemi = new List<PodsistemProizvodnje>();
         private readonly IDostupnaKolicinaEnergije _randomGenerator;
-        private readonly ISnabdijevanje _snabdijevanjeServis; // Dodato za smanjenje energije
 
 
         public UpravljanjePodsistemimaServis(IDostupnaKolicinaEnergije randomGenerator, ISnabdijevanje snabdijevanjeServis)
         {
             _randomGenerator = randomGenerator;
-            _snabdijevanjeServis = snabdijevanjeServis;
-            if (!_podsistemi.Any())
+            
+            if (_podsistemi.Count == 0)
             {
                 InicijalizujPodsisteme();
             }
         }
         public void InicijalizujPodsisteme()
         {
-            _podsistemi.Add(new PodsistemProizvodnje("P001", TipProizvodnje.Hidroelektrana, "Lokacija 1", _randomGenerator.Generate(1000, 5000)));
-            _podsistemi.Add(new PodsistemProizvodnje("P002", TipProizvodnje.EcoGreen, "Lokacija 2", _randomGenerator.Generate(1000, 5000)));
-            _podsistemi.Add(new PodsistemProizvodnje("P003", TipProizvodnje.CvrstoGorivo, "Lokacija 3", _randomGenerator.Generate(1000, 5000)));
-            Console.WriteLine("Podsistemi su uspešno inicijalizovani.");
-        }
+            _podsistemi.Add(new PodsistemProizvodnje("PP221-NS1", TipProizvodnje.Hidroelektrana, "Lokacija 1", _randomGenerator.Generate(1000, 9000)));
+            _podsistemi.Add(new PodsistemProizvodnje("PP222-NS2", TipProizvodnje.EcoGreen, "Lokacija 2", _randomGenerator.Generate(1000, 9000)));
+            _podsistemi.Add(new PodsistemProizvodnje("PP223-NS3", TipProizvodnje.CvrstoGorivo, "Lokacija 3", _randomGenerator.Generate(1000, 9000)));
+            _podsistemi.Add(new PodsistemProizvodnje("PP224-NS4", TipProizvodnje.Hidroelektrana, "Lokacija 4", _randomGenerator.Generate(1000, 9000)));
+            _podsistemi.Add(new PodsistemProizvodnje("PP225-NS5", TipProizvodnje.EcoGreen, "Lokacija 5", _randomGenerator.Generate(1000, 9000)));
 
-
-        public void DodajPodsistem(string sifra, TipProizvodnje tip, string lokacija)
-        {
-            double preostalaKolicina = _randomGenerator.Generate(1000, 5000);
-            var podsistem = new PodsistemProizvodnje(sifra, tip, lokacija, preostalaKolicina);
-            _podsistemi.Add(podsistem);
+            Console.WriteLine("Podsistemi su uspješno inicijalizovani.");
         }
 
         public List<PodsistemProizvodnje> DohvatiSvePodsisteme()
@@ -42,17 +36,29 @@ namespace Services.ProizvodnjaServisi
              return _podsistemi;
          }
 
-        public PodsistemProizvodnje NadjiPodsistemSaNajviseEnergije(double potrebnaEnergija)
+        public PodsistemProizvodnje? NadjiPodsistemSaNajviseEnergije(double potrebnaEnergija)
         {
-            return _podsistemi
+            var odgovarajuciPodsistemi = _podsistemi
                 .Where(p => p.PreostalaKolicina >= potrebnaEnergija)
                 .OrderByDescending(p => p.PreostalaKolicina)
-                .FirstOrDefault();
+                .ToList();
+
+            if (odgovarajuciPodsistemi.Any())
+            {
+                Console.WriteLine($"Pronadjen je podsistem sa najviše energije: {odgovarajuciPodsistemi[0].Sifra} sa {odgovarajuciPodsistemi[0].PreostalaKolicina:F2} kW.");
+                return odgovarajuciPodsistemi[0];
+            }
+            else
+            {
+                Console.WriteLine("Nije pronadjen podsistem sa dovoljnom količinom energije.");
+                return null; // Može se vratiti null jer je tip sada nullable
+            }
         }
+
 
         public double DohvatiNajvecuDostupnuEnergiju()
         {
-            if (!_podsistemi.Any()) // Proverava da li ima elemenata u listi
+            if (_podsistemi.Count == 0)
             {
                 Console.WriteLine("Nema dostupnih podsistema.");
                 return 0; 
@@ -60,35 +66,6 @@ namespace Services.ProizvodnjaServisi
             return _podsistemi.Max(p => p.PreostalaKolicina);
         }
 
-        public void SmanjiKolicinuEnergije(PodsistemProizvodnje podsistem, double kolicina)
-        {
-            if (podsistem == null || kolicina <= 0)
-                throw new ArgumentException("Podsistem mora biti validan, a količina pozitivna.");
-
-            podsistem.PreostalaKolicina -= kolicina - (kolicina * 0.02);
-
-            Console.WriteLine($"Količina energije u podsistemu '{podsistem.Sifra}' smanjena za {kolicina:F2} kWh.");
-        }
-        /*
-        public PodsistemProizvodnje OdrediPodsistemZaPotrosaca(double potrebnaEnergija)
-        {
-            // Pronađi podsistem sa najviše dostupne energije
-            var odgovarajuciPodsistem = _podsistemi
-                .OrderByDescending(p => p.PreostalaKolicina)
-                .FirstOrDefault();
-
-            // Ako nema podsistema sa dovoljnim resursima
-            if (odgovarajuciPodsistem == null)
-            {
-                Console.WriteLine("Nema podsistema sa dovoljnom količinom energije.");
-                return null;
-            }
-
-            double smanjenaEnergija = _snabdijevanjeServis.SmanjenjeKolicine(potrebnaEnergija);
-
-
-
-            return;
-        }*/
     }
 }
+

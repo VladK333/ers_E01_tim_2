@@ -1,7 +1,7 @@
 ﻿namespace Domain.Services
 {
-    public interface IZahtjevZaEnergiju
+    public interface IZahtevZaEnergiju
     {
-        void ObradiZahtjev(string potrosacId, double kolicinaEnergije);
+        void ObradiZahtev(string brojUgovora, double zeljenaEnergija);
     }
 }

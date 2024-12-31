@@ -1,77 +1,48 @@
 ﻿using Domain.Enums;
 using Domain.Models;
 using Domain.Services;
+using Presentation.Authentifikacija;
+using Presentation.Meni;
 using Services.AutentifikacioniServisi;
 using Services.EvidencioniServisi;
 using Services.PotrosnjaServisi;
 using Services.ProizvodnjaServisi;
 using Services.SnabdijevanjeServisi;
-using Presentation.Meni;
-namespace Application
+public class Program
 {
-    public class Program
+    public static void Main()
     {
-        public static void Main()
+        IAutentifikacija autentifikacijaServis = new AutentifikacioniServis();
+        IDostupnaKolicinaEnergije dostupnaKolicinaEnergije = new DostupnaKolicinaEnergijeServis();
+
+        IPotrosac potrosacServis = new PotrosacServis();
+
+        // Koristimo Singleton instance servisa za snabdevanje
+        ISnabdijevanje snabdijevanjeGarantovano = GarantovanoServis.Instance;
+        ISnabdijevanje snabdijevanjeKomercijalno = KomercijalnoServis.Instance;
+
+        IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaProizvodnje =
+            new UpravljanjePodsistemimaServis(dostupnaKolicinaEnergije, snabdijevanjeGarantovano);
+
+        IPotrosnja potrosnja = new PotrosnjaServis(upravljanjePodsistemimaProizvodnje);
+
+        var proizvodnjaServis = new ProizvodnjaServis(snabdijevanjeGarantovano, upravljanjePodsistemimaProizvodnje);
+        proizvodnjaServis.ProvjeriIPovecajKolicinu();
+
+        var auth = new AutentifikacijaKorisnika(autentifikacijaServis);
+        if (!auth.TryLogin(out Potrosac potrosac))
         {
-            // Inicijalizacija servisa
-            IAutentifikacija autentifikacija = new AutentifikacioniServis();
-            IDostupnaKolicinaEnergije dostupnaKolicinaEnergije = new DostupnaKolicinaEnergijeServis();
-
-            ISnabdijevanje snabdijevanjeGarantovano = new GarantovanoServis();
-            ISnabdijevanje snabdijevanjeKomercijalno = new KomercijalnoServis();
-
-            IPotrosnja potrosnja = new PotrosnjaServis(snabdijevanjeGarantovano, snabdijevanjeKomercijalno);
-            IPotrosac potrosacServis = new PotrosacServis(autentifikacija); 
-            IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaProizvodnjeGarantovano = new UpravljanjePodsistemimaServis(dostupnaKolicinaEnergije, snabdijevanjeGarantovano);
-            IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaProizvodnjeKomercijalno = new UpravljanjePodsistemimaServis(dostupnaKolicinaEnergije, snabdijevanjeKomercijalno);
-
-            IProizvodnjaEnergije proizvodnjaEnergijeGarantovano = new ProizvodnjaServis(snabdijevanjeGarantovano, upravljanjePodsistemimaProizvodnjeGarantovano);
-            IProizvodnjaEnergije proizvodnjaEnergijeKomercijalno = new ProizvodnjaServis(snabdijevanjeKomercijalno, upravljanjePodsistemimaProizvodnjeKomercijalno);
-
-
-            // Provera autentifikacije
-            if (!autentifikacija.TryLogin(out Potrosac? potrosac))  
-            {
-                Console.WriteLine("Autentifikacija nije uspela.");
-                return;
-            }
-            IZahtjevZaEnergiju zahtjevZaEnergijuGarantovano = new GarantovanoZahtjevServis(snabdijevanjeGarantovano, potrosacServis);
-            IZahtjevZaEnergiju zahtjevZaEnergijuKomercijalno = new KomercijalnoZahtjevServis(snabdijevanjeKomercijalno, potrosacServis);
-
-            IEvidencija evidencijaGarantovano = new EvidencijaServis(TipSnabdijevanja.GARANTOVANO);
-            IEvidencija evidencijaKomercijalno = new EvidencijaServis(TipSnabdijevanja.KOMERCIJALNO);
-
-            // Testiranje garantovanog snabdijevanja
-            Console.WriteLine("Testiranje garantovanog snabdijevanja:");
-            var zapis1 = new Zapis(DateTime.Now, 50);
-            evidencijaGarantovano.DodajZapis(zapis1);
-
-            if (File.Exists("evidencija.txt"))
-            {
-                Console.WriteLine("Datoteka je uspješno kreirana.");
-            }
-            else
-            {
-                Console.WriteLine("Datoteka nije kreirana.");
-            }
-
-            // Testiranje komercijalnog snabdijevanja
-            Console.WriteLine("\nTestiranje komercijalnog snabdijevanja:");
-            var zapis2 = new Zapis(DateTime.Now, 75);
-            evidencijaKomercijalno.DodajZapis(zapis2);
-
-            var zapisi = evidencijaKomercijalno.PregledZapisa();
-            Console.WriteLine("Zapisi u memoriji:");
-            foreach (var z in zapisi)
-            {
-                Console.WriteLine(z);
-            }
-            // Prikaz menija
-            var meni = new IspisMeni(potrosacServis, upravljanjePodsistemimaProizvodnjeGarantovano);
-            meni.PrikaziMeni();
+            Console.WriteLine("Autentifikacija nije uspela.");
+            return;
         }
+
+        IEvidencija evidencijaGarantovano = new EvidencijaServis(TipSnabdijevanja.GARANTOVANO);
+        IEvidencija evidencijaKomercijalno = new EvidencijaServis(TipSnabdijevanja.KOMERCIJALNO);
+
+        IZahtevZaEnergiju zahtevServis = new ZahtevZaEnergijuServis(potrosacServis, upravljanjePodsistemimaProizvodnje, evidencijaGarantovano);
+
+        var meni = new IspisMeni(potrosacServis, upravljanjePodsistemimaProizvodnje, zahtevServis, evidencijaGarantovano);
+        meni.PrikaziMeni();
     }
 }
-
-
 

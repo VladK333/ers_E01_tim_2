@@ -6,6 +6,5 @@ namespace Domain.Services
     {
         (bool, Potrosac) Prijava(string imePrezime, string brUgovora);
 
-        bool TryLogin(out Potrosac potrosac); 
     }
 }

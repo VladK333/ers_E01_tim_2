@@ -1,76 +1,37 @@
-﻿using Domain.Models;
+﻿using Domain.Enums;
+using Domain.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Domain.Services
 {
     public class PotrosacServis : IPotrosac
     {
-        private readonly IAutentifikacija _autentifikacija;  // readonly jer se ne mijenja nakon inicijalizacije
-        private static List<Potrosac> _potrosaci = new List<Potrosac>();  // Lista može da se mijenja
+        private static List<Potrosac> _potrosaci;
 
-        public PotrosacServis(IAutentifikacija autentifikacija)
+        static PotrosacServis()
         {
-            _autentifikacija = autentifikacija;
-        } 
+            _potrosaci = new List<Potrosac>()
+            {
+                new Potrosac("Ana Petrović", "EPS5678K", TipSnabdijevanja.KOMERCIJALNO, 3200.00, 500.30),
+                new Potrosac("Nikola Ilić", "EPS9101K", TipSnabdijevanja.GARANTOVANO, 2500.75, 1500.90),
+                new Potrosac("Jelena Savić", "EPS1123K", TipSnabdijevanja.KOMERCIJALNO, 1800.20, 3000.00)
+            };
+        }
 
         public void DodajPotrosaca(Potrosac potrosac)
         {
-            if (potrosac == null)
-            {
-                Console.WriteLine("Potrosac ne može biti null.");
-                return;
-            }
-
-            if (string.IsNullOrEmpty(potrosac.ImePrezime))
-            {
-                Console.WriteLine("Ime i prezime potrošača je obavezno.");
-                return;
-            }
-
-            if (_potrosaci.Any(p => p.BrUgovora == potrosac.BrUgovora))
-            {
-                Console.WriteLine($"Potrosac sa brojem ugovora {potrosac.BrUgovora} već postoji.");
-            }
-            else
+            if (potrosac != null)
             {
                 _potrosaci.Add(potrosac);
-                Console.WriteLine($"Potrosac {potrosac.ImePrezime} je uspešno dodat.");
             }
         }
 
         public Potrosac PronadjiPotrosaca(string brUgovora)
         {
-            return _potrosaci.FirstOrDefault(p => p.BrUgovora == brUgovora);
-        }
-
-        public void AzurirajPotrosaca(Potrosac potrosac)
-        {
-            var existingPotrosac = PronadjiPotrosaca(potrosac.BrUgovora);
-            if (existingPotrosac != null)
-            {
-                existingPotrosac.ImePrezime = potrosac.ImePrezime;
-                existingPotrosac.Tip_Snabdevanja = potrosac.Tip_Snabdevanja;
-                existingPotrosac.Ukupna_potrosnja_ee = potrosac.Ukupna_potrosnja_ee;
-                existingPotrosac.Trenutno_zaduzenje = potrosac.Trenutno_zaduzenje;
-                Console.WriteLine("Podaci o potrošaču su ažurirani.");
-            }
-            else
-            {
-                Console.WriteLine("Potrošač nije pronađen.");
-            }
-        }
-
-        public void ObrisiPotrosaca(string id)
-        {
-            var potrosac = _potrosaci.FirstOrDefault(p => p.BrUgovora == id);
-            if (potrosac != null)
-            {
-                _potrosaci.Remove(potrosac);
-                Console.WriteLine($"Potrosac sa brojem ugovora {id} je obrisan.");
-            }
-            else
-            {
-                Console.WriteLine("Potrošač nije pronađen.");
-            }
+            var potrosac = _potrosaci.FirstOrDefault(p => p.BrUgovora == brUgovora);
+            return potrosac ?? new Potrosac();  
         }
 
         public List<Potrosac> GetPotrosaci()

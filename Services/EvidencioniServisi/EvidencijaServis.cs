@@ -26,7 +26,6 @@ namespace Services.EvidencioniServisi
                 }
                 else if (_tipSnabdevanja == TipSnabdijevanja.KOMERCIJALNO)
                 {
-                    // Dodavanje u kolekciju
                     _evidencija.Add(zapis);
                 }
             }
@@ -40,7 +39,6 @@ namespace Services.EvidencioniServisi
         {
             if (_tipSnabdevanja == TipSnabdijevanja.GARANTOVANO)
             {
-                // Čitanje iz datoteke
                 try
                 {
                     var linije = File.ReadAllLines(_putanjaDatoteke);
@@ -48,7 +46,6 @@ namespace Services.EvidencioniServisi
 
                     foreach (var linija in linije)
                     {
-                        // Pretpostavka: Parsiranje formata zapisa
                         var delovi = linija.Split(": Izdato je ");
                         if (delovi.Length == 2 &&
                             DateTime.TryParseExact(delovi[0], "dd.MM.yyyy HH:mm", null,
@@ -69,10 +66,9 @@ namespace Services.EvidencioniServisi
             }
             else
             {
-                // Vraćanje zapisa iz memorije
                 return _evidencija;
             }
-        }
-       
+        } 
     }
 }
+   

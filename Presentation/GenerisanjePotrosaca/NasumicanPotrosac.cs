@@ -1,5 +1,9 @@
 ﻿using Domain.Models;
 using Domain.Enums;
+using System;
+using Domain.Services;
+using Services.ProizvodnjaServisi;
+using Services.SnabdijevanjeServisi;
 
 namespace Presentation.GenerisanjePotrosaca
 {
@@ -29,19 +33,33 @@ namespace Presentation.GenerisanjePotrosaca
         {
             return Math.Round(random.NextDouble() * (5000 - 100) + 100, 2);  // Nasumična potrošnja između 100 i 5000 kWh
         }
-
-        private static double GenerisiZaduzenje()
-        {
-            return Math.Round(random.NextDouble() * (10000 - 100) + 100, 2);  // Nasumično zaduženje između 100 i 10,000
-        }
-
-        public static Potrosac GenerisiNasumicanPotrosac()
+        public static Potrosac GenerisiNasumicanPotrosac(IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaServis)
         {
             string imePrezime = imena[random.Next(imena.Length)];
             string brUgovora = GenerisiBrojUgovora();
-            TipSnabdijevanja tipSnabdevanja = tipoviSnabdevanja[random.Next(tipoviSnabdevanja.Length)];
             double ukupnaPotrosnja = GenerisiPotrosnju();
-            double trenutnoZaduzenje = GenerisiZaduzenje();
+
+            var odgovarajuciPodsistem = upravljanjePodsistemimaServis.NadjiPodsistemSaNajviseEnergije(ukupnaPotrosnja);
+            if (odgovarajuciPodsistem == null)
+            {
+                throw new InvalidOperationException("Nema podsistema sa dovoljnom količinom energije za generisanje potrošača.");
+            }
+
+            TipSnabdijevanja tipSnabdevanja = tipoviSnabdevanja[random.Next(tipoviSnabdevanja.Length)];
+            ISnabdijevanje snabdijevanjeServis = tipSnabdevanja == TipSnabdijevanja.GARANTOVANO
+                ? GarantovanoServis.Instance
+                : KomercijalnoServis.Instance;
+
+            double trenutnoZaduzenje = ukupnaPotrosnja * snabdijevanjeServis.CijenaPoKW;
+
+            if (snabdijevanjeServis is GarantovanoServis garantovanoServis)
+            {
+                garantovanoServis.SmanjiKolicinuEnergije(odgovarajuciPodsistem, ukupnaPotrosnja);
+            }
+            else if (snabdijevanjeServis is KomercijalnoServis komercijalnoServis)
+            {
+                komercijalnoServis.SmanjiKolicinuEnergije(odgovarajuciPodsistem, ukupnaPotrosnja);
+            }
 
             return new Potrosac
             {
@@ -53,5 +71,7 @@ namespace Presentation.GenerisanjePotrosaca
                 Trenutno_zaduzenje = trenutnoZaduzenje
             };
         }
+
+
     }
 }

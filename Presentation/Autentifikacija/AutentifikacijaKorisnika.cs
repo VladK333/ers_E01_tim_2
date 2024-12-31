@@ -15,26 +15,26 @@ namespace Presentation.Authentifikacija
         public bool TryLogin(out Potrosac potrosac)
         {
             potrosac = new Potrosac();
-            bool uspesnaPrijava = false;
-            string imePrezime = "", brojUgovora = "";
+            bool uspjesnaPrijava = false;
+            string? ime = "", sifra = "";
 
-            while (!uspesnaPrijava)
+            while (!uspjesnaPrijava)
             {
-                Console.Write("Korisničko ime: ");
-                imePrezime = Console.ReadLine() ?? "";
+                Console.Write("Ime: ");
+                ime = Console.ReadLine() ?? "";
 
-                Console.Write("Broj ugovora: ");
-                brojUgovora = Console.ReadLine() ?? "";
+                Console.Write("Sifra: ");
+                sifra = Console.ReadLine() ?? "";
 
-                (uspesnaPrijava, potrosac) = _autentifikacijaServis.Prijava(imePrezime.Trim(), brojUgovora.Trim());
+                (uspjesnaPrijava, potrosac) = _autentifikacijaServis.Prijava(ime.Trim(), sifra.Trim());
 
-                if (!uspesnaPrijava)
+                if (!uspjesnaPrijava)
                 {
                     Console.WriteLine("Pogrešni podaci, pokušajte ponovo.");
                 }
             }
 
-            return uspesnaPrijava;
+            return uspjesnaPrijava;
         }
     }
 }
