@@ -28,10 +28,10 @@ namespace Presentation.Meni
             bool kraj = false;
             while (!kraj)
             {
-                Console.WriteLine("\n1. Pregled svih potrošača\n" +
-                                    "2. Unos novog potrošača\n" +
-                                    "3. Zahtev za dobijanje električne energije\n" +
-                                    "4. Trenutno zaduženje potrošača\n" +
+                Console.WriteLine("\n1. Pregled svih potrosaca\n" +
+                                    "2. Unos novog potrosaca\n" +
+                                    "3. Zahtev za dobijanje elektricne energije\n" +
+                                    "4. Trenutno zaduzenje potrosaca\n" +
                                     "5. Odjava");
 
                 Console.Write("Opcija: ");
@@ -65,13 +65,13 @@ namespace Presentation.Meni
 
         private void PregledSvihPotrosaca()
         {
-            Console.WriteLine("\n======== PREGLED SVIH POTROŠAČA ========\n");
+            Console.WriteLine("\n======== PREGLED SVIH POTROSACA ========\n");
 
             var potrosaci = _potrosacServis.GetPotrosaci();
 
             if (potrosaci == null || potrosaci.Count == 0)
             {
-                Console.WriteLine("Nema registrovanih potrošača.");
+                Console.WriteLine("Nema registrovanih potrosaca.");
                 return;
             }
 
@@ -90,33 +90,34 @@ namespace Presentation.Meni
             {
                 var nasumicanPotrosac = NasumicanPotrosacGenerator.GenerisiNasumicanPotrosac(_upravljanjePodsistemimaServis);
                 _potrosacServis.DodajPotrosaca(nasumicanPotrosac);
-                _evidencijaServis.DodajZapis(new Zapis(DateTime.Now, nasumicanPotrosac.Ukupna_potrosnja_ee));  // Ako je dodijeljena početna energija
+                //_evidencijaServis.DodajZapis(new Zapis(DateTime.Now, nasumicanPotrosac.Ukupna_potrosnja_ee)); 
 
-                Console.WriteLine("\nPotrošač uspešno dodat nasumičnim generisanjem!");
-                Console.WriteLine($"Detalji potrošača:\n{nasumicanPotrosac}");
+                Console.WriteLine("=======NOVI POTROSAC=======");
+                Console.WriteLine("Potrosac uspesno dodat nasumicnim generisanjem!\n");
+                Console.WriteLine($"Detalji potrosaca:{nasumicanPotrosac}");
             }
             catch (InvalidOperationException ex)
             {
-                Console.WriteLine($"Greška: {ex.Message}");
+                Console.WriteLine($"Greska: {ex.Message}");
             }
         }
 
 
         private void Zahtev()
         {
-            Console.WriteLine("Unesite broj ugovora potrošača koji zahteva energiju: ");
-            string? id = Console.ReadLine();// Dodajemo ? da oznacimo da id moze biti null
+            Console.WriteLine("Unesite id potrosaca koji zahteva energiju: ");
+            string? id = Console.ReadLine();
 
             if (string.IsNullOrEmpty(id)) 
             {
-                Console.WriteLine("Broj ugovora ne može biti prazan.");
+                Console.WriteLine("Id ne moze biti prazan.");
                 return;
             }
 
-            Console.WriteLine("Unesite željenu količinu energije (kWh): ");
+            Console.WriteLine("Unesite zeljenu kolicinu energije (kWh): ");
             if (!double.TryParse(Console.ReadLine(), out double zeljenaEnergija) || zeljenaEnergija <= 0)
             {
-                Console.WriteLine("Unesena količina mora biti validan broj veći od nule.");
+                Console.WriteLine("Unesena kolicina mora biti validan broj veci od nule.");
                 return;
             }
 
@@ -125,12 +126,12 @@ namespace Presentation.Meni
 
         private void TrenutnoZaduzenje()
         {
-            Console.WriteLine("Unesite broj ugovora potrošača: ");
+            Console.WriteLine("Unesite id potrosaca: ");
             string? id = Console.ReadLine();
 
             if (string.IsNullOrEmpty(id)) 
             {
-                Console.WriteLine("Broj ugovora ne može biti prazan.");
+                Console.WriteLine("Id ne moze biti prazan.");
                 return;
             }
 
@@ -138,11 +139,11 @@ namespace Presentation.Meni
 
             if (potrosac == null)
             {
-                Console.WriteLine("Potrošač sa unetim brojem ugovora ne postoji.");
+                Console.WriteLine("Potrosac sa unetim id ne postoji.");
                 return;
             }
 
-            Console.WriteLine($"Trenutno zaduženje za potrošača {id} je: {potrosac.Trenutno_zaduzenje:F2} RSD.");
+            Console.WriteLine($"Trenutno zaduzenje za potrosaca {id} je: {potrosac.Trenutno_zaduzenje:F2} RSD.");
         }
 
     }

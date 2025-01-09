@@ -43,6 +43,7 @@ namespace Services.ProizvodnjaServisi
                 .OrderByDescending(p => p.PreostalaKolicina)
                 .ToList();
 
+            Console.WriteLine("\n===PODSISTEM===");
             if (odgovarajuciPodsistemi.Any())
             {
                 Console.WriteLine($"Pronadjen je podsistem sa najviše energije: {odgovarajuciPodsistemi[0].Sifra} sa {odgovarajuciPodsistemi[0].PreostalaKolicina:F2} kW.");
@@ -53,6 +54,7 @@ namespace Services.ProizvodnjaServisi
                 Console.WriteLine("Nije pronadjen podsistem sa dovoljnom količinom energije.");
                 return null; // Može se vratiti null jer je tip sada nullable
             }
+
         }
 
 

@@ -46,9 +46,7 @@ namespace Presentation.GenerisanjePotrosaca
             }
 
             TipSnabdijevanja tipSnabdevanja = tipoviSnabdevanja[random.Next(tipoviSnabdevanja.Length)];
-            ISnabdijevanje snabdijevanjeServis = tipSnabdevanja == TipSnabdijevanja.GARANTOVANO
-                ? GarantovanoServis.Instance
-                : KomercijalnoServis.Instance;
+            ISnabdijevanje snabdijevanjeServis = tipSnabdevanja == TipSnabdijevanja.GARANTOVANO ? GarantovanoServis.Instance : KomercijalnoServis.Instance;
 
             double trenutnoZaduzenje = ukupnaPotrosnja * snabdijevanjeServis.CijenaPoKW;
 

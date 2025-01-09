@@ -14,8 +14,8 @@ namespace Services.AutentifikacioniServisi
 
             _autentifikacija_potrosaci = new List<Potrosac>
             {
-                new Potrosac("Vladana", "EPS3333K", TipSnabdijevanja.KOMERCIJALNO, 20, 20),
-                new Potrosac("Ivana", "EPS6666K", TipSnabdijevanja.GARANTOVANO, 10, 10),
+                new Potrosac("Vladana", "123", TipSnabdijevanja.KOMERCIJALNO, 20, 20),
+                new Potrosac("Ivana", "123", TipSnabdijevanja.GARANTOVANO, 10, 10),
             };
         }
 

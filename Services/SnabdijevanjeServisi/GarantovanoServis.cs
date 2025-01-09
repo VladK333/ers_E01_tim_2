@@ -36,7 +36,7 @@ namespace Services.SnabdijevanjeServisi
             podsistem.PreostalaKolicina -= kolicinaSaPovecanjem;
 
             Console.WriteLine($"Količina energije u podsistemu '{podsistem.Sifra}' smanjena za {kolicinaSaPovecanjem:F2} kWh.");
-            Console.WriteLine($"Preostala količina: {podsistem.PreostalaKolicina:F2} kWh.");
+            Console.WriteLine($"Preostala količina: {podsistem.PreostalaKolicina:F2} kWh.\n");
         }
 
 

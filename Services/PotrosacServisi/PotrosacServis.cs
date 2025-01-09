@@ -14,9 +14,9 @@ namespace Domain.Services
         {
             _potrosaci = new List<Potrosac>()
             {
-                new Potrosac("Ana Petrović", "EPS5678K", TipSnabdijevanja.KOMERCIJALNO, 3200.00, 500.30),
-                new Potrosac("Nikola Ilić", "EPS9101K", TipSnabdijevanja.GARANTOVANO, 2500.75, 1500.90),
-                new Potrosac("Jelena Savić", "EPS1123K", TipSnabdijevanja.KOMERCIJALNO, 1800.20, 3000.00)
+                new Potrosac("Ana Petrović", "EPS5678K", TipSnabdijevanja.KOMERCIJALNO, 340.00, 14626.8),
+                new Potrosac("Nikola Ilić", "EPS9101K", TipSnabdijevanja.GARANTOVANO, 250.75, 5697.04),
+                new Potrosac("Jelena Savić", "EPS1123K", TipSnabdijevanja.KOMERCIJALNO, 180.20, 7752.2)
             };
         }
 
@@ -28,10 +28,10 @@ namespace Domain.Services
             }
         }
 
-        public Potrosac PronadjiPotrosaca(string brUgovora)
+        public Potrosac? PronadjiPotrosaca(string Id)
         {
-            var potrosac = _potrosaci.FirstOrDefault(p => p.BrUgovora == brUgovora);
-            return potrosac ?? new Potrosac();  
+            var potrosac = _potrosaci.FirstOrDefault(p => p.Id == Id);
+            return potrosac;  
         }
 
         public List<Potrosac> GetPotrosaci()

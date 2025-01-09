@@ -18,29 +18,27 @@ namespace Services.SnabdijevanjeServisi
 
         public void SmanjiKolicinuEnergije(PodsistemProizvodnje podsistem, double kolicina)
         {
-            if (podsistem == null)
-                throw new ArgumentException("Podsistem mora biti validan.");
+            if (podsistem == null || kolicina <= 0)
+            {
+                Console.WriteLine("Podsistem mora biti validan, a kolicina pozitivna.");
+                return;
+            }
 
-            if (kolicina <= 0)
-                throw new ArgumentException("Količina mora biti pozitivna.");
+            double kolicinaSaPovecanjem = kolicina * 1.02;
 
-            double smanjenaKolicina = kolicina * 0.01; 
-            double ukupnaKolicinaZaSmanjenje = kolicina + smanjenaKolicina;
 
             // Provera da li postoji dovoljno energije u podsistemu (uzimajući u obzir 1% smanjenja)
-            if (ukupnaKolicinaZaSmanjenje > podsistem.PreostalaKolicina)
+            if (podsistem.PreostalaKolicina < kolicinaSaPovecanjem)
             {
-                throw new InvalidOperationException("Nema dovoljno energije u podsistemu.");
-            }
-
-            podsistem.PreostalaKolicina -= ukupnaKolicinaZaSmanjenje;
-
-            if (podsistem.PreostalaKolicina < 0)
-            {
+                Console.WriteLine($"Nema dovoljno energije u podsistemu '{podsistem.Sifra}'. Preostala kolicina je {podsistem.PreostalaKolicina:F2} kWh.");
+                // Postavljanje preostale količine na 0, ako nije dovoljno energije
                 podsistem.PreostalaKolicina = 0;
+                return;
             }
+            podsistem.PreostalaKolicina -= kolicinaSaPovecanjem;
 
-            Console.WriteLine($"Količina energije u podsistemu '{podsistem.Sifra}' smanjena za {ukupnaKolicinaZaSmanjenje:F2} kWh (plus 1% zbog nesavršenosti). Preostala količina: {podsistem.PreostalaKolicina:F2} kWh.");
+            Console.WriteLine($"Kolicina energije u podsistemu '{podsistem.Sifra}' smanjena za {kolicinaSaPovecanjem:F2} kWh.");
+            Console.WriteLine($"Preostala kolicina: {podsistem.PreostalaKolicina:F2} kWh.\n");
         }
 
     }

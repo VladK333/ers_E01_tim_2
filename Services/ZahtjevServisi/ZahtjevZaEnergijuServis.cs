@@ -17,19 +17,19 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
         _evidencija = evidencija;
     }
 
-    public void ObradiZahtev(string brojUgovora, double zeljenaEnergija)
+    public void ObradiZahtev(string id, double zeljenaEnergija)
     {
-        var potrosac = _potrosacServis.PronadjiPotrosaca(brojUgovora);
+        var potrosac = _potrosacServis.PronadjiPotrosaca(id);
 
         if (potrosac == null)
         {
-            Console.WriteLine("Potrošač sa unetim brojem ugovora ne postoji.");
+            Console.WriteLine("Potrosac sa unetim id ne postoji.");
             return;
         }
 
         if (zeljenaEnergija <= 0)
         {
-            Console.WriteLine("Unesena količina mora biti validan broj veći od nule.");
+            Console.WriteLine("Unesena kolicina mora biti validan broj veci od nule.");
             return;
         }
 
@@ -57,13 +57,14 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
             var zapis = new Zapis(DateTime.Now, zeljenaEnergija);
             _evidencija.DodajZapis(zapis);
 
-            Console.WriteLine($"Zahtev za energiju uspešno obrađen za potrošača {brojUgovora}.");
-            Console.WriteLine($"Nova ukupna potrošnja: {potrosac.Ukupna_potrosnja_ee:F2} kWh.");
-            Console.WriteLine($"Novo trenutno zaduženje: {potrosac.Trenutno_zaduzenje:F2} RSD.");
+            Console.WriteLine("======ZAHTEV======");
+            Console.WriteLine($"Zahtev za energiju uspešno obradjen za potrosaca {id}.");
+            Console.WriteLine($"Nova ukupna potrosnja: {potrosac.Ukupna_potrosnja_ee:F2} kWh.");
+            Console.WriteLine($"Novo trenutno zaduzenje: {potrosac.Trenutno_zaduzenje:F2} RSD.");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Došlo je do greške prilikom obrade zahteva: {ex.Message}");
+            Console.WriteLine($"Doslo je do greske prilikom obrade zahteva: {ex.Message}");
         }
     }
 }
