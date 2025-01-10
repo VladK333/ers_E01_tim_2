@@ -13,7 +13,7 @@
 
         public override string ToString()
         {
-            return $"{DatumIVreme:dd.MM.yyyy HH:mm}: Izdato je {Kolicina} kW.";
+            return $"{DatumIVreme:dd.MM.yyyy HH:mm:ss} Izdato je {Kolicina} kW.";
         }
     }
 }

@@ -8,13 +8,13 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
 {
     private readonly IPotrosac _potrosacServis;
     private readonly IUpravljanjePodsistemimaProizvodnje _upravljanjePodsistemimaServis;
-    private readonly IEvidencija _evidencija;
+    //private readonly IEvidencija _evidencija;
 
     public ZahtevZaEnergijuServis(IPotrosac potrosacServis, IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaServis, IEvidencija evidencija)
     {
         _potrosacServis = potrosacServis;
         _upravljanjePodsistemimaServis = upravljanjePodsistemimaServis;
-        _evidencija = evidencija;
+       // _evidencija = evidencija;
     }
 
     public void ObradiZahtev(string id, double zeljenaEnergija)
@@ -38,6 +38,8 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
             ? GarantovanoServis.Instance
             : KomercijalnoServis.Instance;
 
+        var evidencija = new EvidencijaServis(potrosac.Tip_Snabdevanja);
+
         try
         {
             var odgovarajuciPodsistem = _upravljanjePodsistemimaServis.NadjiPodsistemSaNajviseEnergije(zeljenaEnergija);
@@ -55,7 +57,7 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
 
             // Dodavanje zapisa u evidenciju
             var zapis = new Zapis(DateTime.Now, zeljenaEnergija);
-            _evidencija.DodajZapis(zapis);
+            evidencija.DodajZapis(zapis);
 
             Console.WriteLine("======ZAHTEV======");
             Console.WriteLine($"Zahtev za energiju uspešno obradjen za potrosaca {id}.");

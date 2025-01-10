@@ -46,9 +46,9 @@ namespace Services.EvidencioniServisi
 
                     foreach (var linija in linije)
                     {
-                        var delovi = linija.Split(": Izdato je ");
+                        var delovi = linija.Split(" Izdato je ");
                         if (delovi.Length == 2 &&
-                            DateTime.TryParseExact(delovi[0], "dd.MM.yyyy HH:mm", null,
+                            DateTime.TryParseExact(delovi[0], "dd.MM.yyyy HH:mm:ss", null,
                                 System.Globalization.DateTimeStyles.None, out var datumIVreme) &&
                             double.TryParse(delovi[1].Replace(" kW.", ""), out var kolicina))
                         {
@@ -60,7 +60,7 @@ namespace Services.EvidencioniServisi
                 }
                 catch (IOException ex)
                 {
-                    Console.WriteLine($"Greška prilikom čitanja zapisa: {ex.Message}");
+                    Console.WriteLine($"Greska prilikom citanja zapisa: {ex.Message}");
                     return Enumerable.Empty<Zapis>();
                 }
             }

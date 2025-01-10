@@ -18,6 +18,8 @@ namespace Presentation.Authentifikacija
             bool uspjesnaPrijava = false;
             string? ime = "", sifra = "";
 
+            Console.WriteLine("==AUTENTIFIKACIJA==");
+
             while (!uspjesnaPrijava)
             {
                 Console.Write("Ime: ");
@@ -30,7 +32,7 @@ namespace Presentation.Authentifikacija
 
                 if (!uspjesnaPrijava)
                 {
-                    Console.WriteLine("Pogrešni podaci, pokušajte ponovo.");
+                    Console.WriteLine("Pogresni podaci, pokusajte ponovo.");
                 }
             }
 

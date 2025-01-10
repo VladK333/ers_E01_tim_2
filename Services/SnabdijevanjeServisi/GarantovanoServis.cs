@@ -6,7 +6,13 @@ namespace Services.SnabdijevanjeServisi
     public class GarantovanoServis : ISnabdijevanje
     {
         private static readonly GarantovanoServis _instance = new GarantovanoServis();
+        //private readonly IProizvodnjaEnergije _proizvodnjaServis;
 
+       /* public GarantovanoServis(IProizvodnjaEnergije proizvodnjaServis)
+        {
+            _proizvodnjaServis = proizvodnjaServis;
+        }
+       */
         private GarantovanoServis() { }
 
         public static GarantovanoServis Instance => _instance;
@@ -20,23 +26,26 @@ namespace Services.SnabdijevanjeServisi
         {
             if (podsistem == null || kolicina <= 0)
             {
-                Console.WriteLine("Podsistem mora biti validan, a količina pozitivna.");
+                Console.WriteLine("Podsistem mora biti validan, a kolicina pozitivna.");
                 return;
             }
 
-            double kolicinaSaPovecanjem = kolicina * 1.02; 
+            double kolicinaSaPovecanjem = kolicina * 1.02;
             if (podsistem.PreostalaKolicina < kolicinaSaPovecanjem)
             {
-                Console.WriteLine($"Nema dovoljno energije u podsistemu '{podsistem.Sifra}'. Preostala količina je {podsistem.PreostalaKolicina:F2} kWh.");
+                // Console.WriteLine($"Nema dovoljno energije u podsistemu '{podsistem.Sifra}'. Preostala kolicina je {podsistem.PreostalaKolicina:F2} kWh.");
                 // Postavljanje preostale količine na 0, ako nije dovoljno energije
                 podsistem.PreostalaKolicina = 0;
-                return;
+                //return;
+            }
+            else
+            {
+                podsistem.PreostalaKolicina -= kolicinaSaPovecanjem;
+                //_proizvodnjaServis.ProvjeriIPovecajKolicinu();
             }
 
-            podsistem.PreostalaKolicina -= kolicinaSaPovecanjem;
-
-            Console.WriteLine($"Količina energije u podsistemu '{podsistem.Sifra}' smanjena za {kolicinaSaPovecanjem:F2} kWh.");
-            Console.WriteLine($"Preostala količina: {podsistem.PreostalaKolicina:F2} kWh.\n");
+            Console.WriteLine($"Kolicina energije u podsistemu '{podsistem.Sifra}' smanjena za {kolicina:F2} kWh + 2% usled nesavrsenosti sistema.");
+            Console.WriteLine($"Preostala kolicina: {podsistem.PreostalaKolicina:F2} kWh.\n");
         }
 
 

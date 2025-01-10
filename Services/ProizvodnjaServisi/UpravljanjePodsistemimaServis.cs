@@ -28,7 +28,7 @@ namespace Services.ProizvodnjaServisi
             _podsistemi.Add(new PodsistemProizvodnje("PP224-NS4", TipProizvodnje.Hidroelektrana, "Lokacija 4", _randomGenerator.Generate(1000, 9000)));
             _podsistemi.Add(new PodsistemProizvodnje("PP225-NS5", TipProizvodnje.EcoGreen, "Lokacija 5", _randomGenerator.Generate(1000, 9000)));
 
-            Console.WriteLine("Podsistemi su uspješno inicijalizovani.");
+            Console.WriteLine("Podsistemi su uspješno inicijalizovani.\n");
         }
 
         public List<PodsistemProizvodnje> DohvatiSvePodsisteme()
@@ -51,7 +51,7 @@ namespace Services.ProizvodnjaServisi
             }
             else
             {
-                Console.WriteLine("Nije pronadjen podsistem sa dovoljnom količinom energije.");
+                Console.WriteLine("Nije pronadjen podsistem sa dovoljnom kolicinom energije.");
                 return null; // Može se vratiti null jer je tip sada nullable
             }
 
