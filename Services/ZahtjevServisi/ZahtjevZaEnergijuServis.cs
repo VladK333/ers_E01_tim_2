@@ -8,17 +8,21 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
 {
     private readonly IPotrosac _potrosacServis;
     private readonly IUpravljanjePodsistemimaProizvodnje _upravljanjePodsistemimaServis;
+    private readonly IProizvodnjaEnergije _proizvodnjaEnergije;
     //private readonly IEvidencija _evidencija;
 
-    public ZahtevZaEnergijuServis(IPotrosac potrosacServis, IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaServis, IEvidencija evidencija)
+    public ZahtevZaEnergijuServis(IPotrosac potrosacServis, IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaServis, IEvidencija evidencija, IProizvodnjaEnergije proizvodnjaEnergije)
     {
         _potrosacServis = potrosacServis;
         _upravljanjePodsistemimaServis = upravljanjePodsistemimaServis;
-       // _evidencija = evidencija;
+        _proizvodnjaEnergije = proizvodnjaEnergije;
+        // _evidencija = evidencija;
     }
 
     public void ObradiZahtev(string id, double zeljenaEnergija)
     {
+        _proizvodnjaEnergije.ProvjeriIPovecajKolicinu();
+
         var potrosac = _potrosacServis.PronadjiPotrosaca(id);
 
         if (potrosac == null)

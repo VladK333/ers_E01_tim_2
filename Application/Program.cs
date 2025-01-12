@@ -35,13 +35,13 @@ public class Program
             Console.WriteLine("Autentifikacija nije uspela.");
             return;
         }
-
+        
         IEvidencija evidencijaGarantovano = new EvidencijaServis(TipSnabdijevanja.GARANTOVANO);
         IEvidencija evidencijaKomercijalno = new EvidencijaServis(TipSnabdijevanja.KOMERCIJALNO);
 
-        IZahtevZaEnergiju zahtevServis = new ZahtevZaEnergijuServis(potrosacServis, upravljanjePodsistemimaProizvodnje, evidencijaGarantovano);
+        IZahtevZaEnergiju zahtevServis = new ZahtevZaEnergijuServis(potrosacServis, upravljanjePodsistemimaProizvodnje, evidencijaGarantovano, proizvodnjaServis);
 
-        var meni = new IspisMeni(potrosacServis, upravljanjePodsistemimaProizvodnje, zahtevServis, evidencijaGarantovano);
+        var meni = new IspisMeni(potrosacServis, upravljanjePodsistemimaProizvodnje, zahtevServis, evidencijaGarantovano, proizvodnjaServis);
         meni.PrikaziMeni();
     }
 }

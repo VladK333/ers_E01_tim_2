@@ -13,14 +13,15 @@ namespace Presentation.Meni
         private readonly IPotrosac _potrosacServis;
         private readonly IUpravljanjePodsistemimaProizvodnje _upravljanjePodsistemimaServis;
         private readonly IZahtevZaEnergiju _zahtjevServis;
-        private readonly IEvidencija _evidencijaServis; 
-
-        public IspisMeni(IPotrosac potrosacServis, IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaServis, IZahtevZaEnergiju zahtjevServis, IEvidencija evidencijaServis)
+        private readonly IEvidencija _evidencijaServis;
+        private readonly IProizvodnjaEnergije _proizvodnjaEnergije;
+        public IspisMeni(IPotrosac potrosacServis, IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaServis, IZahtevZaEnergiju zahtjevServis, IEvidencija evidencijaServis, IProizvodnjaEnergije proizvodnjaEnergije)
         {
             _potrosacServis = potrosacServis;
             _upravljanjePodsistemimaServis = upravljanjePodsistemimaServis;
             _zahtjevServis = zahtjevServis;
             _evidencijaServis = evidencijaServis;
+            _proizvodnjaEnergije = proizvodnjaEnergije;
         }
 
         public void PrikaziMeni()
@@ -86,6 +87,8 @@ namespace Presentation.Meni
         
         private void UnosNovogPotrosaca()
         {
+            _proizvodnjaEnergije.ProvjeriIPovecajKolicinu();
+
             try
             {
                 var nasumicanPotrosac = NasumicanPotrosacGenerator.GenerisiNasumicanPotrosac(_upravljanjePodsistemimaServis);
