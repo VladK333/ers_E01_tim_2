@@ -1,13 +1,13 @@
-﻿using Domain.Enums;
-using Domain.Models;
+﻿using Domain.Models;
+using Domain.Repositories.PodsistemPotrosnjeRepozitorijum;
+using Domain.Repositories.PodsistemProizvodnjeRepozitorijum;
+using Domain.Repositories.PotrosacRepozitorijum;
 using Domain.Services;
 using Presentation.Authentifikacija;
 using Presentation.Meni;
 using Services.AutentifikacioniServisi;
-using Services.EvidencioniServisi;
-using Services.PotrosnjaServisi;
+using Services.PodsistemPotrosnjeServisi;
 using Services.ProizvodnjaServisi;
-using Services.SnabdijevanjeServisi;
 public class Program
 {
     public static void Main()
@@ -15,33 +15,30 @@ public class Program
         IAutentifikacija autentifikacijaServis = new AutentifikacioniServis();
         IDostupnaKolicinaEnergije dostupnaKolicinaEnergije = new DostupnaKolicinaEnergijeServis();
 
-        IPotrosac potrosacServis = new PotrosacServis();
+        IProizvodnjaRepozitorijum proizvodnjaRepozitorijum = new ProizvodnjaRepozitorijum(dostupnaKolicinaEnergije);
+        IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaProizvodnje = new UpravljanjePodsistemimaServis(proizvodnjaRepozitorijum);
 
-        // Koristimo Singleton instance servisa za snabdevanje
-        ISnabdijevanje snabdijevanjeGarantovano = GarantovanoServis.Instance;
-        ISnabdijevanje snabdijevanjeKomercijalno = KomercijalnoServis.Instance;
+        IPotrosacRepozitorijum repozitorijum = new PotrosacRepozitorijum();
+        PotrosacServis potrosacServis = new(repozitorijum);
 
-        IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaProizvodnje =
-            new UpravljanjePodsistemimaServis(dostupnaKolicinaEnergije, snabdijevanjeGarantovano);
+        IPotrosnjaRepozitorijum potrosnjaRepozitorijum = new PotrosnjaRepozitorijum(repozitorijum);
+        IUpravljanjePodsistemimaPotrosnje upravljanjePodsistemimaPotrosnje = new UpravljanjePodsistemimaPotrosnjeServis(potrosnjaRepozitorijum);
 
-        IPotrosnja potrosnja = new PotrosnjaServis(upravljanjePodsistemimaProizvodnje);
-
-        var proizvodnjaServis = new ProizvodnjaServis(snabdijevanjeGarantovano, upravljanjePodsistemimaProizvodnje);
+        IProizvodnjaEnergije proizvodnjaServis = new ProizvodnjaServis(upravljanjePodsistemimaProizvodnje);
         proizvodnjaServis.ProvjeriIPovecajKolicinu();
 
+        IZahtevZaEnergiju zahtevServis = new ZahtevZaEnergijuServis(upravljanjePodsistemimaPotrosnje, upravljanjePodsistemimaProizvodnje, proizvodnjaServis);
+
         var auth = new AutentifikacijaKorisnika(autentifikacijaServis);
+
         if (!auth.TryLogin(out Potrosac potrosac))
         {
             Console.WriteLine("Autentifikacija nije uspela.");
             return;
         }
-        
-        IEvidencija evidencijaGarantovano = new EvidencijaServis(TipSnabdijevanja.GARANTOVANO);
-        IEvidencija evidencijaKomercijalno = new EvidencijaServis(TipSnabdijevanja.KOMERCIJALNO);
 
-        IZahtevZaEnergiju zahtevServis = new ZahtevZaEnergijuServis(potrosacServis, upravljanjePodsistemimaProizvodnje, evidencijaGarantovano, proizvodnjaServis);
+        var meni = new IspisMeni(potrosacServis, upravljanjePodsistemimaProizvodnje, zahtevServis, proizvodnjaServis);
 
-        var meni = new IspisMeni(potrosacServis, upravljanjePodsistemimaProizvodnje, zahtevServis, evidencijaGarantovano, proizvodnjaServis);
         meni.PrikaziMeni();
     }
 }

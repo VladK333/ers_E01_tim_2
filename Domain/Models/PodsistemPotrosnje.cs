@@ -7,11 +7,11 @@
 
         public string SifraPotrosnje { get; set; } = string.Empty;
 
-        public PodsistemPotrosnje(string nazivPodsistema, string sifra_Potrosnje)
+        public PodsistemPotrosnje(string nazivPodsistema, string sifra_Potrosnje, List<Potrosac> potrosaci)
         {
             NazivPodsistema = nazivPodsistema;
             SifraPotrosnje = sifra_Potrosnje;
-            Potrosaci = [];
+            Potrosaci = potrosaci;
         }
 
         public override string? ToString()

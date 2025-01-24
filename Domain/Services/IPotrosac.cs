@@ -1,12 +1,11 @@
 ﻿using Domain.Models;
-using System.Collections.Generic;
 
 namespace Domain.Services
 {
     public interface IPotrosac
     {
         void DodajPotrosaca(Potrosac potrosac);
-        Potrosac PronadjiPotrosaca(string brUgovora); 
+        Potrosac? PronadjiPotrosaca(string brUgovora); 
         List<Potrosac> GetPotrosaci(); 
     }
 }

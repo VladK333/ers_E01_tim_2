@@ -1,8 +1,6 @@
-﻿using Domain.Models;
-using Domain.Enums;
-using System;
+﻿using Domain.Enums;
+using Domain.Models;
 using Domain.Services;
-using Services.ProizvodnjaServisi;
 using Services.SnabdijevanjeServisi;
 
 namespace Presentation.GenerisanjePotrosaca

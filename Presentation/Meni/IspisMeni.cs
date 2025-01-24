@@ -1,10 +1,5 @@
-﻿using Domain.Enums;
-using Domain.Models;
-using Domain.Services;
-using Services.SnabdijevanjeServisi;
-using Services.ProizvodnjaServisi;
+﻿using Domain.Services;
 using Presentation.GenerisanjePotrosaca;
-using Services.EvidencioniServisi;
 
 namespace Presentation.Meni
 {
@@ -13,14 +8,12 @@ namespace Presentation.Meni
         private readonly IPotrosac _potrosacServis;
         private readonly IUpravljanjePodsistemimaProizvodnje _upravljanjePodsistemimaServis;
         private readonly IZahtevZaEnergiju _zahtjevServis;
-        private readonly IEvidencija _evidencijaServis;
         private readonly IProizvodnjaEnergije _proizvodnjaEnergije;
-        public IspisMeni(IPotrosac potrosacServis, IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaServis, IZahtevZaEnergiju zahtjevServis, IEvidencija evidencijaServis, IProizvodnjaEnergije proizvodnjaEnergije)
+        public IspisMeni(IPotrosac potrosacServis, IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaServis, IZahtevZaEnergiju zahtjevServis, IProizvodnjaEnergije proizvodnjaEnergije)
         {
             _potrosacServis = potrosacServis;
             _upravljanjePodsistemimaServis = upravljanjePodsistemimaServis;
             _zahtjevServis = zahtjevServis;
-            _evidencijaServis = evidencijaServis;
             _proizvodnjaEnergije = proizvodnjaEnergije;
         }
 
@@ -93,7 +86,6 @@ namespace Presentation.Meni
             {
                 var nasumicanPotrosac = NasumicanPotrosacGenerator.GenerisiNasumicanPotrosac(_upravljanjePodsistemimaServis);
                 _potrosacServis.DodajPotrosaca(nasumicanPotrosac);
-                //_evidencijaServis.DodajZapis(new Zapis(DateTime.Now, nasumicanPotrosac.Ukupna_potrosnja_ee)); 
 
                 Console.WriteLine("=======NOVI POTROSAC=======");
                 Console.WriteLine("Potrosac uspesno dodat nasumicnim generisanjem!\n");

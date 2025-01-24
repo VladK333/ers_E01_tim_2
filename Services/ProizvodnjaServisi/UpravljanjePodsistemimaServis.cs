@@ -1,5 +1,5 @@
-﻿using Domain.Enums;
-using Domain.Models;
+﻿using Domain.Models;
+using Domain.Repositories.PodsistemProizvodnjeRepozitorijum;
 using Domain.Services;
 
 namespace Services.ProizvodnjaServisi
@@ -7,38 +7,22 @@ namespace Services.ProizvodnjaServisi
     public class UpravljanjePodsistemimaServis : IUpravljanjePodsistemimaProizvodnje
     {
 
-        private readonly List<PodsistemProizvodnje> _podsistemi = new List<PodsistemProizvodnje>();
-        private readonly IDostupnaKolicinaEnergije _randomGenerator;
+        private readonly IProizvodnjaRepozitorijum _proizvodnjaRepozitorijum;
 
 
-        public UpravljanjePodsistemimaServis(IDostupnaKolicinaEnergije randomGenerator, ISnabdijevanje snabdijevanjeServis)
+        public UpravljanjePodsistemimaServis(IProizvodnjaRepozitorijum proizvodnjaRepozitorijum)
         {
-            _randomGenerator = randomGenerator;
-            
-            if (_podsistemi.Count == 0)
-            {
-                InicijalizujPodsisteme();
-            }
+            _proizvodnjaRepozitorijum = proizvodnjaRepozitorijum;
         }
-        public void InicijalizujPodsisteme()
-        {
-            _podsistemi.Add(new PodsistemProizvodnje("PP221-NS1", TipProizvodnje.Hidroelektrana, "Lokacija 1", _randomGenerator.Generate(1000, 9000)));
-            _podsistemi.Add(new PodsistemProizvodnje("PP222-NS2", TipProizvodnje.EcoGreen, "Lokacija 2", _randomGenerator.Generate(1000, 9000)));
-            _podsistemi.Add(new PodsistemProizvodnje("PP223-NS3", TipProizvodnje.CvrstoGorivo, "Lokacija 3", _randomGenerator.Generate(1000, 9000)));
-            _podsistemi.Add(new PodsistemProizvodnje("PP224-NS4", TipProizvodnje.Hidroelektrana, "Lokacija 4", _randomGenerator.Generate(1000, 9000)));
-            _podsistemi.Add(new PodsistemProizvodnje("PP225-NS5", TipProizvodnje.EcoGreen, "Lokacija 5", _randomGenerator.Generate(1000, 9000)));
-
-            Console.WriteLine("Podsistemi su uspješno inicijalizovani.\n");
-        }
-
+      
         public List<PodsistemProizvodnje> DohvatiSvePodsisteme()
-         {
-             return _podsistemi;
-         }
+        {
+            return _proizvodnjaRepozitorijum.DohvatiSvePodsisteme();
+        }
 
         public PodsistemProizvodnje? NadjiPodsistemSaNajviseEnergije(double potrebnaEnergija)
         {
-            var odgovarajuciPodsistemi = _podsistemi
+            var odgovarajuciPodsistemi = _proizvodnjaRepozitorijum.DohvatiSvePodsisteme()
                 .Where(p => p.PreostalaKolicina >= potrebnaEnergija)
                 .OrderByDescending(p => p.PreostalaKolicina)
                 .ToList();
@@ -57,17 +41,16 @@ namespace Services.ProizvodnjaServisi
 
         }
 
-
         public double DohvatiNajvecuDostupnuEnergiju()
         {
-            if (_podsistemi.Count == 0)
+            var podsistemi = _proizvodnjaRepozitorijum.DohvatiSvePodsisteme();
+            if (!podsistemi.Any())
             {
                 Console.WriteLine("Nema dostupnih podsistema.");
-                return 0; 
+                return 0;
             }
-            return _podsistemi.Max(p => p.PreostalaKolicina);
+            return podsistemi.Max(p => p.PreostalaKolicina);
         }
-
     }
 }
 

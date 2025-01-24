@@ -6,24 +6,22 @@ using Services.SnabdijevanjeServisi;
 
 public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
 {
-    private readonly IPotrosac _potrosacServis;
+    private readonly IUpravljanjePodsistemimaPotrosnje _upravljanjePodsistemimaPotrosnje;
     private readonly IUpravljanjePodsistemimaProizvodnje _upravljanjePodsistemimaServis;
     private readonly IProizvodnjaEnergije _proizvodnjaEnergije;
-    //private readonly IEvidencija _evidencija;
 
-    public ZahtevZaEnergijuServis(IPotrosac potrosacServis, IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaServis, IEvidencija evidencija, IProizvodnjaEnergije proizvodnjaEnergije)
+    public ZahtevZaEnergijuServis(IUpravljanjePodsistemimaPotrosnje upravljanjePodsistemimaPotrosnje, IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaServis, IProizvodnjaEnergije proizvodnjaEnergije)
     {
-        _potrosacServis = potrosacServis;
+        _upravljanjePodsistemimaPotrosnje = upravljanjePodsistemimaPotrosnje;
         _upravljanjePodsistemimaServis = upravljanjePodsistemimaServis;
         _proizvodnjaEnergije = proizvodnjaEnergije;
-        // _evidencija = evidencija;
     }
 
     public void ObradiZahtev(string id, double zeljenaEnergija)
     {
         _proizvodnjaEnergije.ProvjeriIPovecajKolicinu();
 
-        var potrosac = _potrosacServis.PronadjiPotrosaca(id);
+        var potrosac = _upravljanjePodsistemimaPotrosnje.PronadjiPotrosaca(id);//potrosac se trazi u listi aktivnih potrosaca 
 
         if (potrosac == null)
         {
@@ -55,11 +53,9 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
             }
 
             snabdijevanjeServis.SmanjiKolicinuEnergije(odgovarajuciPodsistem, zeljenaEnergija);
-
             potrosac.Ukupna_potrosnja_ee += zeljenaEnergija;
             potrosac.Trenutno_zaduzenje += zeljenaEnergija * snabdijevanjeServis.CijenaPoKW;
 
-            // Dodavanje zapisa u evidenciju
             var zapis = new Zapis(DateTime.Now, zeljenaEnergija);
             evidencija.DodajZapis(zapis);
 

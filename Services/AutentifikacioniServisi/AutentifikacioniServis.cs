@@ -1,7 +1,6 @@
 ﻿using Domain.Enums;
 using Domain.Models;
 using Domain.Services;
-using System.Linq;
 
 namespace Services.AutentifikacioniServisi
 {

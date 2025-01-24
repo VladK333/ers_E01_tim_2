@@ -26,14 +26,9 @@ namespace Services.SnabdijevanjeServisi
 
             double kolicinaSaPovecanjem = kolicina * 1.01;
 
-
-            // Provera da li postoji dovoljno energije u podsistemu (uzimajući u obzir 1% smanjenja)
             if (podsistem.PreostalaKolicina < kolicinaSaPovecanjem)
             {
-                //Console.WriteLine($"Nema dovoljno energije u podsistemu '{podsistem.Sifra}'. Preostala kolicina je {podsistem.PreostalaKolicina:F2} kWh.");
-                // Postavljanje preostale količine na 0, ako nije dovoljno energije
                 podsistem.PreostalaKolicina = 0;
-                //return;
             }
             podsistem.PreostalaKolicina -= kolicinaSaPovecanjem;
 
