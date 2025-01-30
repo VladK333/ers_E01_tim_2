@@ -21,7 +21,7 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
     {
         var potrosac = _upravljanjePodsistemimaPotrosnje.PronadjiPotrosaca(id);//potrosac se trazi u listi aktivnih potrosaca 
 
-        _proizvodnjaEnergije.ProvjeriIPovecajKolicinu(potrosac.Tip_Snabdevanja);
+       // _proizvodnjaEnergije.ProvjeriIPovecajKolicinu(potrosac.Tip_Snabdevanja);
 
         if (potrosac == null)
         {
