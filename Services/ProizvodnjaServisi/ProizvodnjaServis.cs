@@ -1,4 +1,5 @@
-﻿using Domain.Services;
+﻿using Domain.Enums;
+using Domain.Services;
 using Services.SnabdijevanjeServisi;
 
 namespace Services.ProizvodnjaServisi
@@ -12,7 +13,7 @@ namespace Services.ProizvodnjaServisi
             _upravljanjePodsistemima = upravljanjePodsistemima;
         }
 
-        public void ProvjeriIPovecajKolicinu()
+        public void ProvjeriIPovecajKolicinu(TipSnabdijevanja tipSnabdijevanja)
         {
             var podsistemi = _upravljanjePodsistemima.DohvatiSvePodsisteme();
 
@@ -22,14 +23,14 @@ namespace Services.ProizvodnjaServisi
                 {
                     double prethodnaKolicina = podsistem.PreostalaKolicina;
 
-                    if (GarantovanoServis.Instance != null)
+                    if (tipSnabdijevanja == TipSnabdijevanja.GARANTOVANO)
                     {
                         podsistem.PreostalaKolicina *= 1.22;
                         Console.WriteLine($"[GARANTOVANO] Podsistem '{podsistem.Sifra}' imao je {prethodnaKolicina:F2} kWh. " +
                                           $"Povecano na {podsistem.PreostalaKolicina:F2} kWh " +
                                           $"(povecanje za {podsistem.PreostalaKolicina - prethodnaKolicina:F2} kWh).");
                     }
-                    else if (KomercijalnoServis.Instance != null)
+                    else if (tipSnabdijevanja == TipSnabdijevanja.KOMERCIJALNO)
                     {
                         podsistem.PreostalaKolicina *= 1.14;
                         Console.WriteLine($"[KOMERCIJALNO] Podsistem '{podsistem.Sifra}' imao je {prethodnaKolicina:F2} kWh. " +

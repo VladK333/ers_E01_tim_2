@@ -80,12 +80,12 @@ namespace Presentation.Meni
         
         private void UnosNovogPotrosaca()
         {
-            _proizvodnjaEnergije.ProvjeriIPovecajKolicinu();
-
             try
             {
                 var nasumicanPotrosac = NasumicanPotrosacGenerator.GenerisiNasumicanPotrosac(_upravljanjePodsistemimaServis);
                 _potrosacServis.DodajPotrosaca(nasumicanPotrosac);
+
+                _proizvodnjaEnergije.ProvjeriIPovecajKolicinu(nasumicanPotrosac.Tip_Snabdevanja);
 
                 Console.WriteLine("=======NOVI POTROSAC=======");
                 Console.WriteLine("Potrosac uspesno dodat nasumicnim generisanjem!\n");

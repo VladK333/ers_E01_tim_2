@@ -19,9 +19,9 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
 
     public void ObradiZahtev(string id, double zeljenaEnergija)
     {
-        _proizvodnjaEnergije.ProvjeriIPovecajKolicinu();
-
         var potrosac = _upravljanjePodsistemimaPotrosnje.PronadjiPotrosaca(id);//potrosac se trazi u listi aktivnih potrosaca 
+
+        _proizvodnjaEnergije.ProvjeriIPovecajKolicinu(potrosac.Tip_Snabdevanja);
 
         if (potrosac == null)
         {
@@ -34,6 +34,8 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
             Console.WriteLine("Unesena kolicina mora biti validan broj veci od nule.");
             return;
         }
+
+        _proizvodnjaEnergije.ProvjeriIPovecajKolicinu(potrosac.Tip_Snabdevanja);
 
         //Singleton instance za snabdijevanje
         ISnabdijevanje snabdijevanjeServis = potrosac.Tip_Snabdevanja == TipSnabdijevanja.GARANTOVANO

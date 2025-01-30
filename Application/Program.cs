@@ -19,13 +19,12 @@ public class Program
         IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaProizvodnje = new UpravljanjePodsistemimaServis(proizvodnjaRepozitorijum);
 
         IPotrosacRepozitorijum repozitorijum = new PotrosacRepozitorijum();
-        PotrosacServis potrosacServis = new(repozitorijum);
+        IPotrosac potrosacServis = new PotrosacServis(repozitorijum);
 
         IPotrosnjaRepozitorijum potrosnjaRepozitorijum = new PotrosnjaRepozitorijum(repozitorijum);
         IUpravljanjePodsistemimaPotrosnje upravljanjePodsistemimaPotrosnje = new UpravljanjePodsistemimaPotrosnjeServis(potrosnjaRepozitorijum);
 
         IProizvodnjaEnergije proizvodnjaServis = new ProizvodnjaServis(upravljanjePodsistemimaProizvodnje);
-        proizvodnjaServis.ProvjeriIPovecajKolicinu();
 
         IZahtevZaEnergiju zahtevServis = new ZahtevZaEnergijuServis(upravljanjePodsistemimaPotrosnje, upravljanjePodsistemimaProizvodnje, proizvodnjaServis);
 
