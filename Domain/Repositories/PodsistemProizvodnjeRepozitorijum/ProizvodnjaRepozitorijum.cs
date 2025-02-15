@@ -1,6 +1,7 @@
 ﻿using Domain.Enums;
 using Domain.Models;
-using Domain.Services;
+using Domain.PomocneMetode.DostupnaKolicinaEnergije;
+//using Domain.Services;
 
 namespace Domain.Repositories.PodsistemProizvodnjeRepozitorijum
 {

@@ -13,8 +13,8 @@ namespace Presentation.GenerisanjePotrosaca
         // Niz sa primjerima imena i prezimena
         private static readonly string[] imena =
         {
-            "Marko Jovanović", "Ana Petrović", "Nikola Ilić", "Jelena Savić", "Milan Novaković","Ivana Ivanović", "Petar Petrović",
-            "Jovana Kovačević", "Maja Milenković", "Stefan Jovanović", "Vanja Popović", "Nina Tadić", "Luka Jokić", "Tanja Ilić", "Katarina Marković"
+            "Marko Jovanovic", "Ana Petrovic", "Nikola Ilic", "Jelena Savic", "Milan Novakovic", "Ivana Ivanovic", "Petar Petrovic",
+            "Jovana Kovačevic", "Maja Milenkovic", "Stefan Jovanovic", "Vanja Popovic", "Nina Tadic", "Luka Jokic", "Tanja Ilic", "Katarina Markovic"
         };
 
         private static readonly TipSnabdijevanja[] tipoviSnabdevanja =
@@ -42,7 +42,7 @@ namespace Presentation.GenerisanjePotrosaca
             var odgovarajuciPodsistem = upravljanjePodsistemimaServis.NadjiPodsistemSaNajviseEnergije(ukupnaPotrosnja);
             if (odgovarajuciPodsistem == null)
             {
-                throw new InvalidOperationException("Nema podsistema sa dovoljnom količinom energije za generisanje potrošača.");
+                throw new InvalidOperationException("Nema podsistema sa dovoljnom kolicinom energije za generisanje potrosaca.");
             }
 
             TipSnabdijevanja tipSnabdevanja = tipoviSnabdevanja[random.Next(tipoviSnabdevanja.Length)];
