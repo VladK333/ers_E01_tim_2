@@ -1,18 +1,20 @@
 ﻿using Domain.Enums;
 using Domain.Models;
+using Domain.Repositories.EvidencijaRepozitorijum;
 using Domain.Services;
 
 namespace Services.EvidencioniServisi
 {
     public class EvidencijaServis : IEvidencija
     {
-        private static readonly List<Zapis> _evidencija = [];
+        private readonly IEvidencijaRepozitorijum _evidencijaRepozitorijum;   //U REPOZITORIJUM
         private readonly string _putanjaDatoteke;
         private readonly TipSnabdijevanja _tipSnabdevanja;
 
-        public EvidencijaServis(TipSnabdijevanja tipSnabdevanja, string? putanjaDatoteke = null)
+        public EvidencijaServis(TipSnabdijevanja tipSnabdevanja, IEvidencijaRepozitorijum evidencijaRepozitorijum, string? putanjaDatoteke = null)
         {
             _tipSnabdevanja = tipSnabdevanja;
+            _evidencijaRepozitorijum = evidencijaRepozitorijum;
             _putanjaDatoteke = putanjaDatoteke ?? "evidencija.txt";
         }
 
@@ -26,12 +28,12 @@ namespace Services.EvidencioniServisi
                 }
                 else if (_tipSnabdevanja == TipSnabdijevanja.KOMERCIJALNO)
                 {
-                    _evidencija.Add(zapis);
+                    _evidencijaRepozitorijum.DodajZapis(zapis);
                 }
             }
             catch (IOException ex)
             {
-                Console.WriteLine($"Greška prilikom dodavanja zapisa: {ex.Message}");
+                Console.WriteLine($"Greska prilikom dodavanja zapisa: {ex.Message}");
             }
         }
 
@@ -66,7 +68,7 @@ namespace Services.EvidencioniServisi
             }
             else
             {
-                return _evidencija;
+                return _evidencijaRepozitorijum.PregledZapisa();
             }
         } 
     }

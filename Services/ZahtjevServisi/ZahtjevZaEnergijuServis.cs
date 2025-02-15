@@ -10,12 +10,14 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
     private readonly IUpravljanjePodsistemimaPotrosnje _upravljanjePodsistemimaPotrosnje;
     private readonly IUpravljanjePodsistemimaProizvodnje _upravljanjePodsistemimaServis;
     private readonly IProizvodnjaEnergije _proizvodnjaEnergije;
+    private readonly IEvidencija _evidencija;
 
-    public ZahtevZaEnergijuServis(IUpravljanjePodsistemimaPotrosnje upravljanjePodsistemimaPotrosnje, IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaServis, IProizvodnjaEnergije proizvodnjaEnergije)
+    public ZahtevZaEnergijuServis(IUpravljanjePodsistemimaPotrosnje upravljanjePodsistemimaPotrosnje, IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaServis, IProizvodnjaEnergije proizvodnjaEnergije, IEvidencija evidencija)
     {
         _upravljanjePodsistemimaPotrosnje = upravljanjePodsistemimaPotrosnje;
         _upravljanjePodsistemimaServis = upravljanjePodsistemimaServis;
         _proizvodnjaEnergije = proizvodnjaEnergije;
+        _evidencija = evidencija;
     }
 
     public void ObradiZahtev(string id, double zeljenaEnergija)
@@ -43,8 +45,6 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
             ? GarantovanoServis.Instance
             : KomercijalnoServis.Instance;
 
-        var evidencija = new EvidencijaServis(potrosac.Tip_Snabdevanja);
-
         try
         {
             var odgovarajuciPodsistem = _upravljanjePodsistemimaServis.NadjiPodsistemSaNajviseEnergije(zeljenaEnergija);
@@ -68,7 +68,7 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
             }
 
             var zapis = new Zapis(DateTime.Now, zeljenaEnergija);
-            evidencija.DodajZapis(zapis);
+            _evidencija.DodajZapis(zapis);
 
             Console.WriteLine("======ZAHTEV======");
             Console.WriteLine($"Zahtev za energiju uspešno obradjen za potrosaca {id}.");

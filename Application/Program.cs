@@ -1,6 +1,8 @@
-﻿using Domain.Models;
+﻿using Domain.Enums;
+using Domain.Models;
 using Domain.PomocneMetode.DostupnaKolicinaEnergije;
 using Domain.Repositories.AutentifikacijaRepozitorijum;
+using Domain.Repositories.EvidencijaRepozitorijum;
 using Domain.Repositories.PodsistemPotrosnjeRepozitorijum;
 using Domain.Repositories.PodsistemProizvodnjeRepozitorijum;
 using Domain.Repositories.PotrosacRepozitorijum;
@@ -8,6 +10,7 @@ using Domain.Services;
 using Presentation.Authentifikacija;
 using Presentation.Meni;
 using Services.AutentifikacioniServisi;
+using Services.EvidencioniServisi;
 using Services.PodsistemPotrosnjeServisi;
 using Services.ProizvodnjaServisi;
 public class Program
@@ -16,8 +19,8 @@ public class Program
     {
         IAutentifikacijaRepozitorijum autentifikacijaRepozitorijum = new AutentifikacijaRepozitorijum();
         IAutentifikacija autentifikacijaServis = new AutentifikacioniServis(autentifikacijaRepozitorijum);
+       
         IDostupnaKolicinaEnergije dostupnaKolicinaEnergije = new DostupnaKolicinaEnergije();
-
         IProizvodnjaRepozitorijum proizvodnjaRepozitorijum = new ProizvodnjaRepozitorijum(dostupnaKolicinaEnergije);
         IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaProizvodnje = new UpravljanjePodsistemimaServis(proizvodnjaRepozitorijum);
 
@@ -27,10 +30,12 @@ public class Program
         IPotrosnjaRepozitorijum potrosnjaRepozitorijum = new PotrosnjaRepozitorijum(repozitorijum);
         IUpravljanjePodsistemimaPotrosnje upravljanjePodsistemimaPotrosnje = new UpravljanjePodsistemimaPotrosnjeServis(potrosnjaRepozitorijum);
 
+        IEvidencijaRepozitorijum evidencijaRepozitorijum = new EvidencijaRepozitorijum();
+        IEvidencija evidencijaServis = new EvidencijaServis(TipSnabdijevanja.KOMERCIJALNO, evidencijaRepozitorijum);
+
         IProizvodnjaEnergije proizvodnjaServis = new ProizvodnjaServis(upravljanjePodsistemimaProizvodnje);
 
-        IZahtevZaEnergiju zahtevServis = new ZahtevZaEnergijuServis(upravljanjePodsistemimaPotrosnje, upravljanjePodsistemimaProizvodnje, proizvodnjaServis);
-
+        IZahtevZaEnergiju zahtevServis = new ZahtevZaEnergijuServis(upravljanjePodsistemimaPotrosnje, upravljanjePodsistemimaProizvodnje, proizvodnjaServis, evidencijaServis);
         var auth = new AutentifikacijaKorisnika(autentifikacijaServis);
 
         if (!auth.TryLogin(out Potrosac potrosac))

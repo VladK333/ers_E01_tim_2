@@ -40,7 +40,6 @@ namespace Services.ProizvodnjaServisi
             }
 
         }
-
         public double DohvatiNajvecuDostupnuEnergiju()
         {
             var podsistemi = _proizvodnjaRepozitorijum.DohvatiSvePodsisteme();
