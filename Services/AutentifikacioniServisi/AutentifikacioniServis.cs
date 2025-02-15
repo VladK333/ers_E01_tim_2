@@ -1,21 +1,17 @@
 ﻿using Domain.Enums;
 using Domain.Models;
+using Domain.Repositories.AutentifikacijaRepozitorijum;
 using Domain.Services;
 
 namespace Services.AutentifikacioniServisi
 {
     public class AutentifikacioniServis : IAutentifikacija
     {
-        private static readonly List<Potrosac> _autentifikacija_potrosaci;
+        private readonly IAutentifikacijaRepozitorijum _repozitorijum;
 
-        static AutentifikacioniServis()
+        public AutentifikacioniServis(IAutentifikacijaRepozitorijum repozitorijum)
         {
-
-            _autentifikacija_potrosaci = new List<Potrosac>
-            {
-                new Potrosac("Vladana", "123", TipSnabdijevanja.KOMERCIJALNO, 20, 20),
-                new Potrosac("Ivana", "123", TipSnabdijevanja.GARANTOVANO, 10, 10),
-            };
+            _repozitorijum = repozitorijum;
         }
 
         public (bool, Potrosac) Prijava(string imePrezime, string brojUgovora)
@@ -23,7 +19,9 @@ namespace Services.AutentifikacioniServisi
             imePrezime = imePrezime.Trim(); 
             brojUgovora = brojUgovora.Trim();
 
-            foreach (var potrosac in _autentifikacija_potrosaci)
+            List<Potrosac> _korisnici = _repozitorijum.DohvatiSveKorisnike();
+
+            foreach (var potrosac in _korisnici)
             {
                 if (potrosac.ImePrezime.Equals(imePrezime) && potrosac.BrUgovora.Equals(brojUgovora))
                 {

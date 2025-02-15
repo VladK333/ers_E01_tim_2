@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Domain.PomocneMetode.DostupnaKolicinaEnergije;
+using Domain.Repositories.AutentifikacijaRepozitorijum;
 using Domain.Repositories.PodsistemPotrosnjeRepozitorijum;
 using Domain.Repositories.PodsistemProizvodnjeRepozitorijum;
 using Domain.Repositories.PotrosacRepozitorijum;
@@ -13,7 +14,8 @@ public class Program
 {
     public static void Main()
     {
-        IAutentifikacija autentifikacijaServis = new AutentifikacioniServis();
+        IAutentifikacijaRepozitorijum autentifikacijaRepozitorijum = new AutentifikacijaRepozitorijum();
+        IAutentifikacija autentifikacijaServis = new AutentifikacioniServis(autentifikacijaRepozitorijum);
         IDostupnaKolicinaEnergije dostupnaKolicinaEnergije = new DostupnaKolicinaEnergije();
 
         IProizvodnjaRepozitorijum proizvodnjaRepozitorijum = new ProizvodnjaRepozitorijum(dostupnaKolicinaEnergije);

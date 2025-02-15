@@ -28,7 +28,7 @@ namespace Presentation.Authentifikacija
                 Console.Write("Sifra: ");
                 sifra = Console.ReadLine() ?? "";
 
-                (uspjesnaPrijava, potrosac) = _autentifikacijaServis.Prijava(ime.Trim(), sifra.Trim());
+                (uspjesnaPrijava, potrosac) = _autentifikacijaServis.Prijava(ime, sifra);
 
                 if (!uspjesnaPrijava)
                 {
