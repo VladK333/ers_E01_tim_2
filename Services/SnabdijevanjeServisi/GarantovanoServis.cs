@@ -11,11 +11,6 @@ namespace Services.SnabdijevanjeServisi
 
         public static GarantovanoServis Instance => _instance;
 
-        public double CijenaPoKW
-        {
-            get { return 22.72; }
-        }
-
         public void SmanjiKolicinuEnergije(PodsistemProizvodnje podsistem, double kolicina)
         {
             if (podsistem == null || kolicina <= 0)

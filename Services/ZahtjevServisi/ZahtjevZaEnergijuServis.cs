@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Domain.Constants;
+using Domain.Enums;
 using Domain.Models;
 using Domain.Services;
 using Services.EvidencioniServisi;
@@ -56,7 +57,15 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
 
             snabdijevanjeServis.SmanjiKolicinuEnergije(odgovarajuciPodsistem, zeljenaEnergija);
             potrosac.Ukupna_potrosnja_ee += zeljenaEnergija;
-            potrosac.Trenutno_zaduzenje += zeljenaEnergija * snabdijevanjeServis.CijenaPoKW;
+
+            if (snabdijevanjeServis is GarantovanoServis)
+            {
+                potrosac.Trenutno_zaduzenje += zeljenaEnergija * CeneConsts.CenaGarantovano;
+            }
+            else if (snabdijevanjeServis is KomercijalnoServis)
+            {
+                potrosac.Trenutno_zaduzenje += zeljenaEnergija * CeneConsts.CenaKomercijalno;
+            }
 
             var zapis = new Zapis(DateTime.Now, zeljenaEnergija);
             evidencija.DodajZapis(zapis);

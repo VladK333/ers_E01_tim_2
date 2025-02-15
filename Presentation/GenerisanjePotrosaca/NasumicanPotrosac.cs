@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Domain.Constants;
+using Domain.Enums;
 using Domain.Models;
 using Domain.Services;
 using Services.SnabdijevanjeServisi;
@@ -29,13 +30,14 @@ namespace Presentation.GenerisanjePotrosaca
 
         private static double GenerisiPotrosnju()
         {
-            return Math.Round(random.NextDouble() * (5000 - 100) + 100, 2);  // Nasumična potrošnja između 100 i 5000 kWh
+            return Math.Round(random.NextDouble() * (5000 - 100) + 100, 2);  // Nasumicna potrosnja između 100 i 5000 kWh
         }
         public static Potrosac GenerisiNasumicanPotrosac(IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaServis)
         {
             string imePrezime = imena[random.Next(imena.Length)];
             string brUgovora = GenerisiBrojUgovora();
             double ukupnaPotrosnja = GenerisiPotrosnju();
+            double trenutnoZaduzenje = 0;
 
             var odgovarajuciPodsistem = upravljanjePodsistemimaServis.NadjiPodsistemSaNajviseEnergije(ukupnaPotrosnja);
             if (odgovarajuciPodsistem == null)
@@ -46,14 +48,14 @@ namespace Presentation.GenerisanjePotrosaca
             TipSnabdijevanja tipSnabdevanja = tipoviSnabdevanja[random.Next(tipoviSnabdevanja.Length)];
             ISnabdijevanje snabdijevanjeServis = tipSnabdevanja == TipSnabdijevanja.GARANTOVANO ? GarantovanoServis.Instance : KomercijalnoServis.Instance;
 
-            double trenutnoZaduzenje = ukupnaPotrosnja * snabdijevanjeServis.CijenaPoKW;
-
             if (snabdijevanjeServis is GarantovanoServis garantovanoServis)
             {
+                trenutnoZaduzenje = ukupnaPotrosnja * CeneConsts.CenaGarantovano;
                 garantovanoServis.SmanjiKolicinuEnergije(odgovarajuciPodsistem, ukupnaPotrosnja);
             }
             else if (snabdijevanjeServis is KomercijalnoServis komercijalnoServis)
             {
+                trenutnoZaduzenje = ukupnaPotrosnja * CeneConsts.CenaKomercijalno;
                 komercijalnoServis.SmanjiKolicinuEnergije(odgovarajuciPodsistem, ukupnaPotrosnja);
             }
 
