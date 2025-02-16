@@ -9,6 +9,7 @@ namespace Presentation.Meni
         private readonly IUpravljanjePodsistemimaProizvodnje _upravljanjePodsistemimaServis;
         private readonly IZahtevZaEnergiju _zahtjevServis;
         private readonly IProizvodnjaEnergije _proizvodnjaEnergije;
+
         public IspisMeni(IPotrosac potrosacServis, IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaServis, IZahtevZaEnergiju zahtjevServis, IProizvodnjaEnergije proizvodnjaEnergije)
         {
             _potrosacServis = potrosacServis;
@@ -97,7 +98,6 @@ namespace Presentation.Meni
             }
         }
 
-
         private void Zahtev()
         {
             Console.WriteLine("Unesite id potrosaca koji zahteva energiju: ");
@@ -140,6 +140,5 @@ namespace Presentation.Meni
 
             Console.WriteLine($"Trenutno zaduzenje za potrosaca {id} je: {potrosac.Trenutno_zaduzenje:F2} RSD.");
         }
-
     }
 }

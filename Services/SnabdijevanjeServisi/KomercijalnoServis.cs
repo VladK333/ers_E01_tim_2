@@ -30,6 +30,5 @@ namespace Services.SnabdijevanjeServisi
             Console.WriteLine($"Kolicina energije u podsistemu '{podsistem.Sifra}' smanjena za {kolicina:F2} kWh + 1% usled nesavrsenosti sistema.");
             Console.WriteLine($"Preostala kolicina: {podsistem.PreostalaKolicina:F2} kWh.\n");
         }
-
     }
 }

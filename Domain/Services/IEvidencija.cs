@@ -1,11 +1,10 @@
-﻿using Domain.Models;
+﻿using Domain.Enums;
+using Domain.Models;
 
 namespace Domain.Services
 {
     public interface IEvidencija
     {
-        public void DodajZapis(Zapis zapis);
-
-        public IEnumerable<Zapis> PregledZapisa();
+        public void DodajZapis(Zapis zapis, TipSnabdijevanja tipSnabdijevanja);
     }
 }

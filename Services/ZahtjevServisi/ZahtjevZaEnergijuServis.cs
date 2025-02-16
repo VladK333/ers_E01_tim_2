@@ -68,7 +68,7 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
             }
 
             var zapis = new Zapis(DateTime.Now, zeljenaEnergija);
-            _evidencija.DodajZapis(zapis);
+            _evidencija.DodajZapis(zapis, potrosac.Tip_Snabdevanja);
 
             Console.WriteLine("======ZAHTEV======");
             Console.WriteLine($"Zahtev za energiju uspešno obradjen za potrosaca {id}.");

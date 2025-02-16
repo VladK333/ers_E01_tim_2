@@ -7,26 +7,24 @@ namespace Services.EvidencioniServisi
 {
     public class EvidencijaServis : IEvidencija
     {
-        private readonly IEvidencijaRepozitorijum _evidencijaRepozitorijum;   //U REPOZITORIJUM
+        private readonly IEvidencijaRepozitorijum _evidencijaRepozitorijum;   
         private readonly string _putanjaDatoteke;
-        private readonly TipSnabdijevanja _tipSnabdevanja;
 
-        public EvidencijaServis(TipSnabdijevanja tipSnabdevanja, IEvidencijaRepozitorijum evidencijaRepozitorijum, string? putanjaDatoteke = null)
+        public EvidencijaServis(IEvidencijaRepozitorijum evidencijaRepozitorijum, string? putanjaDatoteke = null)
         {
-            _tipSnabdevanja = tipSnabdevanja;
             _evidencijaRepozitorijum = evidencijaRepozitorijum;
             _putanjaDatoteke = putanjaDatoteke ?? "evidencija.txt";
         }
 
-        public void DodajZapis(Zapis zapis)
+        public void DodajZapis(Zapis zapis, TipSnabdijevanja tipSnabdevanja)
         {
             try
             {
-                if (_tipSnabdevanja == TipSnabdijevanja.GARANTOVANO)
+                if (tipSnabdevanja == TipSnabdijevanja.GARANTOVANO)
                 {
                     File.AppendAllText(_putanjaDatoteke, zapis.ToString() + Environment.NewLine);
                 }
-                else if (_tipSnabdevanja == TipSnabdijevanja.KOMERCIJALNO)
+                else if (tipSnabdevanja == TipSnabdijevanja.KOMERCIJALNO)
                 {
                     _evidencijaRepozitorijum.DodajZapis(zapis);
                 }
@@ -36,41 +34,6 @@ namespace Services.EvidencioniServisi
                 Console.WriteLine($"Greska prilikom dodavanja zapisa: {ex.Message}");
             }
         }
-
-        public IEnumerable<Zapis> PregledZapisa()
-        {
-            if (_tipSnabdevanja == TipSnabdijevanja.GARANTOVANO)
-            {
-                try
-                {
-                    var linije = File.ReadAllLines(_putanjaDatoteke);
-                    var zapisi = new List<Zapis>();
-
-                    foreach (var linija in linije)
-                    {
-                        var delovi = linija.Split(" Izdato je ");
-                        if (delovi.Length == 2 &&
-                            DateTime.TryParseExact(delovi[0], "dd.MM.yyyy HH:mm:ss", null,
-                                System.Globalization.DateTimeStyles.None, out var datumIVreme) &&
-                            double.TryParse(delovi[1].Replace(" kW.", ""), out var kolicina))
-                        {
-                            zapisi.Add(new Zapis(datumIVreme, kolicina));
-                        }
-                    }
-
-                    return zapisi;
-                }
-                catch (IOException ex)
-                {
-                    Console.WriteLine($"Greska prilikom citanja zapisa: {ex.Message}");
-                    return Enumerable.Empty<Zapis>();
-                }
-            }
-            else
-            {
-                return _evidencijaRepozitorijum.PregledZapisa();
-            }
-        } 
     }
 }
    

@@ -10,6 +10,5 @@ namespace Domain.Repositories.EvidencijaRepozitorijum
     public interface IEvidencijaRepozitorijum
     {
         public void DodajZapis(Zapis zapis);
-        public IEnumerable<Zapis> PregledZapisa();
     }
 }

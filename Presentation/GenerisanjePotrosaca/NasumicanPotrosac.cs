@@ -69,7 +69,5 @@ namespace Presentation.GenerisanjePotrosaca
                 Trenutno_zaduzenje = trenutnoZaduzenje
             };
         }
-
-
     }
 }

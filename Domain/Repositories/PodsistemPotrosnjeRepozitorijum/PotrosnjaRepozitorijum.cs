@@ -7,6 +7,7 @@ namespace Domain.Repositories.PodsistemPotrosnjeRepozitorijum
     {
         private readonly List<PodsistemPotrosnje> _podsistemi;
         private readonly IPotrosacRepozitorijum potrosaci;
+
         public PotrosnjaRepozitorijum(IPotrosacRepozitorijum potrosacRepozitorijum)
         {
            potrosaci = potrosacRepozitorijum;

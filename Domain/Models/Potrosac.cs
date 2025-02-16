@@ -6,13 +6,9 @@ namespace Domain.Models
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string ImePrezime { get; set; } = string.Empty;
-
         public string BrUgovora { get; set; } = string.Empty;
-
         public TipSnabdijevanja Tip_Snabdevanja { get; set; }
-
         public double Ukupna_potrosnja_ee { get; set; } = 0;
-
         public double Trenutno_zaduzenje { get; set; } = 0;
 
         public Potrosac() {}

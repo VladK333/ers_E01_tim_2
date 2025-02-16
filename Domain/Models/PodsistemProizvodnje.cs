@@ -5,11 +5,8 @@ namespace Domain.Models
     public class PodsistemProizvodnje
     {
         public string Sifra {  get; set; }
-
-        public TipProizvodnje Tip { get; set; }
-
+        public TipProizvodnje Tip { get; set; } 
         public string Lokacija {  get; set; }
-
         public double PreostalaKolicina { get; set; }
 
         public PodsistemProizvodnje(string sifra, TipProizvodnje tip, string lokacija, double preostalaKolicina)

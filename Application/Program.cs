@@ -31,7 +31,7 @@ public class Program
         IUpravljanjePodsistemimaPotrosnje upravljanjePodsistemimaPotrosnje = new UpravljanjePodsistemimaPotrosnjeServis(potrosnjaRepozitorijum);
 
         IEvidencijaRepozitorijum evidencijaRepozitorijum = new EvidencijaRepozitorijum();
-        IEvidencija evidencijaServis = new EvidencijaServis(TipSnabdijevanja.KOMERCIJALNO, evidencijaRepozitorijum);
+        IEvidencija evidencijaServis = new EvidencijaServis(evidencijaRepozitorijum);
 
         IProizvodnjaEnergije proizvodnjaServis = new ProizvodnjaServis(upravljanjePodsistemimaProizvodnje);
 
@@ -45,7 +45,6 @@ public class Program
         }
 
         var meni = new IspisMeni(potrosacServis, upravljanjePodsistemimaProizvodnje, zahtevServis, proizvodnjaServis);
-
         meni.PrikaziMeni();
     }
 }

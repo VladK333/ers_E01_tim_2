@@ -4,7 +4,6 @@
     {
         public List<Potrosac> Potrosaci { get; set; } = [];
         public string NazivPodsistema { get; set; } = string.Empty;
-
         public string SifraPotrosnje { get; set; } = string.Empty;
 
         public PodsistemPotrosnje(string nazivPodsistema, string sifra_Potrosnje, List<Potrosac> potrosaci)

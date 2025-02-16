@@ -6,10 +6,8 @@ namespace Services.ProizvodnjaServisi
 {
     public class UpravljanjePodsistemimaServis : IUpravljanjePodsistemimaProizvodnje
     {
-
         private readonly IProizvodnjaRepozitorijum _proizvodnjaRepozitorijum;
-
-
+     
         public UpravljanjePodsistemimaServis(IProizvodnjaRepozitorijum proizvodnjaRepozitorijum)
         {
             _proizvodnjaRepozitorijum = proizvodnjaRepozitorijum;
@@ -38,17 +36,6 @@ namespace Services.ProizvodnjaServisi
                 Console.WriteLine("Nije pronadjen podsistem sa dovoljnom kolicinom energije.");
                 return null; // Može se vratiti null jer je tip sada nullable
             }
-
-        }
-        public double DohvatiNajvecuDostupnuEnergiju()
-        {
-            var podsistemi = _proizvodnjaRepozitorijum.DohvatiSvePodsisteme();
-            if (!podsistemi.Any())
-            {
-                Console.WriteLine("Nema dostupnih podsistema.");
-                return 0;
-            }
-            return podsistemi.Max(p => p.PreostalaKolicina);
         }
     }
 }

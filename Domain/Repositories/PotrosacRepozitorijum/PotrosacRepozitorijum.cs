@@ -11,9 +11,9 @@ namespace Domain.Repositories.PotrosacRepozitorijum
         {
             _potrosaci =
             [
-                new("Ana Petrović", "EPS5678K", TipSnabdijevanja.KOMERCIJALNO, 340.00, 14626.8),
-                new("Nikola Ilić", "EPS9101K", TipSnabdijevanja.GARANTOVANO, 250.75, 5697.04),
-                new("Jelena Savić", "EPS1123K", TipSnabdijevanja.KOMERCIJALNO, 180.20, 7752.2)
+                new("Ana Petrovic", "EPS5678K", TipSnabdijevanja.KOMERCIJALNO, 340.00, 14626.8),
+                new("Nikola Ilic", "EPS9101K", TipSnabdijevanja.GARANTOVANO, 250.75, 5697.04),
+                new("Jelena Savic", "EPS1123K", TipSnabdijevanja.KOMERCIJALNO, 180.20, 7752.2)
             ];
         }
 

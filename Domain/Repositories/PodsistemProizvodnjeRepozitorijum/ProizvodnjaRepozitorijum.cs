@@ -1,7 +1,7 @@
 ﻿using Domain.Enums;
 using Domain.Models;
 using Domain.PomocneMetode.DostupnaKolicinaEnergije;
-//using Domain.Services;
+using Domain.Services;
 
 namespace Domain.Repositories.PodsistemProizvodnjeRepozitorijum
 {
@@ -9,6 +9,7 @@ namespace Domain.Repositories.PodsistemProizvodnjeRepozitorijum
     {
         private readonly List<PodsistemProizvodnje> _podsistemi = new List<PodsistemProizvodnje>();
         private readonly IDostupnaKolicinaEnergije _randomGenerator;
+
         public ProizvodnjaRepozitorijum(IDostupnaKolicinaEnergije randomGenerator)
         {
             _randomGenerator = randomGenerator;
@@ -21,6 +22,7 @@ namespace Domain.Repositories.PodsistemProizvodnjeRepozitorijum
                 new("PP225-NS5", TipProizvodnje.EcoGreen, "Lokacija 5", _randomGenerator.Generate(1000, 9000))
             ];
         }
+
         public List<PodsistemProizvodnje> DohvatiSvePodsisteme()
         {
             return _podsistemi;
