@@ -3,6 +3,7 @@ using Domain.Enums;
 using Domain.Models;
 using Domain.Services;
 using Services.EvidencioniServisi;
+using Services.IspisServisi;
 using Services.SnabdijevanjeServisi;
 
 public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
@@ -11,32 +12,20 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
     private readonly IUpravljanjePodsistemimaProizvodnje _upravljanjePodsistemimaServis;
     private readonly IProizvodnjaEnergije _proizvodnjaEnergije;
     private readonly IEvidencija _evidencija;
+    private readonly IIspis _ispisServis;
 
-    public ZahtevZaEnergijuServis(IUpravljanjePodsistemimaPotrosnje upravljanjePodsistemimaPotrosnje, IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaServis, IProizvodnjaEnergije proizvodnjaEnergije, IEvidencija evidencija)
+    public ZahtevZaEnergijuServis(IUpravljanjePodsistemimaPotrosnje upravljanjePodsistemimaPotrosnje, IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaServis, IProizvodnjaEnergije proizvodnjaEnergije, IEvidencija evidencija, IIspis ispisServis)
     {
         _upravljanjePodsistemimaPotrosnje = upravljanjePodsistemimaPotrosnje;
         _upravljanjePodsistemimaServis = upravljanjePodsistemimaServis;
         _proizvodnjaEnergije = proizvodnjaEnergije;
         _evidencija = evidencija;
+        _ispisServis = ispisServis;
     }
 
     public void ObradiZahtev(string id, double zeljenaEnergija)
     {
-        var potrosac = _upravljanjePodsistemimaPotrosnje.PronadjiPotrosaca(id);//potrosac se trazi u listi aktivnih potrosaca 
-
-       // _proizvodnjaEnergije.ProvjeriIPovecajKolicinu(potrosac.Tip_Snabdevanja);
-
-        if (potrosac == null)
-        {
-            Console.WriteLine("Potrosac sa unetim id ne postoji.");
-            return;
-        }
-
-        if (zeljenaEnergija <= 0)
-        {
-            Console.WriteLine("Unesena kolicina mora biti validan broj veci od nule.");
-            return;
-        }
+        var potrosac = _upravljanjePodsistemimaPotrosnje.PronadjiPotrosaca(id);     //potrosac se trazi u listi aktivnih potrosaca 
 
         _proizvodnjaEnergije.ProvjeriIPovecajKolicinu(potrosac.Tip_Snabdevanja);
 
@@ -49,13 +38,24 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
         {
             var odgovarajuciPodsistem = _upravljanjePodsistemimaServis.NadjiPodsistemSaNajviseEnergije(zeljenaEnergija);
 
-            if (odgovarajuciPodsistem == null)
+            bool pronadjenPodsistem = false;        //trebace za mock
+            if (odgovarajuciPodsistem != null)
             {
-                Console.WriteLine("Nema dovoljno energije u podsistemima da bi se ispunio zahtev.");
+                string poruka = "Pronadjen je podsistem sa dovoljno energije.";
+                pronadjenPodsistem = _ispisServis.Ispisi(poruka);
+            }
+            else
+            {
                 return;
             }
 
-            snabdijevanjeServis.SmanjiKolicinuEnergije(odgovarajuciPodsistem, zeljenaEnergija);
+            bool smanjenaKolicina = snabdijevanjeServis.SmanjiKolicinuEnergije(odgovarajuciPodsistem, zeljenaEnergija);     //za mock
+            if (smanjenaKolicina == true)
+            {
+                string poruka = "Kolicina u podsistemu smanjena.";
+                smanjenaKolicina = _ispisServis.Ispisi(poruka);
+            }
+
             potrosac.Ukupna_potrosnja_ee += zeljenaEnergija;
 
             if (snabdijevanjeServis is GarantovanoServis)

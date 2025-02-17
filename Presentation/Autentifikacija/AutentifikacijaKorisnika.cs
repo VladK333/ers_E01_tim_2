@@ -32,7 +32,7 @@ namespace Presentation.Authentifikacija
 
                 if (!uspjesnaPrijava)
                 {
-                    Console.WriteLine("Pogresni podaci, pokusajte ponovo.");
+                    Console.WriteLine("Pogresni podaci, pokusajte ponovo!\n");
                 }
             }
 

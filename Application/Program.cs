@@ -11,8 +11,10 @@ using Presentation.Authentifikacija;
 using Presentation.Meni;
 using Services.AutentifikacioniServisi;
 using Services.EvidencioniServisi;
+using Services.IspisServisi;
 using Services.PodsistemPotrosnjeServisi;
 using Services.ProizvodnjaServisi;
+
 public class Program
 {
     public static void Main()
@@ -35,7 +37,9 @@ public class Program
 
         IProizvodnjaEnergije proizvodnjaServis = new ProizvodnjaServis(upravljanjePodsistemimaProizvodnje);
 
-        IZahtevZaEnergiju zahtevServis = new ZahtevZaEnergijuServis(upravljanjePodsistemimaPotrosnje, upravljanjePodsistemimaProizvodnje, proizvodnjaServis, evidencijaServis);
+        IIspis ispisServis = new IspisServis();
+
+        IZahtevZaEnergiju zahtevServis = new ZahtevZaEnergijuServis(upravljanjePodsistemimaPotrosnje, upravljanjePodsistemimaProizvodnje, proizvodnjaServis, evidencijaServis, ispisServis);
         var auth = new AutentifikacijaKorisnika(autentifikacijaServis);
 
         if (!auth.TryLogin(out Potrosac potrosac))

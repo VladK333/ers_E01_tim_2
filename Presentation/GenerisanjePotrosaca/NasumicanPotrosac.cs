@@ -32,6 +32,7 @@ namespace Presentation.GenerisanjePotrosaca
         {
             return Math.Round(random.NextDouble() * (5000 - 100) + 100, 2);  // Nasumicna potrosnja između 100 i 5000 kWh
         }
+
         public static Potrosac GenerisiNasumicanPotrosac(IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaServis)
         {
             string imePrezime = imena[random.Next(imena.Length)];

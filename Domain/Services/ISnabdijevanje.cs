@@ -4,6 +4,6 @@ namespace Domain.Services
 {
     public interface ISnabdijevanje
     {
-        public void SmanjiKolicinuEnergije(PodsistemProizvodnje podsistem, double kolicina);
+        public bool SmanjiKolicinuEnergije(PodsistemProizvodnje podsistem, double kolicina);
     }
 }

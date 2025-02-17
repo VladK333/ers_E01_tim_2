@@ -25,15 +25,13 @@ namespace Services.ProizvodnjaServisi
                 .OrderByDescending(p => p.PreostalaKolicina)
                 .ToList();
 
-            Console.WriteLine("\n===PODSISTEM===");
             if (odgovarajuciPodsistemi.Any())
             {
-                Console.WriteLine($"Pronadjen je podsistem sa najviše energije: {odgovarajuciPodsistemi[0].Sifra} sa {odgovarajuciPodsistemi[0].PreostalaKolicina:F2} kW.");
+               // Console.WriteLine($"Pronadjen je podsistem sa najviše energije: {odgovarajuciPodsistemi[0].Sifra} sa {odgovarajuciPodsistemi[0].PreostalaKolicina:F2} kW.");
                 return odgovarajuciPodsistemi[0];
             }
             else
             {
-                Console.WriteLine("Nije pronadjen podsistem sa dovoljnom kolicinom energije.");
                 return null; // Može se vratiti null jer je tip sada nullable
             }
         }

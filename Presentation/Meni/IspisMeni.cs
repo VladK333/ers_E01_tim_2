@@ -60,7 +60,7 @@ namespace Presentation.Meni
 
         private void PregledSvihPotrosaca()
         {
-            Console.WriteLine("\n======== PREGLED SVIH POTROSACA ========\n");
+            Console.WriteLine("\n======== PREGLED SVIH POTROSACA ========");
 
             var potrosaci = _potrosacServis.GetPotrosaci();
 
@@ -74,7 +74,7 @@ namespace Presentation.Meni
             {
                 if (potrosac != null)
                 {
-                    Console.WriteLine($"{potrosac}\n===============================================\n");
+                    Console.WriteLine($"{potrosac}\n===============================================");
                 }
             }
         }
@@ -103,9 +103,11 @@ namespace Presentation.Meni
             Console.WriteLine("Unesite id potrosaca koji zahteva energiju: ");
             string? id = Console.ReadLine();
 
-            if (string.IsNullOrEmpty(id)) 
+            var potrosac = _potrosacServis.PronadjiPotrosaca(id);
+
+            if (string.IsNullOrEmpty(id) || potrosac==null) 
             {
-                Console.WriteLine("Id ne moze biti prazan.");
+                Console.WriteLine("Id je prazan ili ne postoji.");
                 return;
             }
 
