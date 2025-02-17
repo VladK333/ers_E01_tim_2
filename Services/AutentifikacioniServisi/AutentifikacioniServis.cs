@@ -1,5 +1,4 @@
-﻿using Domain.Enums;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.Repositories.AutentifikacijaRepozitorijum;
 using Domain.Services;
 
@@ -19,7 +18,7 @@ namespace Services.AutentifikacioniServisi
             imePrezime = imePrezime.Trim(); 
             brojUgovora = brojUgovora.Trim();
 
-            List<Potrosac> _korisnici = _repozitorijum.DohvatiSveKorisnike();
+            IEnumerable<Potrosac> _korisnici = _repozitorijum.DohvatiSveKorisnike();
 
             foreach (var potrosac in _korisnici)
             {

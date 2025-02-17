@@ -6,7 +6,7 @@ namespace Domain.Repositories.PotrosacRepozitorijum
     {
         void Dodaj(Potrosac potrosac);
         Potrosac? PronadjiPoId(string id);
-        List<Potrosac> VratiSve();
+        IEnumerable<Potrosac> VratiSve();
 
     }
 }

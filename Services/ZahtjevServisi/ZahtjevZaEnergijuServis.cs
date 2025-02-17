@@ -2,8 +2,6 @@
 using Domain.Enums;
 using Domain.Models;
 using Domain.Services;
-using Services.EvidencioniServisi;
-using Services.IspisServisi;
 using Services.SnabdijevanjeServisi;
 
 public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
@@ -26,7 +24,12 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
     public void ObradiZahtev(string id, double zeljenaEnergija)
     {
         var potrosac = _upravljanjePodsistemimaPotrosnje.PronadjiPotrosaca(id);     //potrosac se trazi u listi aktivnih potrosaca 
-
+        
+        if (potrosac == null)
+        {
+            Console.WriteLine($"Potrosac sa ID {id} nije pronađen.");
+            return;
+        }
         _proizvodnjaEnergije.ProvjeriIPovecajKolicinu(potrosac.Tip_Snabdevanja);
 
         //Singleton instance za snabdijevanje

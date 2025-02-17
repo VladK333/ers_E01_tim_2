@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Enums;
+﻿using Domain.Enums;
 using Domain.Models;
-using Domain.Services;
 
 namespace Domain.Repositories.AutentifikacijaRepozitorijum
 {
@@ -23,7 +17,7 @@ namespace Domain.Repositories.AutentifikacijaRepozitorijum
             };
         }
 
-        public List<Potrosac> DohvatiSveKorisnike()
+        public IEnumerable<Potrosac> DohvatiSveKorisnike()
         {
             return _korisnici;
         }

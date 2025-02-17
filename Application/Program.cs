@@ -1,5 +1,4 @@
-﻿using Domain.Enums;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.PomocneMetode.DostupnaKolicinaEnergije;
 using Domain.Repositories.AutentifikacijaRepozitorijum;
 using Domain.Repositories.EvidencijaRepozitorijum;
@@ -7,7 +6,7 @@ using Domain.Repositories.PodsistemPotrosnjeRepozitorijum;
 using Domain.Repositories.PodsistemProizvodnjeRepozitorijum;
 using Domain.Repositories.PotrosacRepozitorijum;
 using Domain.Services;
-using Presentation.Authentifikacija;
+using Presentation.Autentifikacija;
 using Presentation.Meni;
 using Services.AutentifikacioniServisi;
 using Services.EvidencioniServisi;
@@ -27,10 +26,11 @@ public class Program
         IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaProizvodnje = new UpravljanjePodsistemimaServis(proizvodnjaRepozitorijum);
 
         IPotrosacRepozitorijum repozitorijum = new PotrosacRepozitorijum();
-        IPotrosac potrosacServis = new PotrosacServis(repozitorijum);
 
         IPotrosnjaRepozitorijum potrosnjaRepozitorijum = new PotrosnjaRepozitorijum(repozitorijum);
         IUpravljanjePodsistemimaPotrosnje upravljanjePodsistemimaPotrosnje = new UpravljanjePodsistemimaPotrosnjeServis(potrosnjaRepozitorijum);
+        
+        IPotrosac potrosacServis = new PotrosacServis(repozitorijum,potrosnjaRepozitorijum);
 
         IEvidencijaRepozitorijum evidencijaRepozitorijum = new EvidencijaRepozitorijum();
         IEvidencija evidencijaServis = new EvidencijaServis(evidencijaRepozitorijum);

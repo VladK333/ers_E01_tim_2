@@ -1,13 +1,12 @@
 ﻿using Domain.Enums;
 using Domain.Models;
 using Domain.PomocneMetode.DostupnaKolicinaEnergije;
-using Domain.Services;
 
 namespace Domain.Repositories.PodsistemProizvodnjeRepozitorijum
 {
     public class ProizvodnjaRepozitorijum : IProizvodnjaRepozitorijum
     {
-        private readonly List<PodsistemProizvodnje> _podsistemi = new List<PodsistemProizvodnje>();
+        private readonly List<PodsistemProizvodnje> _podsistemi = [];
         private readonly IDostupnaKolicinaEnergije _randomGenerator;
 
         public ProizvodnjaRepozitorijum(IDostupnaKolicinaEnergije randomGenerator)
@@ -23,7 +22,7 @@ namespace Domain.Repositories.PodsistemProizvodnjeRepozitorijum
             ];
         }
 
-        public List<PodsistemProizvodnje> DohvatiSvePodsisteme()
+        public IEnumerable<PodsistemProizvodnje> DohvatiSvePodsisteme()
         {
             return _podsistemi;
         }

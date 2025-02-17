@@ -4,7 +4,7 @@ namespace Domain.Services
 {
     public interface IUpravljanjePodsistemimaProizvodnje
     {
-        List<PodsistemProizvodnje> DohvatiSvePodsisteme();
-        public PodsistemProizvodnje? NadjiPodsistemSaNajviseEnergije(double potrebnaEnergija);
+        IEnumerable<PodsistemProizvodnje> DohvatiSvePodsisteme();
+        PodsistemProizvodnje? NadjiPodsistemSaNajviseEnergije(double potrebnaEnergija);
     }
 }

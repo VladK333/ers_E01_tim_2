@@ -1,7 +1,7 @@
 ﻿using Domain.Models;
 using Domain.Services;
 
-namespace Presentation.Authentifikacija
+namespace Presentation.Autentifikacija
 {
     public class AutentifikacijaKorisnika
     {

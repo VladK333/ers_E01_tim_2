@@ -6,6 +6,6 @@ namespace Domain.Services
     {
         void DodajPotrosaca(Potrosac potrosac);
         Potrosac? PronadjiPotrosaca(string id); 
-        List<Potrosac> GetPotrosaci(); 
+        IEnumerable<Potrosac> GetPotrosaci(); 
     }
 }

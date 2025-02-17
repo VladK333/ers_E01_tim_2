@@ -13,7 +13,7 @@ namespace Services.PodsistemPotrosnjeServisi
             _potrosnjaRepozitorijum = potrosnjaRepozitorijum;
         }
 
-        public List<PodsistemPotrosnje> DohvatiSvePodsisteme()
+        public IEnumerable<PodsistemPotrosnje> DohvatiSvePodsisteme()
         {
             return _potrosnjaRepozitorijum.DohvatiSvePodsisteme();
         }

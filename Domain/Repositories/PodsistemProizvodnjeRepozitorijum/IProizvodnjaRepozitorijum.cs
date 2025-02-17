@@ -4,6 +4,6 @@ namespace Domain.Repositories.PodsistemProizvodnjeRepozitorijum
 {
     public interface IProizvodnjaRepozitorijum
     {
-        List<PodsistemProizvodnje> DohvatiSvePodsisteme();
+        IEnumerable<PodsistemProizvodnje> DohvatiSvePodsisteme();
     }
 }

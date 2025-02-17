@@ -4,7 +4,7 @@ namespace Domain.Services
 {
     public interface IUpravljanjePodsistemimaPotrosnje
     {
-        List<PodsistemPotrosnje> DohvatiSvePodsisteme();
-        public Potrosac? PronadjiPotrosaca(string idPotrosaca);
+        IEnumerable<PodsistemPotrosnje> DohvatiSvePodsisteme();
+        Potrosac? PronadjiPotrosaca(string idPotrosaca);
     }
 }

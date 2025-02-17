@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Domain.Repositories.PodsistemPotrosnjeRepozitorijum;
 using Domain.Repositories.PotrosacRepozitorijum;
 
 namespace Domain.Services
@@ -6,10 +7,11 @@ namespace Domain.Services
     public class PotrosacServis : IPotrosac
     {
         private readonly IPotrosacRepozitorijum _repozitorijum;
-
-        public PotrosacServis(IPotrosacRepozitorijum repozitorijum)
+        private readonly IPotrosnjaRepozitorijum _potrosnjaRepozitorijum;
+        public PotrosacServis(IPotrosacRepozitorijum repozitorijum, IPotrosnjaRepozitorijum potrosnjaRepozitorijum)
         {
             _repozitorijum = repozitorijum;
+            _potrosnjaRepozitorijum = potrosnjaRepozitorijum;
         }
 
         public void DodajPotrosaca(Potrosac potrosac)
@@ -17,6 +19,7 @@ namespace Domain.Services
             if (potrosac != null)
             {
                 _repozitorijum.Dodaj(potrosac);
+                _potrosnjaRepozitorijum.DodajPotrosacaUPodsistem(potrosac);
             }
         }
 
@@ -25,7 +28,7 @@ namespace Domain.Services
             return _repozitorijum.PronadjiPoId(Id);
         }
 
-        public List<Potrosac> GetPotrosaci()
+        public IEnumerable<Potrosac> GetPotrosaci()
         {
             return _repozitorijum.VratiSve();
         }

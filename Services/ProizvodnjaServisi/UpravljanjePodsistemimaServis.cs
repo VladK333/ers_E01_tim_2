@@ -13,7 +13,7 @@ namespace Services.ProizvodnjaServisi
             _proizvodnjaRepozitorijum = proizvodnjaRepozitorijum;
         }
       
-        public List<PodsistemProizvodnje> DohvatiSvePodsisteme()
+        public IEnumerable<PodsistemProizvodnje> DohvatiSvePodsisteme()
         {
             return _proizvodnjaRepozitorijum.DohvatiSvePodsisteme();
         }

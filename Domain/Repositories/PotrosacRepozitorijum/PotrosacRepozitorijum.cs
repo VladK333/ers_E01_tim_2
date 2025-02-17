@@ -6,7 +6,6 @@ namespace Domain.Repositories.PotrosacRepozitorijum
     public class PotrosacRepozitorijum : IPotrosacRepozitorijum
     {
         private static readonly List<Potrosac> _potrosaci;
-
         static PotrosacRepozitorijum()
         {
             _potrosaci =
@@ -27,9 +26,9 @@ namespace Domain.Repositories.PotrosacRepozitorijum
             return _potrosaci.FirstOrDefault(p => p.Id == id);
         }
 
-        public List<Potrosac> VratiSve()
+        public IEnumerable<Potrosac> VratiSve()
         {
-            return _potrosaci;
+            return _potrosaci ?? [];
         }
     }
 }

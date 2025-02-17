@@ -4,6 +4,7 @@ namespace Domain.Repositories.PodsistemPotrosnjeRepozitorijum
 {
     public interface IPotrosnjaRepozitorijum
     {
-        List<PodsistemPotrosnje> DohvatiSvePodsisteme();
+        IEnumerable<PodsistemPotrosnje> DohvatiSvePodsisteme();
+        void DodajPotrosacaUPodsistem(Potrosac potrosac);
     }
 }

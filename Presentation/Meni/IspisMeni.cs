@@ -64,7 +64,7 @@ namespace Presentation.Meni
 
             var potrosaci = _potrosacServis.GetPotrosaci();
 
-            if (potrosaci == null || potrosaci.Count == 0)
+            if (potrosaci == null || !potrosaci.Any())
             {
                 Console.WriteLine("Nema registrovanih potrosaca.");
                 return;
