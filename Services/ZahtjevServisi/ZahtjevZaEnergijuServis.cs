@@ -3,6 +3,7 @@ using Domain.Enums;
 using Domain.Models;
 using Domain.Services;
 using Services.SnabdijevanjeServisi;
+using Services.IspisServisi;
 
 public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
 {
@@ -23,16 +24,16 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
 
     public void ObradiZahtev(string id, double zeljenaEnergija)
     {
-        var potrosac = _upravljanjePodsistemimaPotrosnje.PronadjiPotrosaca(id);     //potrosac se trazi u listi aktivnih potrosaca 
-        
+        var potrosac = _upravljanjePodsistemimaPotrosnje.PronadjiPotrosaca(id);
+
         if (potrosac == null)
         {
-            Console.WriteLine($"Potrosac sa ID {id} nije pronađen.");
+            _ispisServis.Ispisi($"Potrosac sa ID {id} nije pronađen.");
             return;
         }
+
         _proizvodnjaEnergije.ProvjeriIPovecajKolicinu(potrosac.Tip_Snabdevanja);
 
-        //Singleton instance za snabdijevanje
         ISnabdijevanje snabdijevanjeServis = potrosac.Tip_Snabdevanja == TipSnabdijevanja.GARANTOVANO
             ? GarantovanoServis.Instance
             : KomercijalnoServis.Instance;
@@ -41,7 +42,7 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
         {
             var odgovarajuciPodsistem = _upravljanjePodsistemimaServis.NadjiPodsistemSaNajviseEnergije(zeljenaEnergija);
 
-            bool pronadjenPodsistem = false;        //trebace za mock
+            bool pronadjenPodsistem = false;
             if (odgovarajuciPodsistem != null)
             {
                 string poruka = "Pronadjen je podsistem sa dovoljno energije.";
@@ -52,11 +53,11 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
                 return;
             }
 
-            bool smanjenaKolicina = snabdijevanjeServis.SmanjiKolicinuEnergije(odgovarajuciPodsistem, zeljenaEnergija);     //za mock
+            bool smanjenaKolicina = snabdijevanjeServis.SmanjiKolicinuEnergije(odgovarajuciPodsistem, zeljenaEnergija);
             if (smanjenaKolicina == true)
             {
                 string poruka = "Kolicina u podsistemu smanjena.";
-                smanjenaKolicina = _ispisServis.Ispisi(poruka);
+                _ispisServis.Ispisi(poruka);
             }
 
             potrosac.Ukupna_potrosnja_ee += zeljenaEnergija;
@@ -73,14 +74,14 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
             var zapis = new Zapis(DateTime.Now, zeljenaEnergija);
             _evidencija.DodajZapis(zapis, potrosac.Tip_Snabdevanja);
 
-            Console.WriteLine("======ZAHTEV======");
-            Console.WriteLine($"Zahtev za energiju uspešno obradjen za potrosaca {id}.");
-            Console.WriteLine($"Nova ukupna potrosnja: {potrosac.Ukupna_potrosnja_ee:F2} kWh.");
-            Console.WriteLine($"Novo trenutno zaduzenje: {potrosac.Trenutno_zaduzenje:F2} RSD.");
+            _ispisServis.Ispisi("======ZAHTEV======");
+            _ispisServis.Ispisi($"Zahtev za energiju uspešno obradjen za potrosaca {id}.");
+            _ispisServis.Ispisi($"Nova ukupna potrosnja: {potrosac.Ukupna_potrosnja_ee:F2} kWh.");
+            _ispisServis.Ispisi($"Novo trenutno zaduzenje: {potrosac.Trenutno_zaduzenje:F2} RSD.");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Doslo je do greske prilikom obrade zahteva: {ex.Message}");
+            _ispisServis.Ispisi($"Doslo je do greske prilikom obrade zahteva: {ex.Message}");
         }
     }
 }

@@ -11,10 +11,10 @@ namespace Domain.Repositories.PodsistemPotrosnjeRepozitorijum
         public PotrosnjaRepozitorijum(IPotrosacRepozitorijum potrosacRepozitorijum)
         {
            potrosaci = potrosacRepozitorijum;
-            _podsistemi = new List<PodsistemPotrosnje>
-            {
+            _podsistemi =
+            [
                 new("Podsistem 1", "PSP3321-NS1", potrosaci.VratiSve().ToList())
-            };
+            ];
         }
 
         public IEnumerable<PodsistemPotrosnje> DohvatiSvePodsisteme()

@@ -35,9 +35,9 @@ public class Program
         IEvidencijaRepozitorijum evidencijaRepozitorijum = new EvidencijaRepozitorijum();
         IEvidencija evidencijaServis = new EvidencijaServis(evidencijaRepozitorijum);
 
-        IProizvodnjaEnergije proizvodnjaServis = new ProizvodnjaServis(upravljanjePodsistemimaProizvodnje);
 
         IIspis ispisServis = new IspisServis();
+        IProizvodnjaEnergije proizvodnjaServis = new ProizvodnjaServis(upravljanjePodsistemimaProizvodnje, ispisServis);
 
         IZahtevZaEnergiju zahtevServis = new ZahtevZaEnergijuServis(upravljanjePodsistemimaPotrosnje, upravljanjePodsistemimaProizvodnje, proizvodnjaServis, evidencijaServis, ispisServis);
         var auth = new AutentifikacijaKorisnika(autentifikacijaServis);
