@@ -28,7 +28,7 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
 
         if (potrosac == null)
         {
-            _ispisServis.Ispisi($"Potrosac sa ID {id} nije pronađen.");
+            _ispisServis.Ispisi($"Potrosac sa ID {id} nije pronadjen.");
             return;
         }
 
@@ -42,23 +42,12 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
         {
             var odgovarajuciPodsistem = _upravljanjePodsistemimaServis.NadjiPodsistemSaNajviseEnergije(zeljenaEnergija);
 
-            bool pronadjenPodsistem = false;
-            if (odgovarajuciPodsistem != null)
-            {
-                string poruka = "Pronadjen je podsistem sa dovoljno energije.";
-                pronadjenPodsistem = _ispisServis.Ispisi(poruka);
-            }
-            else
+            if (odgovarajuciPodsistem == null)
             {
                 return;
             }
 
-            bool smanjenaKolicina = snabdijevanjeServis.SmanjiKolicinuEnergije(odgovarajuciPodsistem, zeljenaEnergija);
-            if (smanjenaKolicina == true)
-            {
-                string poruka = "Kolicina u podsistemu smanjena.";
-                _ispisServis.Ispisi(poruka);
-            }
+            snabdijevanjeServis.SmanjiKolicinuEnergije(odgovarajuciPodsistem, zeljenaEnergija);
 
             potrosac.Ukupna_potrosnja_ee += zeljenaEnergija;
 
@@ -71,13 +60,13 @@ public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
                 potrosac.Trenutno_zaduzenje += zeljenaEnergija * CeneConsts.CenaKomercijalno;
             }
 
+            _ispisServis.Ispisi($"======ZAHTEV======\n" +
+                                $"Zahtev za energiju uspesno obradjen za potrosaca {id}.\n" +
+                                $"Nova ukupna potrosnja: {potrosac.Ukupna_potrosnja_ee:F2} kWh.\n" +
+                                $"Novo trenutno zaduzenje: {potrosac.Trenutno_zaduzenje:F2} RSD.");
+
             var zapis = new Zapis(DateTime.Now, zeljenaEnergija);
             _evidencija.DodajZapis(zapis, potrosac.Tip_Snabdevanja);
-
-            _ispisServis.Ispisi("======ZAHTEV======");
-            _ispisServis.Ispisi($"Zahtev za energiju uspešno obradjen za potrosaca {id}.");
-            _ispisServis.Ispisi($"Nova ukupna potrosnja: {potrosac.Ukupna_potrosnja_ee:F2} kWh.");
-            _ispisServis.Ispisi($"Novo trenutno zaduzenje: {potrosac.Trenutno_zaduzenje:F2} RSD.");
         }
         catch (Exception ex)
         {

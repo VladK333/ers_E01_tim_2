@@ -27,14 +27,20 @@ namespace Services.ProizvodnjaServisi
                     if (tipSnabdijevanja == TipSnabdijevanja.GARANTOVANO)
                     {
                         podsistem.PreostalaKolicina *= 1.22;
-                        _ispisServis.Ispisi($"[GARANTOVANO] Podsistem '{podsistem.Sifra}' imao je {prethodnaKolicina:F2} kWh. " +
+                        if (podsistem.PreostalaKolicina == 0.00)
+                            _ispisServis.Ispisi($"[GARANTOVANO] Podsistem '{podsistem.Sifra}' imao je {prethodnaKolicina:F2} kWh. Nije preostalo energije u ovom podsistemu.");
+                        else
+                            _ispisServis.Ispisi($"[GARANTOVANO] Podsistem '{podsistem.Sifra}' imao je {prethodnaKolicina:F2} kWh. " +
                                              $"Povecano na {podsistem.PreostalaKolicina:F2} kWh " +
                                              $"(povecanje za {podsistem.PreostalaKolicina - prethodnaKolicina:F2} kWh).");
                     }
                     else if (tipSnabdijevanja == TipSnabdijevanja.KOMERCIJALNO)
                     {
                         podsistem.PreostalaKolicina *= 1.14;
-                        _ispisServis.Ispisi($"[KOMERCIJALNO] Podsistem '{podsistem.Sifra}' imao je {prethodnaKolicina:F2} kWh. " +
+                        if (podsistem.PreostalaKolicina == 0.00)
+                            _ispisServis.Ispisi($"[KOMERCIJALNO] Podsistem '{podsistem.Sifra}' imao je {prethodnaKolicina:F2} kWh. Nije preostalo energije u ovom podsistemu.");
+                        else
+                            _ispisServis.Ispisi($"[KOMERCIJALNO] Podsistem '{podsistem.Sifra}' imao je {prethodnaKolicina:F2} kWh. " +
                                              $"Povecano na {podsistem.PreostalaKolicina:F2} kWh " +
                                              $"(povecanje za {podsistem.PreostalaKolicina - prethodnaKolicina:F2} kWh).");
                     }

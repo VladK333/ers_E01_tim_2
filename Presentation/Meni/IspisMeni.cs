@@ -103,11 +103,17 @@ namespace Presentation.Meni
             Console.WriteLine("Unesite id potrosaca koji zahteva energiju: ");
             string? id = Console.ReadLine();
 
+            if (string.IsNullOrEmpty(id))
+            {
+                Console.WriteLine("Id ne moze biti prazan.");
+                return;
+            }
+
             var potrosac = _potrosacServis.PronadjiPotrosaca(id);
 
-            if (string.IsNullOrEmpty(id) || potrosac==null) 
+            if (potrosac==null) 
             {
-                Console.WriteLine("Id je prazan ili ne postoji.");
+                Console.WriteLine("Potrosac sa unetim id ne postoji.");
                 return;
             }
 

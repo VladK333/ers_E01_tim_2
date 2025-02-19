@@ -27,8 +27,6 @@ namespace Domain.Repositories.PodsistemPotrosnjeRepozitorijum
             foreach (var podsistem in _podsistemi)
             {
                 podsistem.Potrosaci.Add(potrosac);
-                Console.WriteLine($"Dodato: {potrosac.ImePrezime} u {podsistem.NazivPodsistema}");
-
             }
         }
     }

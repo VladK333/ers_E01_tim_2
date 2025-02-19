@@ -7,12 +7,14 @@ namespace Services.ProizvodnjaServisi
     public class UpravljanjePodsistemimaServis : IUpravljanjePodsistemimaProizvodnje
     {
         private readonly IProizvodnjaRepozitorijum _proizvodnjaRepozitorijum;
-     
-        public UpravljanjePodsistemimaServis(IProizvodnjaRepozitorijum proizvodnjaRepozitorijum)
+        private readonly IIspis _ispisServis;
+
+        public UpravljanjePodsistemimaServis(IProizvodnjaRepozitorijum proizvodnjaRepozitorijum, IIspis ispisServis)
         {
             _proizvodnjaRepozitorijum = proizvodnjaRepozitorijum;
+            _ispisServis = ispisServis;
         }
-      
+
         public IEnumerable<PodsistemProizvodnje> DohvatiSvePodsisteme()
         {
             return _proizvodnjaRepozitorijum.DohvatiSvePodsisteme();
@@ -27,7 +29,8 @@ namespace Services.ProizvodnjaServisi
 
             if (odgovarajuciPodsistemi.Any())
             {
-               // Console.WriteLine($"Pronadjen je podsistem sa najviše energije: {odgovarajuciPodsistemi[0].Sifra} sa {odgovarajuciPodsistemi[0].PreostalaKolicina:F2} kW.");
+                string poruka = $"Pronadjen je podsistem sa najviše energije: {odgovarajuciPodsistemi[0].Sifra} sa {odgovarajuciPodsistemi[0].PreostalaKolicina:F2} kW.";
+               // _ispisServis.Ispisi(poruka);
                 return odgovarajuciPodsistemi[0];
             }
             else

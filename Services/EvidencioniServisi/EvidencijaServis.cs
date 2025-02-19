@@ -9,11 +9,14 @@ namespace Services.EvidencioniServisi
     {
         private readonly IEvidencijaRepozitorijum _evidencijaRepozitorijum;   
         private readonly string _putanjaDatoteke;
+        private readonly IIspis _ispisServis;
 
-        public EvidencijaServis(IEvidencijaRepozitorijum evidencijaRepozitorijum, string? putanjaDatoteke = null)
+
+        public EvidencijaServis(IEvidencijaRepozitorijum evidencijaRepozitorijum, IIspis ispisServis, string? putanjaDatoteke = null)
         {
             _evidencijaRepozitorijum = evidencijaRepozitorijum;
             _putanjaDatoteke = putanjaDatoteke ?? "evidencija.txt";
+            _ispisServis = ispisServis;
         }
 
         public void DodajZapis(Zapis zapis, TipSnabdijevanja tipSnabdevanja)
@@ -28,10 +31,11 @@ namespace Services.EvidencioniServisi
                 {
                     _evidencijaRepozitorijum.DodajZapis(zapis);
                 }
+                _ispisServis.Ispisi("Evidencija uspesna.");
             }
             catch (IOException ex)
             {
-                Console.WriteLine($"Greska prilikom dodavanja zapisa: {ex.Message}");
+                _ispisServis.Ispisi($"Greska prilikom dodavanja zapisa: {ex.Message}");
             }
         }
     }

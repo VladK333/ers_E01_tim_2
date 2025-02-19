@@ -20,10 +20,11 @@ public class Program
     {
         IAutentifikacijaRepozitorijum autentifikacijaRepozitorijum = new AutentifikacijaRepozitorijum();
         IAutentifikacija autentifikacijaServis = new AutentifikacioniServis(autentifikacijaRepozitorijum);
-       
+        IIspis ispisServis = new IspisServis();
+
         IDostupnaKolicinaEnergije dostupnaKolicinaEnergije = new DostupnaKolicinaEnergije();
         IProizvodnjaRepozitorijum proizvodnjaRepozitorijum = new ProizvodnjaRepozitorijum(dostupnaKolicinaEnergije);
-        IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaProizvodnje = new UpravljanjePodsistemimaServis(proizvodnjaRepozitorijum);
+        IUpravljanjePodsistemimaProizvodnje upravljanjePodsistemimaProizvodnje = new UpravljanjePodsistemimaServis(proizvodnjaRepozitorijum, ispisServis);
 
         IPotrosacRepozitorijum repozitorijum = new PotrosacRepozitorijum();
 
@@ -33,20 +34,14 @@ public class Program
         IPotrosac potrosacServis = new PotrosacServis(repozitorijum,potrosnjaRepozitorijum);
 
         IEvidencijaRepozitorijum evidencijaRepozitorijum = new EvidencijaRepozitorijum();
-        IEvidencija evidencijaServis = new EvidencijaServis(evidencijaRepozitorijum);
-
-
-        IIspis ispisServis = new IspisServis();
+        IEvidencija evidencijaServis = new EvidencijaServis(evidencijaRepozitorijum, ispisServis);
+        
         IProizvodnjaEnergije proizvodnjaServis = new ProizvodnjaServis(upravljanjePodsistemimaProizvodnje, ispisServis);
 
         IZahtevZaEnergiju zahtevServis = new ZahtevZaEnergijuServis(upravljanjePodsistemimaPotrosnje, upravljanjePodsistemimaProizvodnje, proizvodnjaServis, evidencijaServis, ispisServis);
         var auth = new AutentifikacijaKorisnika(autentifikacijaServis);
 
-        if (!auth.TryLogin(out Potrosac potrosac))
-        {
-            Console.WriteLine("Autentifikacija nije uspela.");
-            return;
-        }
+        auth.TryLogin(out Potrosac potrosac);
 
         var meni = new IspisMeni(potrosacServis, upravljanjePodsistemimaProizvodnje, zahtevServis, proizvodnjaServis);
         meni.PrikaziMeni();
