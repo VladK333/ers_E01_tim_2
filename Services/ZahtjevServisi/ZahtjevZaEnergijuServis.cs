@@ -3,7 +3,6 @@ using Domain.Enums;
 using Domain.Models;
 using Domain.Services;
 using Services.SnabdijevanjeServisi;
-using Services.IspisServisi;
 
 public class ZahtevZaEnergijuServis : IZahtevZaEnergiju
 {

@@ -6,10 +6,15 @@ namespace Services.IspisServisi
     {
         public bool Ispisi(string poruka)
         {
+            if (poruka == null)
+            {
+                return false;  
+            }
+
             try
             {
                 Console.WriteLine(poruka);
-                return true; 
+                return true;
             }
             catch (Exception)
             {
@@ -18,3 +23,4 @@ namespace Services.IspisServisi
         }
     }
 }
+

@@ -1,7 +1,7 @@
 ﻿using Domain.Enums;
 using Domain.Models;
 
-namespace Tests.Domain
+namespace Tests.Domain.Models
 {
     [TestFixture]
     public class PodsistemPotrosnjeTests
@@ -14,8 +14,8 @@ namespace Tests.Domain
         {
             var potrosaci = new List<Potrosac>
             {
-                new Potrosac("Marko Markovic", "EPS3345K", TipSnabdijevanja.GARANTOVANO, 120.5, 50),
-                new Potrosac("Jovana Jovanovic", "EPS3346K", TipSnabdijevanja.KOMERCIJALNO, 200.3, 75)
+                new("Marko Markovic", "EPS3345K", TipSnabdijevanja.GARANTOVANO, 120.5, 50),
+                new("Jovana Jovanovic", "EPS3346K", TipSnabdijevanja.KOMERCIJALNO, 200.3, 75)
             };
 
             var podsistem = new PodsistemPotrosnje(nazivPodsistema, sifraPotrosnje, potrosaci);

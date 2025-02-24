@@ -30,12 +30,12 @@ namespace Services.ProizvodnjaServisi
             if (odgovarajuciPodsistemi.Any())
             {
                 string poruka = $"Pronadjen je podsistem sa najviše energije: {odgovarajuciPodsistemi[0].Sifra} sa {odgovarajuciPodsistemi[0].PreostalaKolicina:F2} kW.";
-               // _ispisServis.Ispisi(poruka);
+                _ispisServis.Ispisi(poruka);
                 return odgovarajuciPodsistemi[0];
             }
             else
             {
-                return null; // Može se vratiti null jer je tip sada nullable
+                return null; 
             }
         }
     }

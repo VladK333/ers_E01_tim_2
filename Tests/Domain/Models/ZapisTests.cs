@@ -1,6 +1,6 @@
 ﻿using Domain.Models;
 
-namespace Tests.Domain
+namespace Tests.Domain.Models
 {
     [TestFixture]
     public class ZapisTests
