@@ -8,10 +8,7 @@ namespace Services.AutentifikacioniServisi
     {
         private readonly IAutentifikacijaRepozitorijum _repozitorijum;
 
-        public AutentifikacioniServis(IAutentifikacijaRepozitorijum repozitorijum)
-        {
-            _repozitorijum = repozitorijum;
-        }
+        public AutentifikacioniServis(IAutentifikacijaRepozitorijum repozitorijum) => _repozitorijum = repozitorijum;
 
         public (bool, Potrosac) Prijava(string imePrezime, string brojUgovora)
         {

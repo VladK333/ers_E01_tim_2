@@ -8,12 +8,12 @@ using Domain.Repositories.PotrosacRepozitorijum;
 using Domain.Services;
 using Presentation.Autentifikacija;
 using Presentation.Meni;
+using Presentation.Potrosaci;
 using Services.AutentifikacioniServisi;
 using Services.EvidencioniServisi;
 using Services.IspisServisi;
 using Services.PodsistemPotrosnjeServisi;
 using Services.ProizvodnjaServisi;
-
 public class Program
 {
     public static void Main()
@@ -43,7 +43,8 @@ public class Program
 
         auth.TryLogin(out Potrosac potrosac);
 
-        var meni = new IspisMeni(potrosacServis, upravljanjePodsistemimaProizvodnje, zahtevServis, proizvodnjaServis);
+        IOperacijePotrosaci operacijePotrosaci = new OperacijePotrosaci(potrosacServis, upravljanjePodsistemimaProizvodnje, proizvodnjaServis);
+        var meni = new IspisMeni(operacijePotrosaci, zahtevServis, potrosacServis);
         meni.PrikaziMeni();
     }
 }
