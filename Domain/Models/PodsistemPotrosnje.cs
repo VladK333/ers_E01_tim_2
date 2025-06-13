@@ -13,10 +13,10 @@
             Potrosaci = potrosaci;
         }
 
-        public override string? ToString()
+        public override string ToString()
         {
             return $"\nPodsistem: {NazivPodsistema}\n" +
-                $"Sifra podsistema potrosnje: {SifraPotrosnje}" + base.ToString();
+                $"Sifra podsistema potrosnje: {SifraPotrosnje}";
         }
     }
 }

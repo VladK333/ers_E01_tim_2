@@ -9,8 +9,8 @@ namespace Tests.Services.AutentifikacioniServisi
     public class AutentifikacioniServisTests
     {
         // Mock objekat za repozitorijum
-        Mock<IAutentifikacijaRepozitorijum> _repozitorijumMock;
-        AutentifikacioniServis _authServis;
+        readonly Mock<IAutentifikacijaRepozitorijum> _repozitorijumMock;
+        readonly AutentifikacioniServis _authServis;
 
         // Konstruktor inicijalizator
         public AutentifikacioniServisTests()
@@ -35,7 +35,7 @@ namespace Tests.Services.AutentifikacioniServisi
             var potrosac = new Potrosac { ImePrezime = imePrezime, BrUgovora = brojUgovora };
 
             //Ocekivana vrijednost koju treba da vrati repozitorijum
-            _repozitorijumMock.Setup(x => x.DohvatiSveKorisnike()).Returns(new List<Potrosac> { potrosac });
+            _repozitorijumMock.Setup(x => x.DohvatiSveKorisnike()).Returns([potrosac]);
 
             //Pozivanje metode za prijavu
             var (uspjesnaAutentifikacija, prijavljenPotrosac) = _authServis.Prijava(imePrezime, brojUgovora);

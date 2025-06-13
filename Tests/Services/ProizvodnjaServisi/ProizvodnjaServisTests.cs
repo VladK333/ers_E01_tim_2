@@ -9,9 +9,9 @@ namespace Tests.Services.ProizvodnjaServisi
     [TestFixture]
     public class ProizvodnjaServisTests
     {
-        private Mock<IUpravljanjePodsistemimaProizvodnje> _mockUpravljanjePodsistemima;
-        private Mock<IIspis> _mockIspisServis;
-        private ProizvodnjaServis _proizvodnjaServis;
+        private Mock<IUpravljanjePodsistemimaProizvodnje> _mockUpravljanjePodsistemima = null!;
+        private Mock<IIspis> _mockIspisServis = null!;
+        private ProizvodnjaServis _proizvodnjaServis = null!;
 
         [SetUp]
         public void SetUp()

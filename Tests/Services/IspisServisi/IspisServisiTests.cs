@@ -5,7 +5,7 @@ namespace Tests.Services.IspisServisi
     [TestFixture]
     public class IspisServisTestovi
     {
-        private IspisServis _ispisServis;
+        private IspisServis _ispisServis = null!;
 
         [SetUp]
         public void Postavi()

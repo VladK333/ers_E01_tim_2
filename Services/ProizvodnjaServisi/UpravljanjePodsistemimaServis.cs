@@ -27,7 +27,7 @@ namespace Services.ProizvodnjaServisi
                 .OrderByDescending(p => p.PreostalaKolicina)
                 .ToList();
 
-            if (odgovarajuciPodsistemi.Any())
+            if (odgovarajuciPodsistemi.Count != 0)
             {
                 string poruka = $"Pronadjen je podsistem sa najviše energije: {odgovarajuciPodsistemi[0].Sifra} sa {odgovarajuciPodsistemi[0].PreostalaKolicina:F2} kW.";
                 _ispisServis.Ispisi(poruka);

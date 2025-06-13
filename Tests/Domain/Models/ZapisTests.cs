@@ -8,7 +8,7 @@ namespace Tests.Domain.Models
         [Test]
         public void ZapisKonstruktor_Ok()
         {
-            DateTime datumIVreme = new DateTime(2025, 2, 22, 15, 30, 0);
+            DateTime datumIVreme = new(2025, 2, 22, 15, 30, 0);
             double kolicina = 100.5;
 
             var zapis = new Zapis(datumIVreme, kolicina);
@@ -21,7 +21,7 @@ namespace Tests.Domain.Models
         [Test]
         public void ZapisToString_Ok()
         {
-            DateTime datumIVreme = new DateTime(2025, 2, 22, 15, 30, 0); 
+            DateTime datumIVreme = new(2025, 2, 22, 15, 30, 0); 
             double kolicina = 100.5;
 
             var zapis = new Zapis(datumIVreme, kolicina);
@@ -36,7 +36,7 @@ namespace Tests.Domain.Models
         [Test]
         public void ZapisKonstruktor_PraznaKolicina()
         {
-            DateTime datumIVreme = new DateTime(2025, 2, 22, 15, 30, 0); 
+            DateTime datumIVreme = new(2025, 2, 22, 15, 30, 0);
             double kolicina = 0;
 
             var zapis = new Zapis(datumIVreme, kolicina);

@@ -1,8 +1,8 @@
 ﻿using Domain.Models;
 using Domain.Repositories.PodsistemPotrosnjeRepozitorijum;
 using Domain.Repositories.PotrosacRepozitorijum;
-
-namespace Domain.Services
+using Domain.Services;
+namespace Services.PotrosacServisi
 {
     public class PotrosacServis : IPotrosac
     {

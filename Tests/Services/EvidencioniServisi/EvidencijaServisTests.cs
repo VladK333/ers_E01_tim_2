@@ -5,15 +5,15 @@ using Domain.Services;
 using Moq;
 using Services.EvidencioniServisi;
 
-namespace Tests
+namespace Tests.Services.EvidencioniServisi
 {
     [TestFixture]
     public class EvidencijaServisTestovi
     {
-        private Mock<IEvidencijaRepozitorijum> _repozitorijumMock;
-        private Mock<IIspis> _ispisMock;
-        private EvidencijaServis _servis;
-        private string _putanjaDatoteke;
+        private Mock<IEvidencijaRepozitorijum> _repozitorijumMock = null!;
+        private Mock<IIspis> _ispisMock = null!;
+        private EvidencijaServis _servis = null!;
+        private string _putanjaDatoteke = null!;
 
         [SetUp]
         public void Postavi()
