@@ -9,8 +9,8 @@ namespace Tests.Services.PodsistemPotrosnjeServisi
     [TestFixture]
     public class UpravljanjePodsistemimaPotrosnjeServisTestovi
     {
-        private Mock<IPotrosnjaRepozitorijum> _mockPotrosnjaRepozitorijum;
-        private UpravljanjePodsistemimaPotrosnjeServis _servis;
+        private Mock<IPotrosnjaRepozitorijum> _mockPotrosnjaRepozitorijum = null!;
+        private UpravljanjePodsistemimaPotrosnjeServis _servis = null!;
 
         [SetUp]
         public void SetUp()
@@ -27,8 +27,8 @@ namespace Tests.Services.PodsistemPotrosnjeServisi
         {
             var podsistemi = new List<PodsistemPotrosnje>
             {
-                new PodsistemPotrosnje("Podsistem 1", "PSP3321-NS1", new List<Potrosac>()),
-                new PodsistemPotrosnje("Podsistem 2", "PSP3321-NS2", new List<Potrosac>())
+                new("Podsistem 1", "PSP3321-NS1", []),
+                new("Podsistem 2", "PSP3321-NS2", [])
             };
 
             _mockPotrosnjaRepozitorijum.Setup(r => r.DohvatiSvePodsisteme()).Returns(podsistemi);
@@ -50,11 +50,11 @@ namespace Tests.Services.PodsistemPotrosnjeServisi
 
             var podsistemi = new List<PodsistemPotrosnje>
             {
-                new PodsistemPotrosnje("Podsistem 1", "PSP3321-NS1", new List<Potrosac>
-                {
+                new("Podsistem 1", "PSP3321-NS1",
+                [
                     potrosac, 
                     new("Nikola Ilic", "EPS9101K", TipSnabdijevanja.GARANTOVANO, 250.75, 5697.04)
-                }),
+                ]),
 
                 new("Podsistem 2", "PSP3321-NS2", [])
             };
@@ -75,10 +75,10 @@ namespace Tests.Services.PodsistemPotrosnjeServisi
             var potrosacId = "NepostojeciID";
             var podsistemi = new List<PodsistemPotrosnje>
             {
-                new("Podsistem 1", "PSP3321-NS1", new List<Potrosac>
-                {
+                new("Podsistem 1", "PSP3321-NS1",
+                [
                     new("Ana Petrovic", "EPS5678K", TipSnabdijevanja.KOMERCIJALNO, 340.00, 14626.8)
-                })
+                ])
             };
 
             _mockPotrosnjaRepozitorijum.Setup(r => r.DohvatiSvePodsisteme()).Returns(podsistemi);

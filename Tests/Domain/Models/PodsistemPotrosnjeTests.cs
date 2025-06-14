@@ -44,7 +44,7 @@ namespace Tests.Domain.Models
         {
             var potrosaci = new List<Potrosac>
             {
-                new Potrosac("Marko Markovic", "EPS3345K", TipSnabdijevanja.GARANTOVANO, 120.5, 50)
+                new("Marko Markovic", "EPS3345K", TipSnabdijevanja.GARANTOVANO, 120.5, 50)
             };
             var podsistem = new PodsistemPotrosnje("Podsistem 5", "PSP3325-NS5", potrosaci);
 

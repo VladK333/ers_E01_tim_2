@@ -13,7 +13,9 @@ using Services.AutentifikacioniServisi;
 using Services.EvidencioniServisi;
 using Services.IspisServisi;
 using Services.PodsistemPotrosnjeServisi;
+using Services.PotrosacServisi;
 using Services.ProizvodnjaServisi;
+using Services.ZahtjevServisi;
 public class Program
 {
     public static void Main()

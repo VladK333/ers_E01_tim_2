@@ -2,16 +2,17 @@
 using Domain.Repositories.PodsistemPotrosnjeRepozitorijum;
 using Domain.Repositories.PotrosacRepozitorijum;
 using Domain.Services;
+using Services.PotrosacServisi;
 using Moq;
 
-namespace Tests
+namespace Tests.Services.PotrosacServisi
 {
     [TestFixture]
     public class PotrosacServisTestovi
     {
-        private Mock<IPotrosacRepozitorijum> _repozitorijumMock;
-        private Mock<IPotrosnjaRepozitorijum> _potrosnjaRepozitorijumMock;
-        private PotrosacServis _potrosacServis;
+        private Mock<IPotrosacRepozitorijum> _repozitorijumMock = null!;
+        private Mock<IPotrosnjaRepozitorijum> _potrosnjaRepozitorijumMock = null!;
+        private PotrosacServis _potrosacServis = null!;
 
         [SetUp]
         public void Postavi()

@@ -2,18 +2,19 @@
 using Domain.Enums;
 using Domain.Models;
 using Domain.Services;
+using Services.ZahtjevServisi;
 using Moq;
 
-namespace Tests.Services
+namespace Tests.Services.ZahtjevServisi
 {
     public class ZahtevZaEnergijuServisTests
     {
-        private Mock<IUpravljanjePodsistemimaPotrosnje> _mockPotrosnja;
-        private Mock<IUpravljanjePodsistemimaProizvodnje> _mockProizvodnja;
-        private Mock<IProizvodnjaEnergije> _mockProizvodnjaEnergije;
-        private Mock<IEvidencija> _mockEvidencija;
-        private Mock<IIspis> _mockIspis;
-        private ZahtevZaEnergijuServis _servis;
+        private Mock<IUpravljanjePodsistemimaPotrosnje> _mockPotrosnja = null!;
+        private Mock<IUpravljanjePodsistemimaProizvodnje> _mockProizvodnja = null!;
+        private Mock<IProizvodnjaEnergije> _mockProizvodnjaEnergije = null!;
+        private Mock<IEvidencija> _mockEvidencija = null!;
+        private Mock<IIspis> _mockIspis = null!;
+        private ZahtevZaEnergijuServis _servis = null!;
 
         [SetUp]
         public void Setup()
@@ -37,7 +38,7 @@ namespace Tests.Services
         public void ObradiZahtev_TrebaDaIspiseGreskuKadaPotrosacNePostoji()
         {
             string id = "P1";
-            _mockPotrosnja.Setup(x => x.PronadjiPotrosaca(id)).Returns((Potrosac)null);
+            _mockPotrosnja.Setup(x => x.PronadjiPotrosaca(id)).Returns((Potrosac?)null);
 
             _servis.ObradiZahtev(id, 500);
 
@@ -74,7 +75,7 @@ namespace Tests.Services
             double zeljenaEnergija = 500;
 
             _mockPotrosnja.Setup(x => x.PronadjiPotrosaca(id)).Returns(potrosac);
-            _mockProizvodnja.Setup(x => x.NadjiPodsistemSaNajviseEnergije(zeljenaEnergija)).Returns((PodsistemProizvodnje)null);
+            _mockProizvodnja.Setup(x => x.NadjiPodsistemSaNajviseEnergije(zeljenaEnergija)).Returns((PodsistemProizvodnje?)null);
 
             _servis.ObradiZahtev(id, zeljenaEnergija);
 

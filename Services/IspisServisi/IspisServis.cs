@@ -4,7 +4,7 @@ namespace Services.IspisServisi
 {
     public class IspisServis : IIspis
     {
-        public bool Ispisi(string poruka)
+        public bool Ispisi(string? poruka)
         {
             if (poruka == null)
             {

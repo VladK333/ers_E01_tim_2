@@ -23,7 +23,7 @@ namespace Domain.Models
             Trenutno_zaduzenje = trenutno_zaduzenje;
         }
 
-        public override string? ToString()
+        public override string ToString()
         {
             return $"\nIme i prezime: {ImePrezime}" +
                    $"\nId: {Id}" +

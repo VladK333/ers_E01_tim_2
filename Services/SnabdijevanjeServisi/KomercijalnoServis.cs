@@ -5,7 +5,7 @@ namespace Services.SnabdijevanjeServisi
 {
     public class KomercijalnoServis : ISnabdijevanje
     {
-        private static readonly KomercijalnoServis _instance = new KomercijalnoServis();
+        private static readonly KomercijalnoServis _instance = new();
 
         private KomercijalnoServis() { }
 
